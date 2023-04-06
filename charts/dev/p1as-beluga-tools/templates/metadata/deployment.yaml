@@ -1,0 +1,59 @@
+#
+# This defines the pingcloud-metadata deployment.
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pingcloud-metadata
+  labels:
+    role: pingcloud-metadata
+spec:
+  selector:
+    matchLabels:
+      role: pingcloud-metadata
+  template:
+    metadata:
+      name: pingcloud-metadata
+      labels:
+        role: pingcloud-metadata
+    spec:
+      serviceAccount: beluga-tools-serviceaccount
+      containers:
+      - name: pingcloud-metadata
+        image: {{ .Values.ecrRegistryName }}/metadata{{ .Values.ecrEnv }}:{{ .Values.metadataImageTag }}
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        env:
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        envFrom:
+        - configMapRef:
+            name: pingcloud-metadata-environment-variables
+        resources:
+          limits:
+            memory: {{ .Values.metadata.deployment.resources.limits.memory }}
+            cpu: {{ .Values.metadata.deployment.resources.limits.cpu }}
+          requests:
+            memory: {{ .Values.metadata.deployment.resources.requests.memory }}
+            cpu: {{ .Values.metadata.deployment.resources.requests.cpu }}
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          failureThreshold: 3
+          successThreshold: 1
+          timeoutSeconds: 3          
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          failureThreshold: 3
+          successThreshold: 1
+          timeoutSeconds: 3
+        ports:
+        - containerPort: 5000
