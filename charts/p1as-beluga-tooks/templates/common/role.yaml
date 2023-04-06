@@ -1,0 +1,40 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: beluga-tools-role
+rules:
+  - apiGroups:
+    - ""
+    resources:
+    - "pods"
+    - "pods/log"
+    - "secrets"
+    - "configmaps"
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups:
+    - ""
+    - "apps"
+    resources:
+    - "statefulsets"
+    - "deployments"
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups:
+    - ""
+    resources:
+    - "pods/exec"
+    verbs:
+    - create
+  - apiGroups:
+    - networking.k8s.io
+    resources:
+    - ingresses
+    verbs:
+    - list
+    - watch
+    - get

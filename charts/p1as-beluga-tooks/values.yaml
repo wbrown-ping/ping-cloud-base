@@ -1,0 +1,55 @@
+# Default values for deploy.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+### Default environment variables ###
+
+# The customer DNS zone to be appended to healthcheck and metadata URLs. Should be replaced when deploying
+dnsZone: ping-demo.com
+# The postfix to the image repository.  Should be '/dev' or empty "" 
+ecrEnv: "/dev"
+# Beluga public ECR registry
+ecrRegistryName: "public.ecr.aws/r2h3l6e4"
+# Release tag for healthcheck image
+healthcheckImageTag: "v1.18-release-branch-latest"
+# Release tag for metadata image
+metadataImageTag: "v1.18-release-branch-latest"
+# The image pull policy for all images
+imagePullPolicy: "Always"
+
+# The IRSA role ARN to be used for the ping serviceAccount, for the customer environment 
+irsaPingAnnotationKeyValue: ""
+
+# Healtheck application settings
+healthcheck:
+  # Customization for healthcheck ingress resource
+  ingress:
+  # Customiation for healthcheck service resource
+  service:
+  # Customization for healthcheck deployment resource
+  deployment:
+    # Set container limits for the healthcheck deployment
+    resources:
+      limits:
+        memory: 600Mi
+        cpu:  400m
+      requests:
+        memory: 400Mi
+        cpu: 200m
+    
+# Metadata application settings 
+metadata:
+  # Customization for metadata ingress resource
+  ingress:
+  # Customization for metadata service resource
+  service:
+  # Customization for metadata deployment resource
+  deployment:
+    # Set container limits for the metadata deployment
+    resources:
+      limits:
+        memory: 600Mi
+        cpu:  400m
+      requests:
+        memory: 400Mi
+        cpu: 200m
