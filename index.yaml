@@ -29,6 +29,34 @@ entries:
     urls:
     - https://github.com/wbrown-ping/ping-cloud-base/releases/download/minecraft-4.7.2/minecraft-4.7.2.tgz
     version: 4.7.2
+  - annotations:
+      artifacthub.io/links: |
+        - name: Image source
+          url: https://github.com/itzg/docker-minecraft-server
+        - name: Image DockerHub
+          url: https://hub.docker.com/r/itzg/minecraft-server
+    apiVersion: v1
+    appVersion: SeeValues
+    created: "2023-04-06T18:52:46.539875342Z"
+    description: Minecraft server
+    digest: 26da225c9970035b22d07632a23873ccb9ca18b0578b3ad02f4a7d91935ff527
+    home: https://minecraft.net/
+    keywords:
+    - game
+    - server
+    maintainers:
+    - email: gtaylor@gc-taylor.com
+      name: gtaylor
+    - email: jeff@billimek.com
+      name: billimek
+    - email: itzgeoff@gmail.com
+      name: itzg
+    name: minecraft
+    sources:
+    - https://github.com/itzg/minecraft-server-charts
+    urls:
+    - https://github.com/wbrown-ping/ping-cloud-base/releases/download/minecraft-4.7.2-dev/minecraft-4.7.2-dev.tgz
+    version: 4.7.2-dev
   p1as-beluga-tools:
   - apiVersion: v2
     appVersion: 1.18.0.0
@@ -40,4 +68,4 @@ entries:
     urls:
     - https://github.com/wbrown-ping/ping-cloud-base/releases/download/p1as-beluga-tools-18.0.0/p1as-beluga-tools-18.0.0.tgz
     version: 18.0.0
-generated: "2023-04-06T14:59:03.686109749Z"
+generated: "2023-04-06T18:52:46.539884142Z"
