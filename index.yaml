@@ -68,4 +68,14 @@ entries:
     urls:
     - https://github.com/wbrown-ping/ping-cloud-base/releases/download/p1as-beluga-tools-18.0.0/p1as-beluga-tools-18.0.0.tgz
     version: 18.0.0
-generated: "2023-04-06T18:52:46.539884142Z"
+  - apiVersion: v2
+    appVersion: 1.18.0.0
+    created: "2023-04-11T14:22:17.184052791Z"
+    description: A Helm chart for p1as metadata and healthcheck services
+    digest: 2a33d943985fbb980d28c6a8b5c5edd4291c100ceccefa5c5f25fd9a6a850991
+    name: p1as-beluga-tools
+    type: application
+    urls:
+    - https://github.com/wbrown-ping/ping-cloud-base/releases/download/p1as-beluga-tools-18.0.0-pdo-4966/p1as-beluga-tools-18.0.0-pdo-4966.tgz
+    version: 18.0.0-pdo-4966
+generated: "2023-04-11T14:22:17.184072092Z"
