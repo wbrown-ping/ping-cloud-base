@@ -4,6 +4,7 @@
 
 - Update bootstrap to create davinci-configuration secret
 - Updating kustomize build options within ArgoCD to support Helm
+- Fix: kubernetes-dashboards configmap "Too long" error
 
 _Changes:_
 
