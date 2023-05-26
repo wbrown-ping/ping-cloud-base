@@ -32,7 +32,7 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
   delete_dns_records "${TENANT_DOMAIN}"
 
   mkdir /tmp/repos
-  git clone https://gitlab-ci-token:${CI_JOB_TOKEN}gitlab.corp.pingidentity.com/ping-cloud-private-tenant/ping-cloud-common.git /tmp/repos
+  git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.corp.pingidentity.com/ping-cloud-private-tenant/ping-cloud-common.git /tmp/repos
   export PCC_PATH="/tmp/ping-cloud-common"
 
   source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases_cicd_config.sh"
