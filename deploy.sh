@@ -31,6 +31,9 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
   #clean up the previous deployment dns records before deploying
   delete_dns_records "${TENANT_DOMAIN}"
 
+  git clone https://gitlab.corp.pingidentity.com/ping-cloud-private-tenant/ping-cloud-common.git /tmp
+  export PCC_PATH="/tmp/ping-cloud-common"
+
   source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases_cicd_config.sh"
   source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases.sh"
 
@@ -38,8 +41,8 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
   mkdir -p "${CSR_DIR}"
   mkdir -p "${PR_DIR}"
 
-  ssh -i ${CSR_SSH_KEY_PATH}" git clone ssh://APKA2IO25QZR6GGC7TSH@git-codecommit.us-west-2.amazonaws.com/v1/repos/gitlab-cicd-cluster-state-repo "${CSR_DIR}/"
-  ssh -i ${PR_SSH_KEY_PATH}" git clone ssh://APKA2IO25QZR6GGC7TSH@git-codecommit.us-west-2.amazonaws.com/v1/repos/gitlab-cicd-profile-repo "${PR_DIR}/"
+  ssh -i "${CSR_SSH_KEY_PATH}" git clone ssh://APKA2IO25QZR6GGC7TSH@git-codecommit.us-west-2.amazonaws.com/v1/repos/gitlab-cicd-cluster-state-repo "${CSR_DIR}/"
+  ssh -i "${PR_SSH_KEY_PATH}" git clone ssh://APKA2IO25QZR6GGC7TSH@git-codecommit.us-west-2.amazonaws.com/v1/repos/gitlab-cicd-profile-repo "${PR_DIR}/"
   # Apply Custom Resource Definitions separate, due to size, if applicable
   utils::apply_crds "${PROJECT_DIR}"
 
