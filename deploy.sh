@@ -31,12 +31,12 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
   #clean up the previous deployment dns records before deploying
   delete_dns_records "${TENANT_DOMAIN}"
 
+  source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases_cicd_config.sh"
+  source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases.sh"
+
   echo "cloning CSR & PR into ${REPO_DIR}"
   mkdir -p "${CSR_DIR}"
   mkdir -p "${PR_DIR}"
-
-  source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases_cicd_config.sh"
-  source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases.sh"
 
   # Apply Custom Resource Definitions separate, due to size, if applicable
   utils::apply_crds "${PROJECT_DIR}"
