@@ -575,6 +575,9 @@ get_is_myping_variable() {
 
 # Support the various ways to actually set the SSH key pair env vars
 set_ssh_key_pair() {
+  echo "Testing pub key file location"
+  ls -al "${SSH_ID_PUB_FILE}"
+  ls -al "${SSH_ID_KEY_FILE}"
   # Autogenerate if no keys provided
   if test -z "${SSH_ID_PUB_FILE}" && test -z "${SSH_ID_KEY_FILE}"; then
     echo 'Generating key-pair for SSH access'
