@@ -36,12 +36,12 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
   source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases.sh"
   export LOCAL="true"
 
-  echo "cloning CSR & PR into ${REPO_DIR}"
+  echo "cloning CSR & PR into ${CSR_PATH} and ${PR_PATH}"
   mkdir -p "${CSR_PATH}"
   mkdir -p "${PR_PATH}"
 
-  ssh -i "${CSR_SSH_KEY_PATH}" git clone ssh://APKA2IO25QZR6GGC7TSH@git-codecommit.us-west-2.amazonaws.com/v1/repos/gitlab-cicd-cluster-state-repo "${CSR_PATH}/"
-  ssh -i "${PR_SSH_KEY_PATH}" git clone ssh://APKA2IO25QZR6GGC7TSH@git-codecommit.us-west-2.amazonaws.com/v1/repos/gitlab-cicd-profile-repo "${PR_PATH}/"
+  ssh -i "${CSR_SSH_KEY_PATH}" git clone ssh://APKA2IO25QZRRRNUAQPP@git-codecommit.us-west-2.amazonaws.com/v1/repos/gitlab-cicd-cluster-state-repo "${CSR_PATH}/"
+  ssh -i "${PR_SSH_KEY_PATH}" git clone ssh://APKA2IO25QZRRRNUAQPP@git-codecommit.us-west-2.amazonaws.com/v1/repos/gitlab-cicd-profile-repo "${PR_PATH}/"
   # Apply Custom Resource Definitions separate, due to size, if applicable
   utils::apply_crds "${PROJECT_DIR}"
 
