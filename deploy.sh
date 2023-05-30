@@ -37,11 +37,11 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
   export LOCAL="true"
 
   echo "cloning CSR & PR into ${REPO_DIR}"
-  mkdir -p "${CSR_DIR}"
-  mkdir -p "${PR_DIR}"
+  mkdir -p "${CSR_PATH}"
+  mkdir -p "${PR_PATH}"
 
-  ssh -i "${CSR_SSH_KEY_PATH}" git clone ssh://APKA2IO25QZR6GGC7TSH@git-codecommit.us-west-2.amazonaws.com/v1/repos/gitlab-cicd-cluster-state-repo "${CSR_DIR}/"
-  ssh -i "${PR_SSH_KEY_PATH}" git clone ssh://APKA2IO25QZR6GGC7TSH@git-codecommit.us-west-2.amazonaws.com/v1/repos/gitlab-cicd-profile-repo "${PR_DIR}/"
+  ssh -i "${CSR_SSH_KEY_PATH}" git clone ssh://APKA2IO25QZR6GGC7TSH@git-codecommit.us-west-2.amazonaws.com/v1/repos/gitlab-cicd-cluster-state-repo "${CSR_PATH}/"
+  ssh -i "${PR_SSH_KEY_PATH}" git clone ssh://APKA2IO25QZR6GGC7TSH@git-codecommit.us-west-2.amazonaws.com/v1/repos/gitlab-cicd-profile-repo "${PR_PATH}/"
   # Apply Custom Resource Definitions separate, due to size, if applicable
   utils::apply_crds "${PROJECT_DIR}"
 
