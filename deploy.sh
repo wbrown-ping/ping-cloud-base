@@ -34,7 +34,6 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
   source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases_cicd_config.sh"
   log "sourcing config"
   source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases.sh"
-  export LOCAL="true"
 
   echo "cloning CSR & PR into ${CSR_PATH} and ${PR_PATH}"
   mkdir -p "${CSR_PATH}"
@@ -44,6 +43,9 @@ GIT_SSH_COMMAND="ssh -i ${CSR_SSH_KEY_PATH}" git clone ssh://APKA2IO25QZRRRNUAQP
 GIT_SSH_COMMAND="ssh -i ${PR_SSH_KEY_PATH}" git clone ssh://APKA2IO25QZRRRNUAQPP@git-codecommit.us-west-2.amazonaws.com/v1/repos/gitlab-cicd-profile-repo "${PR_PATH}/"
   # Apply Custom Resource Definitions separate, due to size, if applicable
   utils::apply_crds "${PROJECT_DIR}"
+  
+  echo "HERE: done applying CRDs"
+  export LOCAL="true"
 
   # note because LOCAL=true, the branch here doesn't really matter
   deploy_cde_env dev "v1.19-release-branch" "us-west-2"
