@@ -29,10 +29,11 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
   cicd_p1_env_setup_and_teardown Setup
 
   #clean up the previous deployment dns records before deploying
-  delete_dns_records "${TENANT_DOMAIN}"
+  # delete_dns_records "${TENANT_DOMAIN}"
 
   source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases_cicd_config.sh"
   source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases.sh"
+  export LOCAL="true"
 
   echo "cloning CSR & PR into ${REPO_DIR}"
   mkdir -p "${CSR_DIR}"
