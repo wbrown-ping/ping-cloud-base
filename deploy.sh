@@ -30,7 +30,7 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
 
   #clean up the previous deployment dns records before deploying
   # delete_dns_records "${TENANT_DOMAIN}"
-
+  echo "PING_CLOUD_NAMESPACE is: ${PING_CLOUD_NAMESPACE}"
   source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases_cicd_config.sh"
   log "sourcing config"
   source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases.sh"
@@ -46,9 +46,15 @@ GIT_SSH_COMMAND="ssh -i ${PR_SSH_KEY_PATH}" git clone ssh://APKA2IO25QZRRRNUAQPP
   
   echo "HERE: done applying CRDs"
   export LOCAL="true"
+  export PF_PROVISIONING_ENABLED=false
+  #TODO remove above
 
   # note because LOCAL=true, the branch here doesn't really matter
   deploy_cde_env dev "v1.19-release-branch" "us-west-2"
+
+  # Retry to account for CRDs that were not created
+  deploy_cde_env dev "v1.19-release-branch" "us-west-2"
+
 
   # A PingDirectory pod can take up to 15 minutes to deploy in the CI/CD cluster. There are three sets of dependencies
   # today from:
