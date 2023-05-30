@@ -32,6 +32,7 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
   # delete_dns_records "${TENANT_DOMAIN}"
 
   source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases_cicd_config.sh"
+  log "sourcing config"
   source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases.sh"
   export LOCAL="true"
 

@@ -16,4 +16,4 @@ export ENV_VARS="${CI_SCRIPTS_DIR}/k8s/deploy/ci-cd-cluster.properties"
 # export GIT_SSH_COMMAND="ssh -i ${PR_SSH_KEY_PATH}" git clone ssh://APKA2IO25QZR6GGC7TSH@git-codecommit.us-west-2.amazonaws.com/v1/repos/gitlab-cicd-profile-repo "${PR_DIR}/"
 
 # Change LOCAL to false if you _don't_ want to use a local copy of PCB for git-ops-command
-export LOCAL="true"
+export LOCAL="false"
