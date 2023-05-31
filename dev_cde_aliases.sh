@@ -144,8 +144,7 @@ git_ops() {
     return
   fi
   echo "in git_ops method"
-  echo "Creating applicationSet CRD"
-  kubectl apply -f "https://raw.githubusercontent.com/argoproj/argo-cd/master/manifests/crds/application-crd.yaml"
+  echo "PF_PROVISIONING_ENABLED is: $PF_PROVISIONING_ENABLED"
   start=$(pwd)
   cd "${CSR_PATH}/k8s-configs/" || exit
   # Only apply from file if debug is set to true
