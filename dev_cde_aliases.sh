@@ -151,6 +151,9 @@ git_ops() {
     DEBUG=true LOCAL=${LOCAL} PCB_PATH=${PCB_PATH} ./git-ops-command.sh "$1"
     kubectl apply -f /tmp/uber-debug.yaml
   else
+    echo "In git_ops"
+    echo "PING_CLOUD_NAMESPACE is: ${PING_CLOUD_NAMESPACE}"
+    echo "LOCAL is: ${LOCAL}"
     DEBUG=false LOCAL=${LOCAL} PCB_PATH=${PCB_PATH} ./git-ops-command.sh "$1" | kubectl apply -f -
   fi
   cd "${start}" || exit
