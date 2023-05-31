@@ -144,7 +144,6 @@ git_ops() {
     return
   fi
   echo "in git_ops method"
-  echo "PF_PROVISIONING_ENABLED is: $PF_PROVISIONING_ENABLED"
   start=$(pwd)
   cd "${CSR_PATH}/k8s-configs/" || exit
   # Only apply from file if debug is set to true
