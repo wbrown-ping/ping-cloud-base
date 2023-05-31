@@ -4,8 +4,8 @@
 export PCB_PATH="${PROJECT_DIR}"
 
 # NOTE: these variables must exactly match those set by your CLUSTER_NAME-cluster.properties file
-export CSR_PATH="${HOME}/gitlab-cicd-cluster-state-repo"
-export PR_PATH="${HOME}/gitlab-cicd-profile-repo"
+export CSR_PATH="${HOME}/${CLUSTER_NAME}-cluster-state-repo"
+export PR_PATH="${HOME}/${CLUSTER_NAME}-profile-repo"
 # export PCB_SSH_KEY_PATH="${HOME}/.ssh/YOUR_GITHUB_SSH_KEY"
 export CSR_SSH_KEY_PATH="${HOME}/.ssh/gitlab-user"
 export PR_SSH_KEY_PATH="${HOME}/.ssh/gitlab-user"
