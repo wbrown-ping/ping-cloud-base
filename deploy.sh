@@ -40,17 +40,16 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
   mkdir -p "${CSR_PATH}"
   mkdir -p "${PR_PATH}"
 
-GIT_SSH_COMMAND="ssh -i ${CSR_SSH_KEY_PATH}" git clone ssh://APKA2IO25QZRRRNUAQPP@git-codecommit.us-west-2.amazonaws.com/v1/repos/${CLUSTER_NAME}-cluster-state-repo "${CSR_PATH}/"
-GIT_SSH_COMMAND="ssh -i ${PR_SSH_KEY_PATH}" git clone ssh://APKA2IO25QZRRRNUAQPP@git-codecommit.us-west-2.amazonaws.com/v1/repos/${CLUSTER_NAME}-profile-repo "${PR_PATH}/"
+  GIT_SSH_COMMAND="ssh -i ${CSR_SSH_KEY_PATH}" git clone ssh://APKA2IO25QZRRRNUAQPP@git-codecommit.us-west-2.amazonaws.com/v1/repos/${CLUSTER_NAME}-cluster-state-repo "${CSR_PATH}/"
+  GIT_SSH_COMMAND="ssh -i ${PR_SSH_KEY_PATH}" git clone ssh://APKA2IO25QZRRRNUAQPP@git-codecommit.us-west-2.amazonaws.com/v1/repos/${CLUSTER_NAME}-profile-repo "${PR_PATH}/"
   # Apply Custom Resource Definitions separate, due to size, if applicable
   utils::apply_crds "${PROJECT_DIR}"
   
-  echo "HERE: done applying CRDs"
   export LOCAL="true"
   #TODO remove above
 
   # note because LOCAL=true, the branch here doesn't really matter
-  deploy_cde_env dev "v1.19-release-branch" "us-west-2"
+  deploy_cde_env dev "v1.19-release-branch" "us-west-2" || true 
 
   # Retry to account for CRDs that were not created
   deploy_cde_env dev "v1.19-release-branch" "us-west-2"
