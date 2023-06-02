@@ -28,8 +28,9 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
   log "Creating P1 Environment"
   cicd_p1_env_setup_and_teardown Setup
 
-  #clean up the previous deployment dns records before deploying
-  # delete_dns_records "${TENANT_DOMAIN}"
+  # clean up the previous deployment dns records before deploying
+  delete_dns_records "${TENANT_DOMAIN}"
+  export PCB_PATH="${PROJECT_DIR}"
   export LOCAL="false"
   log "sourcing config"
   source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases.sh"
