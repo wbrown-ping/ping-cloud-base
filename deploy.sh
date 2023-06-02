@@ -20,6 +20,7 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
   # PCB deployment to Kubernetes
   . ${PROJECT_DIR}/utils.sh
 
+  # Disabling P1 setup until 
   # pip_install_shared_pingone_scripts
   # log "Deleting P1 resources created by deployment if they already exist"
   # p1_deployment_cleanup
@@ -28,7 +29,7 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
   # log "Creating P1 Environment"
   # cicd_p1_env_setup_and_teardown Setup
 
-  clean up the previous deployment dns records before deploying
+  # clean up the previous deployment dns records before deploying
   delete_dns_records "${TENANT_DOMAIN}"
 
   log "Sourcing config"
