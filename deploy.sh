@@ -28,30 +28,31 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
   # log "Creating P1 Environment"
   # cicd_p1_env_setup_and_teardown Setup
 
-  #clean up the previous deployment dns records before deploying
-  # delete_dns_records "${TENANT_DOMAIN}"
-  export PING_CLOUD_NAMESPACE="ping-cloud"
-  echo "PING_CLOUD_NAMESPACE is: ${PING_CLOUD_NAMESPACE}"
-  log "sourcing config"
+  clean up the previous deployment dns records before deploying
+  delete_dns_records "${TENANT_DOMAIN}"
+
+  log "Sourcing config"
   source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases_cicd_config.sh"
+  log "Sourcing dev_cde_aliases.sh"
   source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases.sh"
 
-  echo "cloning CSR & PR into ${CSR_PATH} and ${PR_PATH}"
   mkdir -p "${CSR_PATH}"
   mkdir -p "${PR_PATH}"
 
+  echo "Cloning CSR & PR into ${CSR_PATH} and ${PR_PATH}"
   GIT_SSH_COMMAND="ssh -i ${CSR_SSH_KEY_PATH}" git clone ssh://APKA2IO25QZRRRNUAQPP@git-codecommit.us-west-2.amazonaws.com/v1/repos/${CLUSTER_NAME}-cluster-state-repo "${CSR_PATH}/"
   GIT_SSH_COMMAND="ssh -i ${PR_SSH_KEY_PATH}" git clone ssh://APKA2IO25QZRRRNUAQPP@git-codecommit.us-west-2.amazonaws.com/v1/repos/${CLUSTER_NAME}-profile-repo "${PR_PATH}/"
+
   # Apply Custom Resource Definitions separate, due to size, if applicable
   utils::apply_crds "${PROJECT_DIR}"
-  
+
+  # Need to set local after sourcing dev_cde_aliases, and config, since otherwise it will error looking for a local copy of PCC  
   export LOCAL="true"
-  #TODO remove above
 
   # note because LOCAL=true, the branch here doesn't really matter
   deploy_cde_env dev "v1.19-release-branch" "us-west-2" || true 
 
-  # Retry to account for CRDs that were not created
+  # Retry to account for resources that were not created due to CRD dependencies
   deploy_cde_env dev "v1.19-release-branch" "us-west-2"
 
 
