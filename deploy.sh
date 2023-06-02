@@ -28,11 +28,12 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
   log "Creating P1 Environment"
   cicd_p1_env_setup_and_teardown Setup
 
-  # clean up the previous deployment dns records before deploying
-  delete_dns_records "${TENANT_DOMAIN}"
-  export PCB_PATH="${PROJECT_DIR}"
-  export LOCAL="false"
+  #clean up the previous deployment dns records before deploying
+  # delete_dns_records "${TENANT_DOMAIN}"
+  export PING_CLOUD_NAMESPACE="ping-cloud"
+  echo "PING_CLOUD_NAMESPACE is: ${PING_CLOUD_NAMESPACE}"
   log "sourcing config"
+  source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases_cicd_config.sh"
   source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases.sh"
 
   echo "cloning CSR & PR into ${CSR_PATH} and ${PR_PATH}"
@@ -44,6 +45,7 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
   # Apply Custom Resource Definitions separate, due to size, if applicable
   utils::apply_crds "${PROJECT_DIR}"
   
+  export LOCAL="true"
   #TODO remove above
 
   # note because LOCAL=true, the branch here doesn't really matter
