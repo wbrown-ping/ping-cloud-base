@@ -30,7 +30,7 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
 
   #clean up the previous deployment dns records before deploying
   # delete_dns_records "${TENANT_DOMAIN}"
-  
+  export LOCAL="false"
   log "sourcing config"
   source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases.sh"
 
@@ -43,7 +43,6 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
   # Apply Custom Resource Definitions separate, due to size, if applicable
   utils::apply_crds "${PROJECT_DIR}"
   
-  export LOCAL="true"
   #TODO remove above
 
   # note because LOCAL=true, the branch here doesn't really matter
