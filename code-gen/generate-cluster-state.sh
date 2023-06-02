@@ -547,6 +547,7 @@ get_is_ga_variable() {
 ########################################################################################################################
 get_is_myping_variable() {
   if test "${IS_MY_PING}" = 'true' || test "${IS_MY_PING}" = 'false'; then
+    echo "here, is my ping is ${IS_MY_PING}"
     export IS_MY_PING="${IS_MY_PING}"
     return
   fi
