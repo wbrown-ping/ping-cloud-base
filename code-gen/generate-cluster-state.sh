@@ -912,6 +912,7 @@ if test ! "${KNOWN_HOSTS_CLUSTER_STATE_REPO}"; then
 fi
 export KNOWN_HOSTS_CLUSTER_STATE_REPO
 
+echo "HERE, get_is_my_ping_var"
 get_is_myping_variable '/pcpt/orch-api/is-myping'
 
 # Set some product specific variables
