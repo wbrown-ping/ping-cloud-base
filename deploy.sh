@@ -30,9 +30,7 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
 
   #clean up the previous deployment dns records before deploying
   # delete_dns_records "${TENANT_DOMAIN}"
-  export PING_CLOUD_NAMESPACE="ping-cloud"
-  echo "PING_CLOUD_NAMESPACE is: ${PING_CLOUD_NAMESPACE}"
-  source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases_cicd_config.sh"
+  
   log "sourcing config"
   source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases.sh"
 
