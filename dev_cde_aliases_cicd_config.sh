@@ -12,9 +12,9 @@ export PR_SSH_KEY_PATH="${HOME}/.ssh/gitlab-user"
 export SSH_ID_KEY_FILE="${HOME}/.ssh/gitlab-user"
 export SSH_ID_PUB_FILE="${HOME}/.ssh/gitlab-user.pub"
 export ENV_VARS="${CI_SCRIPTS_DIR}/k8s/deploy/ci-cd-cluster.properties"
-echo "Cloning CSR & PR into ${CSR_PATH} and ${PR_PATH}"
-GIT_SSH_COMMAND="ssh -i ${CSR_SSH_KEY_PATH}" git clone ssh://APKA2IO25QZRRRNUAQPP@git-codecommit.us-west-2.amazonaws.com/v1/repos/${CLUSTER_NAME}-cluster-state-repo "${CSR_PATH}/"
-GIT_SSH_COMMAND="ssh -i ${PR_SSH_KEY_PATH}" git clone ssh://APKA2IO25QZRRRNUAQPP@git-codecommit.us-west-2.amazonaws.com/v1/repos/${CLUSTER_NAME}-profile-repo "${PR_PATH}/"
+# echo "Cloning CSR & PR into ${CSR_PATH} and ${PR_PATH}"
+# GIT_SSH_COMMAND="ssh -i ${CSR_SSH_KEY_PATH}" git clone ssh://APKA2IO25QZRRRNUAQPP@git-codecommit.us-west-2.amazonaws.com/v1/repos/${CLUSTER_NAME}-cluster-state-repo "${CSR_PATH}/"
+# GIT_SSH_COMMAND="ssh -i ${PR_SSH_KEY_PATH}" git clone ssh://APKA2IO25QZRRRNUAQPP@git-codecommit.us-west-2.amazonaws.com/v1/repos/${CLUSTER_NAME}-profile-repo "${PR_PATH}/"
 
 # Change LOCAL to false if you _don't_ want to use a local copy of PCB for git-ops-command
 export LOCAL="false"
