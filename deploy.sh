@@ -36,7 +36,8 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
   source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases_cicd_config.sh"
   log "Sourcing dev_cde_aliases.sh"
   source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases.sh"
-
+  export PING_CLOUD_NAMESPACE="ping-cloud"
+  
   mkdir -p "${CSR_PATH}"
   mkdir -p "${PR_PATH}"
 
