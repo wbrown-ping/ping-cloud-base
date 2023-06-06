@@ -52,7 +52,7 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
 
 
   # note because LOCAL=true, the branch here doesn't really matter
-  deploy_cde_env dev "v1.19-release-branch" "us-west-2" || true 
+  # deploy_cde_env dev "v1.19-release-branch" "us-west-2" || true 
 
   # Retry to account for resources that were not created due to CRD dependencies
   deploy_cde_env dev "v1.19-release-branch" "us-west-2"
