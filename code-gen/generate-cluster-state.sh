@@ -546,9 +546,7 @@ get_is_ga_variable() {
 #   ${1} -> The value of the IS_MY_PING flag.
 ########################################################################################################################
 get_is_myping_variable() {
-  echo "here, is my ping is ${IS_MY_PING}"
   if test "${IS_MY_PING}" = 'true' || test "${IS_MY_PING}" = 'false'; then
-    echo "here, is my ping is ${IS_MY_PING}"
     export IS_MY_PING="${IS_MY_PING}"
     return
   fi
@@ -912,7 +910,6 @@ if test ! "${KNOWN_HOSTS_CLUSTER_STATE_REPO}"; then
 fi
 export KNOWN_HOSTS_CLUSTER_STATE_REPO
 
-echo "HERE, get_is_my_ping_var"
 get_is_myping_variable '/pcpt/orch-api/is-myping'
 
 # Set some product specific variables

@@ -19,9 +19,8 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
   export DASH_REPO_BRANCH=$(grep "DASH_REPO_BRANCH" ${PROJECT_DIR}/code-gen/templates/common/base/env_vars | cut -d "=" -f 2)
   # PCB deployment to Kubernetes
   . ${PROJECT_DIR}/utils.sh
-  export PING_CLOUD_NAMESPACE="ping-cloud"
 
-  # Disabling P1 setup until 
+  # Disabling P1 setup until https://gitlab.corp.pingidentity.com/ping-cloud-private-tenant/ping-cloud-base/-/merge_requests/1758 is merged
   # pip_install_shared_pingone_scripts
   # log "Deleting P1 resources created by deployment if they already exist"
   # p1_deployment_cleanup
