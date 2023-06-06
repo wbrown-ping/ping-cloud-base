@@ -19,6 +19,7 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
   export DASH_REPO_BRANCH=$(grep "DASH_REPO_BRANCH" ${PROJECT_DIR}/code-gen/templates/common/base/env_vars | cut -d "=" -f 2)
   # PCB deployment to Kubernetes
   . ${PROJECT_DIR}/utils.sh
+  export PING_CLOUD_NAMESPACE="ping-cloud"
 
   # Disabling P1 setup until 
   # pip_install_shared_pingone_scripts
@@ -36,7 +37,9 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
   source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases_cicd_config.sh"
   log "Sourcing dev_cde_aliases.sh"
   source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases.sh"
-  export PING_CLOUD_NAMESPACE="ping-cloud"
+
+  # Need to set local after sourcing dev_cde_aliases, and config, otherwise it will error looking for a local copy of ping-cloud-common 
+  export LOCAL="true"
   
   mkdir -p "${CSR_PATH}"
   mkdir -p "${PR_PATH}"
@@ -48,15 +51,12 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
   # Apply Custom Resource Definitions separate, due to size, if applicable
   utils::apply_crds "${PROJECT_DIR}"
 
-  # Need to set local after sourcing dev_cde_aliases, and config, since otherwise it will error looking for a local copy of PCC  
-  export LOCAL="true"
 
   # note because LOCAL=true, the branch here doesn't really matter
   deploy_cde_env dev "v1.19-release-branch" "us-west-2" || true 
 
   # Retry to account for resources that were not created due to CRD dependencies
   deploy_cde_env dev "v1.19-release-branch" "us-west-2"
-
 
   # A PingDirectory pod can take up to 15 minutes to deploy in the CI/CD cluster. There are three sets of dependencies
   # today from:
