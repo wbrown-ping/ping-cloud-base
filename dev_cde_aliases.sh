@@ -108,95 +108,6 @@ function pause {
   printf '\n'
 }
 
-# Pushes the PCB gitlab branch to the remote PCB mirror
-push_pcb_mirror() {
-  #Ex: push_pcb_mirror v1.16-release-branch
-  if test -z "$1"; then
-    echo "branch name required as parameter"
-    return
-  fi
-  start=$(pwd)
-  cd "${PCB_PATH}" || return
-  git checkout "$1"
-  GIT_SSH_COMMAND="ssh -i ${PCB_SSH_KEY_PATH}" git push mirror
-  cd "${start}" || return
-}
-
-# Deploys minimal bootstrap required to avoid crash loop of the ping-cloud stack (argo, cert manager, etc.)
-# Requires generate script to have been ran
-# Note: This function will enable Argo sync
-deploy_bootstrap() {
-  #Ex: deploy_bootstrap dev
-  if test -z "$1"; then
-    echo "environment required as parameter"
-    return
-  fi
-  start=$(pwd)
-  cd /tmp/sandbox/fluxcd/"$1" || return
-  kustomize build | kubectl apply -f -
-  cd "${start}" || return
-}
-
-# Cumulative function to deploy a cde environment
-deploy_cde_env() {
-  if [ "$#" -ne "3" ]; then
-      echo "Usage: 'deploy_cde_env dev v1.16-release-branch us-west-2'"
-      return
-  fi
-  start=$(pwd)
-  if [[ ${LOCAL} != "true" ]]; then
-    push_pcb_mirror "$2"
-  fi
-  generate_csr "$1"
-  push_csr "$1"
-  push_profile_repo "$1"
-  if [[ ${LOCAL} != "true" ]]; then
-    deploy_bootstrap "$1"
-  else
-    git_ops "$3"
-    disable_argo
-  fi
-  cd "${start}" || return
-}
-
-# Deletes a CDE env from the cluster
-delete_cde_env() {
-  #Ex: delete_cde_env dev
-  if test -z "$1"; then
-    echo "environment required as parameter"
-    return
-  fi
-  start=$(pwd)
-  # Delete argo first so it doesn't try to resync the other namespaces
-  if [ -d "/tmp/sandbox/fluxcd/$1" ]; then
-    cd /tmp/sandbox/fluxcd/"$1" || return
-    kustomize build | kubectl delete -f - || true
-  fi
-  # Delete all other namespaces
-  utils::cleanup_k8s_resources
-  cd "${start}" || return
-}
-
-# Runs the git-ops command
-git_ops() {
-  # Ex: git_ops us-east-2
-  if test -z "$1"; then
-    echo "region required as parameter"
-    return
-  fi
-  start=$(pwd)
-  cd "${CSR_PATH}/k8s-configs/" || return
-  # Only apply from file if debug is set to true
-  if [[ "${DEBUG}" == "true" ]]; then
-    DEBUG=true LOCAL=${LOCAL} PCB_PATH=${PCB_PATH} ./git-ops-command.sh "$1"
-    kubectl apply -f /tmp/uber-debug.yaml
-  else
-    DEBUG=false LOCAL=${LOCAL} PCB_PATH=${PCB_PATH} ./git-ops-command.sh "$1" | kubectl apply -f -
-  fi
-  cd "${start}" || return
-}
-
-# Enable Argo Sync for P1AS deployments v1.17 and below
 enable_argo() {
   app="$(kubectl get application -n argocd | grep ping-cloud | awk "{ print \$1 }")"
   kubectl -n argocd patch --type='merge' application "${app}" -p "{\"spec\":{\"syncPolicy\": {\"automated\": {\"prune\": true}}}}"
@@ -225,6 +136,94 @@ disable_argo_v1_18() {
   echo "${app_sets}" | xargs kubectl -n argocd patch --type='merge' applicationset -p "{\"spec\":{\"template\":{\"spec\":{\"syncPolicy\":null}}}}"
 }
 
+# Pushes the PCB gitlab branch to the remote PCB mirror
+push_pcb_mirror() {
+  #Ex: push_pcb_mirror v1.16-release-branch
+  if test -z "$1"; then
+    echo "branch name required as parameter"
+    return
+  fi
+  start=$(pwd)
+  cd "${PCB_PATH}" || exit
+  git checkout "$1"
+  GIT_SSH_COMMAND="ssh -i ${PCB_SSH_KEY_PATH}" git push mirror
+  cd "${start}" || exit
+}
+
+# Runs the git-ops command
+git_ops() {
+  # Ex: git_ops us-east-2
+  if test -z "$1"; then
+    echo "region required as parameter"
+    return
+  fi
+  start=$(pwd)
+  cd "${CSR_PATH}/k8s-configs/" || exit
+  # Only apply from file if debug is set to true
+  if [[ "${DEBUG}" == "true" ]]; then
+    DEBUG=true LOCAL=${LOCAL} PCB_PATH=${PCB_PATH} ./git-ops-command.sh "$1"
+    kubectl apply -f /tmp/uber-debug.yaml
+  else
+    DEBUG=false LOCAL=${LOCAL} PCB_PATH=${PCB_PATH} ./git-ops-command.sh "$1" | kubectl apply -f -
+  fi
+  cd "${start}" || exit
+}
+
+# Deploys minimal bootstrap required to avoid crash loop of the ping-cloud stack (argo, cert manager, etc.)
+# Requires generate script to have been ran
+# Note: This function will enable Argo sync
+deploy_bootstrap() {
+  #Ex: deploy_bootstrap dev
+  if test -z "$1"; then
+    echo "environment required as parameter"
+    return
+  fi
+  start=$(pwd)
+  cd /tmp/sandbox/fluxcd/"$1" || exit
+  kustomize build | kubectl apply -f -
+  cd "${start}" || exit
+}
+
+# Cumulative function to deploy a cde environment
+deploy_cde_env() {
+  if [ "$#" -ne "3" ]; then
+      echo "Usage: 'deploy_cde_env dev v1.16-release-branch us-west-2'"
+      return
+  fi
+  start=$(pwd)
+  if [[ ${LOCAL} != "true" ]]; then
+    push_pcb_mirror "$2"
+  fi
+  generate_csr "$1"
+  push_csr "$1"
+  push_profile_repo "$1"
+  if [[ ${LOCAL} != "true" ]]; then
+    deploy_bootstrap "$1"
+  else
+    git_ops "$3"
+#    disable_argo
+  fi
+  cd "${start}" || exit
+}
+
+# Deletes a CDE env from the cluster
+delete_cde_env() {
+  #Ex: delete_cde_env dev
+  if test -z "$1"; then
+    echo "environment required as parameter"
+    return
+  fi
+  start=$(pwd)
+  # Delete argo first so it doesn't try to resync the other namespaces
+  if [ -d "/tmp/sandbox/fluxcd/$1" ]; then
+    cd /tmp/sandbox/fluxcd/"$1" || exit
+    kustomize build | kubectl delete -f - || true
+  fi
+  # Delete all other namespaces
+  utils::cleanup_k8s_resources
+  cd "${start}" || exit
+}
+
 # Runs the update wrapper script on the CSR
 update_csr() {
   #Ex: update_csr dev v1.16-release-branch
@@ -233,9 +232,9 @@ update_csr() {
     return
   fi
   start=$(pwd)
-  cd "${CSR_PATH}" || return
-  GIT_SSH_COMMAND="ssh -i ${CSR_SSH_KEY_PATH}" BASE64_DECODE_OPT=-d SUPPORTED_ENVIRONMENT_TYPES=$1 NEW_VERSION=$2 PING_CLOUD_BASE_REPO_URL=${K8S_GIT_URL} ./update-cluster-state-wrapper.sh
-  cd "${start}" || return
+  cd "${CSR_PATH}" || exit
+  GIT_SSH_COMMAND="ssh -i ${CSR_SSH_KEY_PATH}" BASE64_DECODE_OPT=-d SUPPORTED_ENVIRONMENT_TYPES=${SUPPORTED_ENVIRONMENT_TYPES:-${1}} NEW_VERSION=$2 PING_CLOUD_BASE_REPO_URL=${K8S_GIT_URL} ./update-cluster-state-wrapper.sh
+  cd "${start}" || exit
 }
 
 # Runs the update profile script on the PR
@@ -246,9 +245,9 @@ update_pr() {
     return
   fi
   start=$(pwd)
-  cd "${PR_PATH}" || return
-  GIT_SSH_COMMAND="ssh -i ${PR_SSH_KEY_PATH}" BASE64_DECODE_OPT=-d SUPPORTED_ENVIRONMENT_TYPES=$1 NEW_VERSION=$2 PING_CLOUD_BASE_REPO_URL=${K8S_GIT_URL} ./update-profile-wrapper.sh
-  cd "${start}" || return
+  cd "${PR_PATH}" || exit
+  GIT_SSH_COMMAND="ssh -i ${PR_SSH_KEY_PATH}" BASE64_DECODE_OPT=-d SUPPORTED_ENVIRONMENT_TYPES=${SUPPORTED_ENVIRONMENT_TYPES:-${1}} NEW_VERSION=$2 PING_CLOUD_BASE_REPO_URL=${K8S_GIT_URL} ./update-profile-wrapper.sh
+  cd "${start}" || exit
 }
 
 # Renames & pushes the new branch in the CSR and PR
@@ -265,7 +264,7 @@ push_update() {
     branch="master"
   fi
   for repo in "${repos[@]}"; do
-    cd "${repo}" || return
+    cd "${repo}" || exit
     git checkout ${branch}
     #Note: This prepends a random number to the old branch. So you may want to rename or clean this up after running
     git branch -m "$RANDOM-${branch}"
@@ -273,7 +272,7 @@ push_update() {
     git branch -m "${branch}"
     GIT_SSH_COMMAND="ssh -i ${CSR_SSH_KEY_PATH}" git push --set-upstream origin ${branch}
   done
-  cd "${start}" || return
+  cd "${start}" || exit
 }
 
 # Cumulative function to update a cde environment to a new version after committing code to the desired PCB git branch
@@ -296,5 +295,5 @@ update_cde_env() {
   echo ""
   pause 'Press any key when you are ready for the script to continue'
   push_update "$1" "$2"
-  cd "${start}" || return
+  cd "${start}" || exit
 }
