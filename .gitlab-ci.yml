@@ -19,7 +19,7 @@ stages:
 ## Global environment variables ##
 variables:
   DELETE_ENV_AFTER_PIPELINE: 'true'
-  K8S_DEPLOY_TOOLS: "docker.corp.pingidentity.com:5000/platform-pipeline/k8s-deploy-tools@sha256:3c442b5543855ae62d19fd7cae961cec36358ebd37e28bdbbc4729b8d6c190af"
+  K8S_DEPLOY_TOOLS: "docker.corp.pingidentity.com:5000/platform-pipeline/k8s-deploy-tools@sha256:b711b616c0743bbf518aa64eacdf4238f0be60195b12c8ce4d72d4206eee1eed"
   SHARED_CI_SCRIPTS_DIR: "/ci-scripts"
 
 # # Compile stage ##
@@ -51,11 +51,6 @@ deploy:
     - default-gitlab-runner
   image: ${K8S_DEPLOY_TOOLS}
   script:
-    - cp ${CI_PROJECT_DIR}/dev_cde_aliases_cicd_config.sh ${SHARED_CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases_cicd_config.sh
-    - cp ${CI_PROJECT_DIR}/deploy.sh ${SHARED_CI_SCRIPTS_DIR}/k8s/deploy/deploy.sh
-    - cp ${CI_PROJECT_DIR}/dev_cde_aliases.sh ${SHARED_CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases.sh
-    - cp ${CI_PROJECT_DIR}/ci-cd-cluster.properties ${SHARED_CI_SCRIPTS_DIR}/k8s/deploy/ci-cd-cluster.properties
-    - cp ${CI_PROJECT_DIR}/common.sh ${SHARED_CI_SCRIPTS_DIR}/common.sh
     - ${SHARED_CI_SCRIPTS_DIR}/k8s/deploy/deploy.sh
   dependencies:
     - find-cluster
