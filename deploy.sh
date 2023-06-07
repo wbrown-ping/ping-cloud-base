@@ -50,11 +50,11 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
   # Apply Custom Resource Definitions separate, due to size, if applicable
   utils::apply_crds "${PROJECT_DIR}"
 
+  argo_crd_yaml="${CI_PROJECT_DIR}/k8s-configs/cluster-tools/base/git-ops/argo/base/install.yaml" 
+  apply_crd "${argo_crd_yaml}" 60
+
 
   # note because LOCAL=true, the branch here doesn't really matter
-  deploy_cde_env dev "v1.19-release-branch" "us-west-2" || true 
-
-  # Retry to account for resources that were not created due to CRD dependencies
   deploy_cde_env dev "v1.19-release-branch" "us-west-2"
 
   # A PingDirectory pod can take up to 15 minutes to deploy in the CI/CD cluster. There are three sets of dependencies
