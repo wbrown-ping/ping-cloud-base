@@ -33,9 +33,9 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
   delete_dns_records "${TENANT_DOMAIN}"
 
   log "Sourcing config"
-  . "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases_cicd_config.sh"
+  source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases_cicd_config.sh"
   log "Sourcing dev_cde_aliases.sh"
-  . "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases.sh"
+  source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases.sh"
 
   # Need to set local after sourcing dev_cde_aliases, and config, otherwise it will error looking for a local copy of ping-cloud-common 
   export LOCAL="true"
