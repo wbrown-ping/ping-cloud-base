@@ -69,15 +69,36 @@ K8S_UTILS_VERSION=1.0.1
 pingcloud-scripts::source_script k8s_utils ${K8S_UTILS_VERSION}
 
 # Generates the CSR for all environments from the current local PCB git branch
-alias generate_csr='start=$(pwd); cd ${PCB_PATH}; source ${ENV_VARS}; IS_BELUGA_ENV=true code-gen/generate-cluster-state.sh; cd $start'
+# shellcheck disable=SC2120
+generate_csr() {
+  start=$(pwd)
+  cd "${PCB_PATH}" || exit
+  # shellcheck disable=SC1090
+  source "${ENV_VARS}"
+  SUPPORTED_ENVIRONMENT_TYPES=${SUPPORTED_ENVIRONMENT_TYPES:-${1}} IS_BELUGA_ENV=true code-gen/generate-cluster-state.sh
+  cd "${start}" || exit
+}
 
 # Pushes the generated CSR for all environments in /tmp/sandbox to the remote CSR
 # Requires generate script to have been ran
-alias push_csr='start=$(pwd); cd ${CSR_PATH}; GIT_SSH_COMMAND="ssh -i ${CSR_SSH_KEY_PATH}" IS_PRIMARY=true INCLUDE_PROFILES_IN_CSR=false /tmp/sandbox/push-cluster-state.sh; cd $start'
+# shellcheck disable=SC2120
+push_csr() {
+  start=$(pwd)
+  # shellcheck disable=SC2164
+  cd "${CSR_PATH}" || exit
+  SUPPORTED_ENVIRONMENT_TYPES=${SUPPORTED_ENVIRONMENT_TYPES:-${1}} GIT_SSH_COMMAND="ssh -i ${CSR_SSH_KEY_PATH}" IS_PRIMARY=true INCLUDE_PROFILES_IN_CSR=false /tmp/sandbox/push-cluster-state.sh
+  cd "${start}" || exit
+}
 
 # Pushes the generated PR for all environments in /tmp/sandbox to the remote PR
 # Requires generate script to have been ran
-alias push_profile_repo='start=$(pwd); cd ${PR_PATH}; GIT_SSH_COMMAND="ssh -i ${PR_SSH_KEY_PATH}" IS_PRIMARY=true IS_PROFILE_REPO=true /tmp/sandbox/push-cluster-state.sh; cd $start'
+# shellcheck disable=SC2120
+push_profile_repo() {
+  start=$(pwd)
+  cd "${PR_PATH}" || exit
+  SUPPORTED_ENVIRONMENT_TYPES=${SUPPORTED_ENVIRONMENT_TYPES:-${1}} GIT_SSH_COMMAND="ssh -i ${PR_SSH_KEY_PATH}" IS_PRIMARY=true IS_PROFILE_REPO=true /tmp/sandbox/push-cluster-state.sh
+  cd "${start}" || exit
+}
 
 # Prompt for a keypress to continue. Customise prompt with $*
 function pause {
