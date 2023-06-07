@@ -147,9 +147,9 @@ deploy_cde_env() {
   if [[ ${LOCAL} != "true" ]]; then
     push_pcb_mirror "$2"
   fi
-  generate_csr
-  push_csr
-  push_profile_repo
+  generate_csr "$1"
+  push_csr "$1"
+  push_profile_repo "$1"
   if [[ ${LOCAL} != "true" ]]; then
     deploy_bootstrap "$1"
   else
