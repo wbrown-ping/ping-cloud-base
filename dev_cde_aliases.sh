@@ -69,36 +69,15 @@ K8S_UTILS_VERSION=1.0.1
 pingcloud-scripts::source_script k8s_utils ${K8S_UTILS_VERSION}
 
 # Generates the CSR for all environments from the current local PCB git branch
-# shellcheck disable=SC2120
-generate_csr() {
-  start=$(pwd)
-  cd "${PCB_PATH}" || exit
-  # shellcheck disable=SC1090
-  source "${ENV_VARS}"
-  SUPPORTED_ENVIRONMENT_TYPES=${SUPPORTED_ENVIRONMENT_TYPES:-${1}} IS_BELUGA_ENV=true code-gen/generate-cluster-state.sh
-  cd "${start}" || exit
-}
+alias generate_csr='start=$(pwd); cd ${PCB_PATH}; source ${ENV_VARS}; IS_BELUGA_ENV=true code-gen/generate-cluster-state.sh; cd $start'
 
 # Pushes the generated CSR for all environments in /tmp/sandbox to the remote CSR
 # Requires generate script to have been ran
-# shellcheck disable=SC2120
-push_csr() {
-  start=$(pwd)
-  # shellcheck disable=SC2164
-  cd "${CSR_PATH}" || exit
-  SUPPORTED_ENVIRONMENT_TYPES=${SUPPORTED_ENVIRONMENT_TYPES:-${1}} GIT_SSH_COMMAND="ssh -i ${CSR_SSH_KEY_PATH}" IS_PRIMARY=true INCLUDE_PROFILES_IN_CSR=false /tmp/sandbox/push-cluster-state.sh
-  cd "${start}" || exit
-}
+alias push_csr='start=$(pwd); cd ${CSR_PATH}; GIT_SSH_COMMAND="ssh -i ${CSR_SSH_KEY_PATH}" IS_PRIMARY=true INCLUDE_PROFILES_IN_CSR=false /tmp/sandbox/push-cluster-state.sh; cd $start'
 
 # Pushes the generated PR for all environments in /tmp/sandbox to the remote PR
 # Requires generate script to have been ran
-# shellcheck disable=SC2120
-push_profile_repo() {
-  start=$(pwd)
-  cd "${PR_PATH}" || exit
-  SUPPORTED_ENVIRONMENT_TYPES=${SUPPORTED_ENVIRONMENT_TYPES:-${1}} GIT_SSH_COMMAND="ssh -i ${PR_SSH_KEY_PATH}" IS_PRIMARY=true IS_PROFILE_REPO=true /tmp/sandbox/push-cluster-state.sh
-  cd "${start}" || exit
-}
+alias push_profile_repo='start=$(pwd); cd ${PR_PATH}; GIT_SSH_COMMAND="ssh -i ${PR_SSH_KEY_PATH}" IS_PRIMARY=true IS_PROFILE_REPO=true /tmp/sandbox/push-cluster-state.sh; cd $start'
 
 # Prompt for a keypress to continue. Customise prompt with $*
 function pause {
@@ -106,20 +85,6 @@ function pause {
   [[ $ZSH_VERSION ]] && read -krs  # Use -u0 to read from STDIN
   [[ $BASH_VERSION ]] && </dev/tty read -rsn1
   printf '\n'
-}
-
-# Disable Argo Sync
-disable_argo() {
-  app="$(kubectl get application -n argocd | grep ping-cloud | awk "{ print \$1 }")"
-  kubectl -n argocd patch --type='merge' application "${app}" -p "{\"spec\":{\"syncPolicy\":null}}"
-}
-
-# Enable Argo Sync
-enable_argo() {
-  app="$(kubectl get application -n argocd | grep ping-cloud | awk "{ print \$1 }")"
-  kubectl -n argocd patch --type='merge' application "${app}" -p "{\"spec\":{\"syncPolicy\": {\"automated\": {\"prune\": true}}}}"
-  pod="$(kubectl get pod -n argocd | grep argo | awk "{ print \$1 }")"
-  kubectl delete pod "${pod}" -n argocd > /dev/null
 }
 
 # Pushes the PCB gitlab branch to the remote PCB mirror
@@ -130,33 +95,10 @@ push_pcb_mirror() {
     return
   fi
   start=$(pwd)
-  cd "${PCB_PATH}" || exit
+  cd "${PCB_PATH}" || return
   git checkout "$1"
   GIT_SSH_COMMAND="ssh -i ${PCB_SSH_KEY_PATH}" git push mirror
-  cd "${start}" || exit
-}
-
-# Runs the git-ops command
-git_ops() {
-  # Ex: git_ops us-east-2
-  if test -z "$1"; then
-    echo "region required as parameter"
-    return
-  fi
-  echo "in git_ops method"
-  start=$(pwd)
-  cd "${CSR_PATH}/k8s-configs/" || exit
-  # Only apply from file if debug is set to true
-  if [[ "${DEBUG}" == "true" ]]; then
-    DEBUG=true LOCAL=${LOCAL} PCB_PATH=${PCB_PATH} ./git-ops-command.sh "$1"
-    kubectl apply -f /tmp/uber-debug.yaml
-  else
-    echo "In git_ops"
-    echo "PING_CLOUD_NAMESPACE is: ${PING_CLOUD_NAMESPACE}"
-    echo "LOCAL is: ${LOCAL}"
-    DEBUG=false LOCAL=${LOCAL} PCB_PATH=${PCB_PATH} ./git-ops-command.sh "$1" | kubectl apply -f -
-  fi
-  cd "${start}" || exit
+  cd "${start}" || return
 }
 
 # Deploys minimal bootstrap required to avoid crash loop of the ping-cloud stack (argo, cert manager, etc.)
@@ -169,9 +111,9 @@ deploy_bootstrap() {
     return
   fi
   start=$(pwd)
-  cd /tmp/sandbox/fluxcd/"$1" || exit
+  cd /tmp/sandbox/fluxcd/"$1" || return
   kustomize build | kubectl apply -f -
-  cd "${start}" || exit
+  cd "${start}" || return
 }
 
 # Cumulative function to deploy a cde environment
@@ -184,16 +126,16 @@ deploy_cde_env() {
   if [[ ${LOCAL} != "true" ]]; then
     push_pcb_mirror "$2"
   fi
-  generate_csr "$1"
-  push_csr "$1"
-  push_profile_repo "$1"
+  generate_csr
+  push_csr
+  push_profile_repo
   if [[ ${LOCAL} != "true" ]]; then
     deploy_bootstrap "$1"
   else
     git_ops "$3"
-#    disable_argo
+    disable_argo
   fi
-  cd "${start}" || exit
+  cd "${start}" || return
 }
 
 # Deletes a CDE env from the cluster
@@ -206,12 +148,60 @@ delete_cde_env() {
   start=$(pwd)
   # Delete argo first so it doesn't try to resync the other namespaces
   if [ -d "/tmp/sandbox/fluxcd/$1" ]; then
-    cd /tmp/sandbox/fluxcd/"$1" || exit
+    cd /tmp/sandbox/fluxcd/"$1" || return
     kustomize build | kubectl delete -f - || true
   fi
   # Delete all other namespaces
   utils::cleanup_k8s_resources
-  cd "${start}" || exit
+  cd "${start}" || return
+}
+
+# Runs the git-ops command
+git_ops() {
+  # Ex: git_ops us-east-2
+  if test -z "$1"; then
+    echo "region required as parameter"
+    return
+  fi
+  start=$(pwd)
+  cd "${CSR_PATH}/k8s-configs/" || return
+  # Only apply from file if debug is set to true
+  if [[ "${DEBUG}" == "true" ]]; then
+    DEBUG=true LOCAL=${LOCAL} PCB_PATH=${PCB_PATH} ./git-ops-command.sh "$1"
+    kubectl apply -f /tmp/uber-debug.yaml
+  else
+    DEBUG=false LOCAL=${LOCAL} PCB_PATH=${PCB_PATH} ./git-ops-command.sh "$1" | kubectl apply -f -
+  fi
+  cd "${start}" || return
+}
+
+# Enable Argo Sync for P1AS deployments v1.17 and below
+enable_argo() {
+  app="$(kubectl get application -n argocd | grep ping-cloud | awk "{ print \$1 }")"
+  kubectl -n argocd patch --type='merge' application "${app}" -p "{\"spec\":{\"syncPolicy\": {\"automated\": {\"prune\": true}}}}"
+  pod="$(kubectl get pod -n argocd | grep argo | awk "{ print \$1 }")"
+  kubectl delete pod "${pod}" -n argocd > /dev/null
+}
+
+# Disable Argo Sync for P1AS deployments v1.17 and below
+disable_argo() {
+  app="$(kubectl get application -n argocd | grep ping-cloud | awk "{ print \$1 }")"
+  kubectl -n argocd patch --type='merge' application "${app}" -p "{\"spec\":{\"syncPolicy\":null}}"
+}
+
+# Enable Argo Sync for P1AS deployments v1.18 and above
+# Also a handy method for restarting all ArgoCD pods at once
+enable_argo_v1_18() {
+  app_sets="$(kubectl get applicationset -n argocd | grep ping-cloud-all-cdes | awk "{ print \$1 }")"
+  echo "${app_sets}" | xargs  kubectl -n argocd patch --type='merge' applicationset  -p "{\"spec\":{\"template\":{\"spec\":{\"syncPolicy\": {\"automated\": {\"prune\": true}}}}}}"
+  pods="$(kubectl get pod -n argocd | grep argo | awk "{ print \$1 }")"
+  echo "${pods}" | xargs kubectl delete pod "${pod}" -n argocd > /dev/null
+}
+
+# Disable Argo Sync for P1AS deployments v1.18 and above
+disable_argo_v1_18() {
+  app_sets="$(kubectl get applicationset -n argocd | grep ping-cloud-all-cdes | awk "{ print \$1 }")"
+  echo "${app_sets}" | xargs kubectl -n argocd patch --type='merge' applicationset -p "{\"spec\":{\"template\":{\"spec\":{\"syncPolicy\":null}}}}"
 }
 
 # Runs the update wrapper script on the CSR
@@ -222,9 +212,9 @@ update_csr() {
     return
   fi
   start=$(pwd)
-  cd "${CSR_PATH}" || exit
-  GIT_SSH_COMMAND="ssh -i ${CSR_SSH_KEY_PATH}" BASE64_DECODE_OPT=-d SUPPORTED_ENVIRONMENT_TYPES=${SUPPORTED_ENVIRONMENT_TYPES:-${1}} NEW_VERSION=$2 PING_CLOUD_BASE_REPO_URL=${K8S_GIT_URL} ./update-cluster-state-wrapper.sh
-  cd "${start}" || exit
+  cd "${CSR_PATH}" || return
+  GIT_SSH_COMMAND="ssh -i ${CSR_SSH_KEY_PATH}" BASE64_DECODE_OPT=-d SUPPORTED_ENVIRONMENT_TYPES=$1 NEW_VERSION=$2 PING_CLOUD_BASE_REPO_URL=${K8S_GIT_URL} ./update-cluster-state-wrapper.sh
+  cd "${start}" || return
 }
 
 # Runs the update profile script on the PR
@@ -235,9 +225,9 @@ update_pr() {
     return
   fi
   start=$(pwd)
-  cd "${PR_PATH}" || exit
-  GIT_SSH_COMMAND="ssh -i ${PR_SSH_KEY_PATH}" BASE64_DECODE_OPT=-d SUPPORTED_ENVIRONMENT_TYPES=${SUPPORTED_ENVIRONMENT_TYPES:-${1}} NEW_VERSION=$2 PING_CLOUD_BASE_REPO_URL=${K8S_GIT_URL} ./update-profile-wrapper.sh
-  cd "${start}" || exit
+  cd "${PR_PATH}" || return
+  GIT_SSH_COMMAND="ssh -i ${PR_SSH_KEY_PATH}" BASE64_DECODE_OPT=-d SUPPORTED_ENVIRONMENT_TYPES=$1 NEW_VERSION=$2 PING_CLOUD_BASE_REPO_URL=${K8S_GIT_URL} ./update-profile-wrapper.sh
+  cd "${start}" || return
 }
 
 # Renames & pushes the new branch in the CSR and PR
@@ -254,7 +244,7 @@ push_update() {
     branch="master"
   fi
   for repo in "${repos[@]}"; do
-    cd "${repo}" || exit
+    cd "${repo}" || return
     git checkout ${branch}
     #Note: This prepends a random number to the old branch. So you may want to rename or clean this up after running
     git branch -m "$RANDOM-${branch}"
@@ -262,7 +252,7 @@ push_update() {
     git branch -m "${branch}"
     GIT_SSH_COMMAND="ssh -i ${CSR_SSH_KEY_PATH}" git push --set-upstream origin ${branch}
   done
-  cd "${start}" || exit
+  cd "${start}" || return
 }
 
 # Cumulative function to update a cde environment to a new version after committing code to the desired PCB git branch
@@ -285,5 +275,5 @@ update_cde_env() {
   echo ""
   pause 'Press any key when you are ready for the script to continue'
   push_update "$1" "$2"
-  cd "${start}" || exit
+  cd "${start}" || return
 }
