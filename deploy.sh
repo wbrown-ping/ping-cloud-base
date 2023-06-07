@@ -50,7 +50,7 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
   # Apply Custom Resource Definitions separate, due to size, if applicable
   utils::apply_crds "${PROJECT_DIR}"
 
-  argo_crd_yaml="${CI_PROJECT_DIR}/k8s-configs/cluster-tools/base/git-ops/argo/base/install.yaml" 
+  argo_crd_yaml="${PCB_PATH}/k8s-configs/cluster-tools/base/git-ops/argo/base/install.yaml" 
   apply_crd "${argo_crd_yaml}" 60
 
 
