@@ -6,13 +6,32 @@
 - Add new seal secrets script for MonoRepo breakup
 - Updating kustomize build options within ArgoCD to support Helm
 - Fix: kubernetes-dashboards configmap "Too long" error
+- Replace ElasticSearch and Kibana by OpenSearch stack
+- Add OpenSearch monitoring and alerting
+- Improve logstash grok patterns to prevent execution timeouts
 
 _Changes:_
 
 - [X] PDO-4779 Modify seal.sh script to work for microservices
+- [X] PDO-5110 OpenSearch migration: Install Opensearch side-by-side with Elastic
+- [X] PDO-5112 OpenSearch migration: Migrate index templates
+- [X] PDO-5113 OpenSearch migration: Change logstash pipelines to send data to OS instead ES
+- [X] PDO-5114 OpenSearch migration: Migrate PA dashboard
+- [X] PDO-5116 OpenSearch migration: Migrate PF dashboards
+- [X] PDO-5145 OpenSearch migration: Develop index migration job
+- [X] PDO-5152 OpenSearch migration: Rewrite bootstrap scripts
 - [X] PDO-5158 Configure PA WAS from Shared P1 Tenant
+- [X] PDO-5244 OpenSearch migration: Enable transport layer security
+- [X] PDO-5245 OpenSearch migration: Update grafana dashboards datasource
+- [X] PDO-5246 Opensearch migration: Migrate alerts
+- [X] PDO-5258 OpenSearch migration: Refactor bootstrap scripts
+- [X] PDO-5301 Logstash: Improve grok patterns to prevent execution timeouts
+- [X] PDO-5307 OpenSearch migration: Implement Monitoring
 - [X] PDO-5314 Update bootstrap to create davinci-configuration secret
+- [X] PDO-5320 BUGFIX: found_distance_alert and other found* fields are not present in pf-audit* index documents
 - [X] PDO-5333 ArgoCD authentication to private ECR for Helm
+- [X] PDO-5358 OpenSearch Migration: Refactor OS Code as Needed
+- [X] PDO-5435 Update values.yaml files structure
 
 ### 1.18.0.0
 
@@ -95,6 +114,11 @@ _Changes:_
 - Increase replica count (min=7, max=9) within prod/large for Nginx Ingress Controller
 - Backup monitor history everyday for PingDirectory
 - PA-WAS ext ingress is missing from non-customer-hub environments
+- Update kubectl to 1.24.0 for EKS 1.25
+- Update cert-manager to v1.11.2 for EKS 1.25
+- Upgrade Postgres Operator (PGO) to 5.3.1 to support EKS v1.25
+- Add PGO Backups Jobs TTL
+- Add region env vars to cluster-health-environment-variables configmap
 
 _Changes:_
 
@@ -202,7 +226,12 @@ _Changes:_
 - [X] PDO-5393 Bugfix - secondary CSR missing app dir
 - [X] PDO-5419 Bugfix - remove monitoring & logging from secondary
 - [X] PDO-5415 Bugfix - PA-WAS ext ingress is missing from non-customer-hub environments
+- [X] PDO-5433 Update/Disable healthchecks
 - [X] PDO-5436 Bugfix - Uneven load distribution among logstash pods
+- [X] PDO-5459 Update cert-manager to v1.11.2 for EKS 1.25
+- [X] PDO-5460 Update kubectl to 1.24.0 for EKS 1.25
+- [X] PDO-5474 upgrade Postgres Operator (PGO) to 5.3.1 to support EKS v1.25
+- [X] PDO-5525 Add PGO Backups Jobs TTL
 
 ### 1.17.0.0
 
