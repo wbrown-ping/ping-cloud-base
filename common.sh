@@ -5,8 +5,8 @@
 
 test "${VERBOSE}" && set -x
 
-# Source some utility methods.
 export PROJECT_DIR="${PROJECT_DIR:-${CI_PROJECT_DIR}}"
+CI_SCRIPTS_DIR="${SHARED_CI_SCRIPTS_DIR:-/ci-scripts}"
 
 # Override environment variables with optional file supplied from the outside
 ENV_VARS_FILE="${1}"
@@ -28,48 +28,46 @@ log() {
 
 # all environment variables
 set_env_vars() {
-  export CLUSTER_NAME="${SELECTED_KUBE_NAME:-ci-cd}"
   export BELUGA_ENV_NAME="${CLUSTER_NAME}-${CI_COMMIT_REF_SLUG}"
-  export REGION_NICK_NAME=${REGION}
-  export GLOBAL_TENANT_DOMAIN="${GLOBAL_TENANT_DOMAIN:-$(echo "${TENANT_DOMAIN}"|sed -e "s/[^.]*.\(.*\)/global.\1/")}"
-  export ENV=${BELUGA_ENV_NAME}
-  export NEW_RELIC_ENVIRONMENT_NAME=${TENANT_NAME}_${ENV}_${REGION}_k8s-cluster
-  export CONFIG_PARENT_DIR=aws
-  export CONFIG_REPO_BRANCH=${CI_COMMIT_REF_NAME:-master}
-  export PGO_BACKUP_BUCKET_NAME=${CLUSTER_NAME}-backup-bucket
-  export PF_PROVISIONING_ENABLED=true
-  export LOG_LINES_TO_TEST=2
+  export CLUSTER_NAME="${SELECTED_KUBE_NAME:-ci-cd}"
   export DASH_REPO_URL="${DASH_REPO_URL:-https://github.com/pingidentity/ping-cloud-dashboards}"
   export DASH_REPO_BRANCH="${DASH_REPO_BRANCH:-main}"
-
+  export ENV=${BELUGA_ENV_NAME}
+  export KUBE_NAME_UNDERSCORES=$(echo ${SELECTED_KUBE_NAME} | tr '-' '_')
+  export LOG_LINES_TO_TEST=2
+  export PGO_BACKUP_BUCKET_NAME=${CLUSTER_NAME}-backup-bucket
+  export REGION_NICK_NAME=${REGION}
 
   if [[ ${CI_COMMIT_REF_SLUG} != master ]]; then
     export ENVIRONMENT=-${CI_COMMIT_REF_SLUG}
   fi
 
   if test -z "${ENV_VARS_FILE}"; then
-    echo "Using environment variables set in properties file"
-    . /ci-scripts/k8s/deploy/ci-cd-cluster.properties
+    log "Using environment variables set in properties file"
+    . "${SHARED_CI_SCRIPTS_DIR}/k8s/deploy/ci-cd-cluster.properties"
 
   elif test -f "${ENV_VARS_FILE}"; then
-    echo "Using environment variables defined in file ${ENV_VARS_FILE}"
+    log "Using environment variables defined in file ${ENV_VARS_FILE}"
     set -a; source "${ENV_VARS_FILE}"; set +a
   else
-    echo "ENV_VARS_FILE points to a non-existent file: ${ENV_VARS_FILE}"
+    log "ENV_VARS_FILE points to a non-existent file: ${ENV_VARS_FILE}"
     exit 1
   fi
 
   NEW_RELIC_LICENSE_KEY="${NEW_RELIC_LICENSE_KEY:-ssm://pcpt/sre/new-relic/java-agent-license-key}"
   if [[ ${NEW_RELIC_LICENSE_KEY} == "ssm://"* ]]; then
     if ! ssm_value=$(get_ssm_val "${NEW_RELIC_LICENSE_KEY#ssm:/}"); then
-      echo "Warn: ${ssm_value}"
-      echo "Setting NEW_RELIC_LICENSE_KEY to unused"
+      log "Warn: ${ssm_value}"
+      log "Setting NEW_RELIC_LICENSE_KEY to unused"
       NEW_RELIC_LICENSE_KEY="unused"
     else
       NEW_RELIC_LICENSE_KEY="${ssm_value}"
     fi
   fi
 
+  export GLOBAL_TENANT_DOMAIN="${GLOBAL_TENANT_DOMAIN:-$(echo "${TENANT_DOMAIN}"|sed -e "s/[^.]*.\(.*\)/global.\1/")}"
+  export PF_PROVISIONING_ENABLED=${PF_PROVISIONING_ENABLED:-true}
+  export NEW_RELIC_ENVIRONMENT_NAME=${TENANT_NAME}_${ENV}_${REGION}_k8s-cluster
   export NEW_RELIC_LICENSE_KEY_BASE64=$(base64_no_newlines "${NEW_RELIC_LICENSE_KEY}")
   export DATASYNC_P1AS_SYNC_SERVER="pingdirectory-0"
 
@@ -89,7 +87,7 @@ set_env_vars() {
   FQDN=${ENVIRONMENT}.${TENANT_DOMAIN}
 
   # Monitoring
-  LOGS_CONSOLE=https://logs${FQDN}/app/kibana
+  LOGS_CONSOLE=https://logs${FQDN}
   PROMETHEUS=https://prometheus${FQDN}
   GRAFANA=https://monitoring${FQDN}
 
@@ -158,14 +156,10 @@ set_env_vars() {
     export PING_CLOUD_NAMESPACE="ping-cloud-$CI_COMMIT_REF_SLUG"
   fi
 
-  KUBE_NAME_UNDERSCORES=$(echo ${SELECTED_KUBE_NAME} | tr '-' '_')
-
   # PingOne deploy env vars
-  echo "Setting env vars for PingOne deployment"
-  export PLATFORM_EVENT_QUEUE_NAME="${KUBE_NAME_UNDERSCORES}_platform_event_queue.fifo"
-  export ORCH_API_SSM_PATH_PREFIX="/${SELECTED_KUBE_NAME}/pcpt/orch-api"
+  log "Setting env vars for PingOne deployment"
+  # CUSTOMER_SSO_SSM_PATH_PREFIX can be removed once added to CreateCluster script
   export CUSTOMER_SSO_SSM_PATH_PREFIX="/${SELECTED_KUBE_NAME}/pcpt/customer/sso"
-  export MYSQL_DATABASE="pingcentral${ENV_NAME_NO_DASHES}"
 }
 
 ########################################################################################################################
