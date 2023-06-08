@@ -44,7 +44,7 @@ set_env_vars() {
 
   if test -z "${ENV_VARS_FILE}"; then
     log "Using environment variables set in properties file"
-    . "${SHARED_CI_SCRIPTS_DIR}/k8s/deploy/ci-cd-cluster.properties"
+    . "${CI_SCRIPTS_DIR}/k8s/deploy/ci-cd-cluster.properties"
 
   elif test -f "${ENV_VARS_FILE}"; then
     log "Using environment variables defined in file ${ENV_VARS_FILE}"
