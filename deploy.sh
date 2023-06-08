@@ -5,7 +5,7 @@ test "${VERBOSE}" && set -x
 
 # Source common environment variables
 SCRIPT_HOME=$(cd $(dirname ${0}); pwd)
-. ${SCRIPT_HOME}/../../common.sh
+. ${SCRIPT_HOME}/../../common.sh "${2}"
 . ${SCRIPT_HOME}/../../pingcloud-scripts.sh
 . ${SCRIPT_HOME}/../../build/ecr-common.sh
 CI_SCRIPTS_DIR="${SHARED_CI_SCRIPTS_DIR:-/ci-scripts}"
@@ -21,28 +21,26 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
   . ${PROJECT_DIR}/utils.sh
 
   # Disabling P1 setup until https://gitlab.corp.pingidentity.com/ping-cloud-private-tenant/ping-cloud-base/-/merge_requests/1758 is merged
-  # pip_install_shared_pingone_scripts
-  # log "Deleting P1 resources created by deployment if they already exist"
-  # p1_deployment_cleanup
-  # log "Deleting P1 Environment if it already exists"
-  # cicd_p1_env_setup_and_teardown Teardown 2>/dev/null || true
-  # log "Creating P1 Environment"
-  # cicd_p1_env_setup_and_teardown Setup
+  pip_install_shared_pingone_scripts
+  log "Deleting P1 resources created by deployment if they already exist"
+  p1_deployment_cleanup
+  log "Deleting P1 Environment if it already exists"
+  cicd_p1_env_setup_and_teardown Teardown 2>/dev/null || true
+  log "Creating P1 Environment"
+  cicd_p1_env_setup_and_teardown Setup
 
   # clean up the previous deployment dns records before deploying
   delete_dns_records "${TENANT_DOMAIN}"
 
   log "Sourcing config"
-  source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases_cicd_config.sh"
+  source "${SCRIPT_HOME}/dev_cde_aliases_cicd_config.sh"
   log "Sourcing dev_cde_aliases.sh"
-  source "${CI_SCRIPTS_DIR}/k8s/deploy/dev_cde_aliases.sh"
+  source "${SCRIPT_HOME}/dev_cde_aliases.sh"
 
   # Need to set local after sourcing dev_cde_aliases, and config, otherwise it will error looking for a local copy of ping-cloud-common 
   export LOCAL="true"
-  
   mkdir -p "${CSR_PATH}"
   mkdir -p "${PR_PATH}"
-
   echo "Cloning CSR & PR into ${CSR_PATH} and ${PR_PATH}"
   GIT_SSH_COMMAND="ssh -i ${CSR_SSH_KEY_PATH}" git clone ssh://APKA2IO25QZRRRNUAQPP@git-codecommit.us-west-2.amazonaws.com/v1/repos/${CLUSTER_NAME}-cluster-state-repo "${CSR_PATH}/"
   GIT_SSH_COMMAND="ssh -i ${PR_SSH_KEY_PATH}" git clone ssh://APKA2IO25QZRRRNUAQPP@git-codecommit.us-west-2.amazonaws.com/v1/repos/${CLUSTER_NAME}-profile-repo "${PR_PATH}/"
@@ -51,8 +49,13 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
   utils::apply_crds "${PROJECT_DIR}"
 
   # note because LOCAL=true, the branch here doesn't really matter
-  deploy_cde_env dev "v1.19-release-branch" "us-west-2"
+  deploy_cde_env dev "local-build" "us-west-2" || true
 
+  # Retry in case of ArgoCD CRD race condition error
+  log "Retrying create resources via git-ops-command.sh" 
+  git_ops "us-west-2"
+
+  
   # A PingDirectory pod can take up to 15 minutes to deploy in the CI/CD cluster. There are three sets of dependencies
   # today from:
   #
@@ -79,11 +82,31 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
 else
   # Microservice app deployment to Kubernetes
 
+  # Login to ECR to pull down the Helm Chart
   configure_environment
-  set_chart_version "${CI_PROJECT_DIR}/deploy/${CI_PROJECT_NAME}"
 
-  log "Installing ${CI_PROJECT_NAME} helm chart"
-  helm upgrade -install -n "${PING_CLOUD_NAMESPACE}" --create-namespace "${CI_PROJECT_NAME}" oci://${ECR_REGISTRY}/${CI_PROJECT_NAME} --version ${CHART_VERSION}
+  chart_name="${1}"
+
+  # Get chart information from build.env stage of pipeline
+  repository_var="${chart_name//-/_}_repository"
+  repository="${!repository_var}"
+
+  version_var="${chart_name//-/_}_version"
+  version="${!version_var}"
+
+  # Deploy chart
+  if test -n "${repository}" && test -n "${version}"; then
+    log "Installing ${chart_name} ${version} helm chart from ${repository}"
+    helm upgrade -install -n "${PING_CLOUD_NAMESPACE}" --create-namespace --set ecrRegistryName="${repository#oci://}" "${chart_name}" "${repository}/${chart_name}" --version "${version}"
+  else
+    log "Unable to get helm chart version or repository from build.env file"
+  fi
+
+  # Get K8S_RESOURCES_TO_CHECK file if exists
+  if test -f "${PROJECT_DIR}/deploy/${chart_name}/k8s_resources_to_check.sh"; then
+    # shellcheck disable=SC1090
+    source "${PROJECT_DIR}/deploy/${chart_name}/k8s_resources_to_check.sh"
+  fi
 fi
 
 if test -n "${K8S_RESOURCES_TO_CHECK}"; then
