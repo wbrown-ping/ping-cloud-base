@@ -195,28 +195,17 @@ deploy_cde_env() {
   if [[ ${LOCAL} != "true" ]]; then
     push_pcb_mirror "$2"
   fi
-  echo "Generating CSR"
   generate_csr "$1"
-  echo "Pushing CSR"
   push_csr "$1"
-  echo "Pushing profile repo"
   push_profile_repo "$1"
-  echo "contents of fluxcd/dev/kustomzation.yaml"
-  cat /tmp/sandbox/fluxcd/dev/kustomization.yaml
-  echo "Deploy bootstrap"
-  deploy_bootstrap "$1"
-  git_ops
-  if [[ ${LOCAL} == "true" ]]; then
-    echo "Using local build, disabling ArgoCD"
-    disable_argo
-    echo "Using local build, running git-ops to deploy uber yaml"
+  if [[ ${LOCAL} != "true" ]]; then
+    deploy_bootstrap "$1"
+  else
     git_ops "$3"
-    echo "Using local build, disabling ArgoCD resources created during git-ops command"
     disable_argo
   fi
   cd "${start}" || exit
 }
-
 
 # Deletes a CDE env from the cluster
 delete_cde_env() {

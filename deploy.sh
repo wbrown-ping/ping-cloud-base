@@ -49,11 +49,9 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
   utils::apply_crds "${PROJECT_DIR}"
 
   # note because LOCAL=true, the branch here doesn't really matter
-  deploy_cde_env dev "local-build" "us-west-2" || true
+  deploy_cde_env dev "current-pcb-branch" "us-west-2" || true
 
-  # Retry in case of ArgoCD CRD race condition error
-  log "Retrying create resources via git-ops-command.sh" 
-  git_ops "us-west-2"
+  deploy_cde_env dev "current-pcb-branch" "us-west-2" 
 
   
   # A PingDirectory pod can take up to 15 minutes to deploy in the CI/CD cluster. There are three sets of dependencies
