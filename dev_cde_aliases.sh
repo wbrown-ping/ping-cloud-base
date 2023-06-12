@@ -203,7 +203,7 @@ deploy_cde_env() {
   push_profile_repo "$1"
   echo "Deploy bootstrap"
   # deploy_bootstrap "$1"
-  git_ops
+  git_ops "$3"
   if [[ ${LOCAL} == "true" ]]; then
     echo "Using local build, disabling ArgoCD"
     disable_argo
