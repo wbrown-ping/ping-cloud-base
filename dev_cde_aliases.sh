@@ -201,9 +201,11 @@ deploy_cde_env() {
   push_csr "$1"
   echo "Pushing profile repo"
   push_profile_repo "$1"
+  echo "contents of fluxcd/dev/kustomzation.yaml"
+  cat /tmp/sandbox/fluxcd/dev/kustomization.yaml
   echo "Deploy bootstrap"
-  # deploy_bootstrap "$1"
-  git_ops "$3"
+  deploy_bootstrap "$1"
+  git_ops
   if [[ ${LOCAL} == "true" ]]; then
     echo "Using local build, disabling ArgoCD"
     disable_argo
