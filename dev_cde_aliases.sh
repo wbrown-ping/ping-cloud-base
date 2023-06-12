@@ -201,7 +201,7 @@ deploy_cde_env() {
   if [[ ${LOCAL} != "true" ]]; then
     deploy_bootstrap "$1"
   else
-    git_ops "$3"
+    git_ops "$3" || true
     git_ops "$3"  # apply git-ops twice to account for race condition
     disable_argo
   fi
