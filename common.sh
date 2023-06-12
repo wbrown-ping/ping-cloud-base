@@ -28,15 +28,13 @@ log() {
 
 # all environment variables
 set_env_vars() {
-  export BELUGA_ENV_NAME="${CLUSTER_NAME}-${CI_COMMIT_REF_SLUG}"
   export CLUSTER_NAME="${SELECTED_KUBE_NAME:-ci-cd}"
+  export BELUGA_ENV_NAME="${CLUSTER_NAME}-${CI_COMMIT_REF_SLUG}"
   export DASH_REPO_URL="${DASH_REPO_URL:-https://github.com/pingidentity/ping-cloud-dashboards}"
   export DASH_REPO_BRANCH="${DASH_REPO_BRANCH:-main}"
   export ENV=${BELUGA_ENV_NAME}
-  export KUBE_NAME_UNDERSCORES=$(echo ${SELECTED_KUBE_NAME} | tr '-' '_')
   export LOG_LINES_TO_TEST=2
   export PGO_BACKUP_BUCKET_NAME=${CLUSTER_NAME}-backup-bucket
-  export REGION_NICK_NAME=${REGION}
 
   if [[ ${CI_COMMIT_REF_SLUG} != master ]]; then
     export ENVIRONMENT=-${CI_COMMIT_REF_SLUG}
@@ -44,7 +42,6 @@ set_env_vars() {
 
   if test -z "${ENV_VARS_FILE}"; then
     log "Using environment variables set in properties file"
-    echo "CI_SCRiptS_DIR is: ${CI_SCRIPTS_DIR}"
     . "${CI_SCRIPTS_DIR}/k8s/deploy/ci-cd-cluster.properties"
 
   elif test -f "${ENV_VARS_FILE}"; then
@@ -67,7 +64,6 @@ set_env_vars() {
   fi
 
   export GLOBAL_TENANT_DOMAIN="${GLOBAL_TENANT_DOMAIN:-$(echo "${TENANT_DOMAIN}"|sed -e "s/[^.]*.\(.*\)/global.\1/")}"
-  export PF_PROVISIONING_ENABLED=${PF_PROVISIONING_ENABLED:-true}
   export NEW_RELIC_ENVIRONMENT_NAME=${TENANT_NAME}_${ENV}_${REGION}_k8s-cluster
   export NEW_RELIC_LICENSE_KEY_BASE64=$(base64_no_newlines "${NEW_RELIC_LICENSE_KEY}")
   export DATASYNC_P1AS_SYNC_SERVER="pingdirectory-0"
@@ -133,7 +129,6 @@ set_env_vars() {
   PINGDELEGATOR_CONSOLE=https://pingdelegator${FQDN}/delegator
 
   # PingCentral
-  MYSQL_SERVICE_HOST="beluga-${SELECTED_KUBE_NAME:-ci-cd}-mysql.cmpxy5bpieb9.us-west-2.rds.amazonaws.com"
   MYSQL_SERVICE_PORT=3306
   MYSQL_USER_SSM=/aws/reference/secretsmanager//pcpt/ping-central/dbserver#username
   MYSQL_PASSWORD_SSM=/aws/reference/secretsmanager//pcpt/ping-central/dbserver#password
@@ -156,11 +151,6 @@ set_env_vars() {
   else
     export PING_CLOUD_NAMESPACE="ping-cloud-$CI_COMMIT_REF_SLUG"
   fi
-
-  # PingOne deploy env vars
-  log "Setting env vars for PingOne deployment"
-  # CUSTOMER_SSO_SSM_PATH_PREFIX can be removed once added to CreateCluster script
-  export CUSTOMER_SSO_SSM_PATH_PREFIX="/${SELECTED_KUBE_NAME}/pcpt/customer/sso"
 }
 
 ########################################################################################################################
