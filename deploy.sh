@@ -49,8 +49,6 @@ if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
   utils::apply_crds "${PROJECT_DIR}"
 
   # note because LOCAL=true, the branch here doesn't really matter
-  deploy_cde_env dev "current-pcb-branch" "us-west-2" || true
-
   deploy_cde_env dev "current-pcb-branch" "us-west-2" 
 
   
