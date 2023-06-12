@@ -108,7 +108,8 @@ function pause {
   printf '\n'
 }
 
-enable_argo() {
+# Enable Argo Sync for P1AS deployments v1.17 and below
+enable_argo_v1_17() {
   app="$(kubectl get application -n argocd | grep ping-cloud | awk "{ print \$1 }")"
   kubectl -n argocd patch --type='merge' application "${app}" -p "{\"spec\":{\"syncPolicy\": {\"automated\": {\"prune\": true}}}}"
   pod="$(kubectl get pod -n argocd | grep argo | awk "{ print \$1 }")"
@@ -116,14 +117,14 @@ enable_argo() {
 }
 
 # Disable Argo Sync for P1AS deployments v1.17 and below
-disable_argo() {
+disable_argo_v1_17() {
   app="$(kubectl get application -n argocd | grep ping-cloud | awk "{ print \$1 }")"
   kubectl -n argocd patch --type='merge' application "${app}" -p "{\"spec\":{\"syncPolicy\":null}}"
 }
 
 # Enable Argo Sync for P1AS deployments v1.18 and above
 # Also a handy method for restarting all ArgoCD pods at once
-enable_argo_v1_18() {
+enable_argo() {
   app_sets="$(kubectl get applicationset -n argocd | grep ping-cloud-all-cdes | awk "{ print \$1 }")"
   echo "${app_sets}" | xargs  kubectl -n argocd patch --type='merge' applicationset  -p "{\"spec\":{\"template\":{\"spec\":{\"syncPolicy\": {\"automated\": {\"prune\": true}}}}}}"
   pods="$(kubectl get pod -n argocd | grep argo | awk "{ print \$1 }")"
@@ -131,7 +132,7 @@ enable_argo_v1_18() {
 }
 
 # Disable Argo Sync for P1AS deployments v1.18 and above
-disable_argo_v1_18() {
+disable_argo() {
   app_sets="$(kubectl get applicationset -n argocd | grep ping-cloud-all-cdes | awk "{ print \$1 }")"
   echo "${app_sets}" | xargs kubectl -n argocd patch --type='merge' applicationset -p "{\"spec\":{\"template\":{\"spec\":{\"syncPolicy\":null}}}}"
 }
@@ -194,17 +195,25 @@ deploy_cde_env() {
   if [[ ${LOCAL} != "true" ]]; then
     push_pcb_mirror "$2"
   fi
+  echo "Generating CSR"
   generate_csr "$1"
+  echo "Pushing CSR"
   push_csr "$1"
+  echo "Pushing profile repo"
   push_profile_repo "$1"
-  if [[ ${LOCAL} != "true" ]]; then
-    deploy_bootstrap "$1"
-  else
+  echo "Deploy bootstrap"
+  deploy_bootstrap "$1"
+  if [[ ${LOCAL} == "true" ]]; then
+    echo "Using local build, disabling ArgoCD"
+    disable_argo
+    echo "Using local build, running git-ops to deploy uber yaml"
     git_ops "$3"
-#    disable_argo
+    echo "Using local build, disabling ArgoCD resources created during git-ops command"
+    disable_argo
   fi
   cd "${start}" || exit
 }
+
 
 # Deletes a CDE env from the cluster
 delete_cde_env() {
