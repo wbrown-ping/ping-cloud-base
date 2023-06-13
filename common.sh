@@ -81,7 +81,6 @@ set_env_vars() {
   export CLUSTER_NAME_LC=$(echo "${CLUSTER_NAME}" | tr '[:upper:]' '[:lower:]')
   export LOG_GROUP_NAME="/aws/containerinsights/${CLUSTER_NAME}/application"
 
-  FQDN=${ENVIRONMENT}.${TENANT_DOMAIN}
 
   # Monitoring
   LOGS_CONSOLE=https://logs${FQDN}
@@ -148,8 +147,11 @@ set_env_vars() {
   # If PCB deploy, don't append branch name to ping-cloud namespace
   if [[ ${PROJECT_DIR} == *"ping-cloud-base"* ]]; then
     export PING_CLOUD_NAMESPACE="ping-cloud"
+    export FQDN=${TENANT_DOMAIN}
   else
     export PING_CLOUD_NAMESPACE="ping-cloud-$CI_COMMIT_REF_SLUG"
+    export FQDN=${ENVIRONMENT}.${TENANT_DOMAIN}
+
   fi
 }
 
