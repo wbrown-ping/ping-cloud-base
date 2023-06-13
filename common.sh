@@ -81,6 +81,7 @@ set_env_vars() {
   export CLUSTER_NAME_LC=$(echo "${CLUSTER_NAME}" | tr '[:upper:]' '[:lower:]')
   export LOG_GROUP_NAME="/aws/containerinsights/${CLUSTER_NAME}/application"
 
+  echo "In common, line 84, FQDN is: ${FQDN}"
 
   # Monitoring
   LOGS_CONSOLE=https://logs${FQDN}
@@ -153,6 +154,9 @@ set_env_vars() {
     export FQDN=${ENVIRONMENT}.${TENANT_DOMAIN}
 
   fi
+    echo "In common, line 157, FQDN is: ${FQDN}"
+    echo "in common, line 158, PINGACCESS_WAS_CONSOLE is: ${PINGACCESS_WAS_CONSOLE}"
+
 }
 
 ########################################################################################################################
