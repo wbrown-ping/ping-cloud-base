@@ -99,6 +99,8 @@ pa-was-integration-tests:
     - default-gitlab-runner
   image: ${K8S_DEPLOY_TOOLS}
   script:
+    - cp ${CI_PROJECT_DIR}/ci-cd-cluster.properties ${SHARED_CI_SCRIPTS_DIR}/k8s/deploy/ci-cd-cluster.properties
+    - cp ${CI_PROJECT_DIR}/common.sh ${SHARED_CI_SCRIPTS_DIR}/common.sh
     - ${SHARED_CI_SCRIPTS_DIR}/test/run-tests.sh ${TEST}
   dependencies:
     - find-cluster
