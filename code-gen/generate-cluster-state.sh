@@ -1295,10 +1295,10 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
     # Add ArgoCD to Beluga Environments since it normally runs only in customer-hub
     echo "This is a Beluga Development Environment, copying ArgoCD into the CSR"
     cp -R "${CHUB_TEMPLATES_DIR}/base/cluster-tools/git-ops" "${K8S_CONFIGS_DIR}/base/cluster-tools/"
-
+    cp -R "${CHUB_TEMPLATES_DIR}/base/ping-cloud/pingcentral" "${K8S_CONFIGS_DIR}/base/ping-cloud/"
     # Append the secrets from customer-hub to the CDE secrets, except PingCentral since that doesn't exist in the CDE
     printf "\n# %%%% NOTE: Below secrets are for the Developer CDE only (when IS_BELUGA_ENV is 'true') to make sure Argo works properly %%%%#\n" >> "${K8S_CONFIGS_DIR}/base/secrets.yaml"
-    yq 'del(select(.metadata.name | contains("pingcentral")))' "${CHUB_TEMPLATES_DIR}/base/secrets.yaml" >> "${K8S_CONFIGS_DIR}/base/secrets.yaml"
+    yq 'del(select(.metadata.name))' "${CHUB_TEMPLATES_DIR}/base/secrets.yaml" >> "${K8S_CONFIGS_DIR}/base/secrets.yaml"
     printf "\n# %%%% END automatically appended secrets from generate-cluster-state.sh\n" >> "${K8S_CONFIGS_DIR}/base/secrets.yaml"
   fi
 
