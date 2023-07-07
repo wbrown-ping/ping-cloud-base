@@ -14,6 +14,14 @@ generatorOptions:
 
 configMapGenerator:
 
+
+# PingCentral
+# Create the config maps that hold the variable for triggering updates of PingCentral
+- name: pingcentral-last-update-config
+  namespace: ${PING_CLOUD_NAMESPACE}
+  envs:
+  - pingcentral/env_vars
+
 # Pingdirectory
 # Create the config maps that hold the variable for triggering updates of PD servers
 - name: pingdirectory-last-update-config
