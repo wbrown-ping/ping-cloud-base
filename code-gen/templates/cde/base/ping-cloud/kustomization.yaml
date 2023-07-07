@@ -14,6 +14,7 @@ resources:
 - pingdatasync/config
 # Provisioning is not enabled by default, but the kustomize file is managed directly by generate-cluster/update-cluster
 - pingfederate/provisioning
+- pingcentral/config
 
 # The following resource reference includes all ping applications by default. However, it may be tweaked to roll out
 # applications independent of one another to enforce proper dependency order. Refer to the docs in kustomization.yaml

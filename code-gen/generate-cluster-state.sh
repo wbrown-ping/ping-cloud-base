@@ -1318,13 +1318,13 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
 
   cp -pr ../profiles/aws/. "${ENV_PROFILES_DIR}"
 
-  if test "${ENV}" = "${CUSTOMER_HUB}"; then
-    # Retain only the pingcentral & pingaccess profiles
-    find "${ENV_PROFILES_DIR}" -type d -mindepth 1 -maxdepth 1 -not -name "${PING_CENTRAL}" -not -name "${PING_ACCESS}" -exec rm -rf {} +
-  else
-    # Remove the pingcentral profiles
-    rm -rf "${ENV_PROFILES_DIR}/${PING_CENTRAL}"
-  fi
+  # if test "${ENV}" = "${CUSTOMER_HUB}" || "${IS_BELUGA_ENV}"; then
+  #   # Retain only the pingcentral & pingaccess profiles
+  #   find "${ENV_PROFILES_DIR}" -type d -mindepth 1 -maxdepth 1 -not -name "${PING_CENTRAL}" -not -name "${PING_ACCESS}" -exec rm -rf {} +
+  # else
+  #   # Remove the pingcentral profiles
+  #   rm -rf "${ENV_PROFILES_DIR}/${PING_CENTRAL}"
+  # fi
 
   echo "=====> Done creating environment '${ENV}'"
 )
