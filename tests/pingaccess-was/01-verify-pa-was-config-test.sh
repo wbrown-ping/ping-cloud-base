@@ -251,7 +251,7 @@ testPaWasIdempotent() {
   export APP_ID=123
   export APP_NAME="TestApp"
   export VIRTUAL_HOST_ID=1
-  export SITE_ID=20
+  export SITE_ID=24
 
   # Cleanup from possible previous run failures
   log "Deleting app: ${APP_NAME} if it exists"
@@ -265,10 +265,12 @@ testPaWasIdempotent() {
   response=$(create_site_application "${PA_ADMIN_PASSWORD}" "${PINGACCESS_WAS_API}")
   assertEquals "Response value was ${response}" 0 $?
 
+  if [ "${ENV_TYPE}" != "customer-hub" ]; then
   log "Deleting PingAccess App"
   pa_app_id=10
   response=$(delete_application "${PA_ADMIN_PASSWORD}" "${PINGACCESS_WAS_API}" "${pa_app_id}")
   assertEquals "Response value was ${response}" 0 $?
+  fi
 
   log "Backing up PA-WAS"
   kubectl apply -f "${upload_job}" -n "${PING_CLOUD_NAMESPACE}"
