@@ -36,6 +36,10 @@ testWebSession() {
 }
 
 testPaSite() {
+  if [ "${ENV_TYPE}" == "customer-hub" ]; then
+    log "Customer-hub deployment, skipping test"
+    return 0
+  fi
   response=$(get_site "${PA_ADMIN_PASSWORD}" "${PINGACCESS_WAS_API}" "10")
   assertEquals "Response value was ${response}" 0 $?
 
@@ -44,6 +48,10 @@ testPaSite() {
 }
 
 testPfSite() {
+  if [ "${ENV_TYPE}" == "customer-hub" ]; then
+    log "Customer-hub deployment, skipping test"
+    return 0
+  fi
   response=$(get_site "${PA_ADMIN_PASSWORD}" "${PINGACCESS_WAS_API}" "20")
   assertEquals "Response value was ${response}" 0 $?
 
@@ -84,6 +92,10 @@ testArgocdSite() {
 }
 
 testPaVirtualHost() {
+  if [ "${ENV_TYPE}" == "customer-hub" ]; then
+    log "Customer-hub deployment, skipping test"
+    return 0
+  fi
   response=$(get_virtual_host "${PA_ADMIN_PASSWORD}" "${PINGACCESS_WAS_API}" "10")
   assertEquals "Response value was ${response}" 0 $?
 
@@ -98,6 +110,10 @@ testPaVirtualHost() {
 }
 
 testPfVirtualHost() {
+  if [ "${ENV_TYPE}" == "customer-hub" ]; then
+    log "Customer-hub deployment, skipping test"
+    return 0
+  fi
   response=$(get_virtual_host "${PA_ADMIN_PASSWORD}" "${PINGACCESS_WAS_API}" "20")
   assertEquals "Response value was ${response}" 0 $?
 
@@ -168,6 +184,10 @@ testArgocdVirtualHost() {
 }
 
 testPaApplication() {
+  if [ "${ENV_TYPE}" == "customer-hub" ]; then
+    log "Customer-hub deployment, skipping test"
+    return 0
+  fi
   response=$(get_application "${PA_ADMIN_PASSWORD}" "${PINGACCESS_WAS_API}" "10")
   assertEquals "Response value was ${response}" 0 $?
 
@@ -176,6 +196,10 @@ testPaApplication() {
 }
 
 testPfApplication() {
+  if [ "${ENV_TYPE}" == "customer-hub" ]; then
+    log "Customer-hub deployment, skipping test"
+    return 0
+  fi
   response=$(get_application "${PA_ADMIN_PASSWORD}" "${PINGACCESS_WAS_API}" "20")
   assertEquals "Response value was ${response}" 0 $?
 
@@ -262,9 +286,11 @@ testPaWasIdempotent() {
   kubectl wait --for=condition=ready --timeout=300s pod -l role=pingaccess-was-admin -n "${PING_CLOUD_NAMESPACE}"
   sleep 3
 
-  log "Verifying the PingAccess App recreated on restart"
-  response=$(get_application "${PA_ADMIN_PASSWORD}" "${PINGACCESS_WAS_API}" "${pa_app_id}")
-  assertEquals "The PingAccess App not present after restart: ${response}"  0 $?
+  if [ "${ENV_TYPE}" != "customer-hub" ]; then
+    log "Verifying the PingAccess App recreated on restart"
+    response=$(get_application "${PA_ADMIN_PASSWORD}" "${PINGACCESS_WAS_API}" "${pa_app_id}")
+    assertEquals "The PingAccess App not present after restart: ${response}"  0 $?
+  fi
 
   APP_ID=123 # Unset elsewhere
   log "Verifying the new App: ${APP_NAME} still present"
