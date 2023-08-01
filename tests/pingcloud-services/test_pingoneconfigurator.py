@@ -4,6 +4,7 @@ import time
 from kubernetes import client, config
 
 
+@unittest.skipIf(os.environ.get('ENV_TYPE') == "customer-hub", "Customer-hub CDE detected, skipping test module")
 class TestPingOneConfigurator(unittest.TestCase):
     core_client = None
 

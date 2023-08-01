@@ -1,8 +1,8 @@
-import requests
+import requests, unittest
 
 from health_common import Categories, TestHealthBase
 
-
+@unittest.skipIf(os.environ.get('ENV_TYPE') == "customer-hub", "Customer-hub CDE detected, skipping test module")
 class TestPingDirectoryHealth(TestHealthBase):
     deployment_name = "healthcheck-pingdirectory"
     label = f"role={deployment_name}"
