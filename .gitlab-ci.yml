@@ -42,6 +42,7 @@ find-cluster:
     - default-gitlab-runner
   image: ${K8S_DEPLOY_TOOLS}
   script:
+    # - export CLUSTER_POSTFIXES=-6
     - ${SHARED_CI_SCRIPTS_DIR}/k8s/deploy/find_cluster.sh
   artifacts:
     reports:
