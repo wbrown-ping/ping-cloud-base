@@ -29,6 +29,13 @@
 - Modified git-ops-command.sh script to handle the SIGTERM signal appropriately.
 - Upgrade Kustomize to 5.0.3
 - Re-enable PingCentral for CI/CD dev environments which are now deployed using generate-cluster-state.sh
+- Migrated 'profiles' directory away from root of PCB, and into 'code-gen' root dir.  Also removed 'aws' subdir.
+- Improve alerts. JSON format + link to runbook
+- Limit backup/restore logging for PD
+- enrichment-bootstrap Docker image scripts refactoring
+- Change PD alerts to see more specific errors
+- Update pd.profile to align with PingDirectory upgrade
+- Update cluster-autoscaler v1.27.0/1.27.1 for eks 1.27
 
 _Changes:_
 
@@ -36,6 +43,7 @@ _Changes:_
 - [X] PDO-4779 Modify seal.sh script to work for microservices
 - [X] PDO-4868 Update update-cluster-state script for MonoRepo
 - [X] PDO-4896 Update ping-cloud-base karpenter version to v0.28.1
+= [X] PDO-5005 Update generate-cluster-state script to pull profiles from code-gen dir
 - [X] PDO-5110 OpenSearch migration: Install Opensearch side-by-side with Elastic
 - [X] PDO-5112 OpenSearch migration: Migrate index templates
 - [X] PDO-5113 OpenSearch migration: Change logstash pipelines to send data to OS instead ES
@@ -69,11 +77,14 @@ _Changes:_
 - [X] PDO-5434 Upgrade Kustomize to 5.0.3
 - [X] PDO-5435 Update values.yaml files structure
 - [X] PDO-5467 When rolling pods NLB connection draining isn't occuring causing service interruption
+- [X] PDO-5527 OpenSearch Post-Migration: Alerting improvements
 - [X] PDO-5543 New Prometheus alerts for Kubernetes metrics
+- [X] PDO-5545 Change PD alerts to see more specific errors
 - [X] PDO-5549 Update kube-state-metrics cluster tool to v2.8.1 for EKS 1.26
 - [X] PDO-5558 Mirror our own version of newrelic images
 - [X] PDO-5571 Update nginx-ingress-controller to v1.6.4 to support EKS 1.26
 - [X] PDO-5601 os-dashboards-pf configMap breaks developer, and new ci/cd deploys
+- [X] PDO-5647 Handle SIGTERM properly in enrichment-bootstrap
 - [X] PDO-5654 Fluentbit Kubernetes filter is not adding metadata into some events
 - [X] PDO-5655 OS: Logs for the pf-transaction-* index are not filtered
 - [X] PDO-5659 git-ops-command.sh responds properly to SIGTERM
@@ -82,7 +93,11 @@ _Changes:_
 - [X] PDO-5705 Update PCB with toolkit image used as replacement for bitnami/kubectl
 - [X] PDO-5709 Fix intermittent pingone integration test failures
 - [X] PDO-5718 Update PGO dashboards to use grafana CRD
+- [X] PDO-5724 Limit backup/restore logging for PD
 - [X] PDO-5741 OS: Index migration fails for shrink-*-logstash-* indexes
+- [X] PDO-5800 Update pd.profile to align with PingDirectory upgrade
+- [X] PDO-5801 Update cluster-autoscaler v1.27.0/1.27.1 for eks 1.27
+- [X] PDO-5813 Remove excessive patches for the second region
 
 ### 1.18.0.0
 
