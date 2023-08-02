@@ -1,4 +1,4 @@
-import requests, unittest
+import requests, unittest, os
 
 from health_common import Categories, TestHealthBase
 
