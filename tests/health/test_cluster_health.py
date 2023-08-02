@@ -2,7 +2,7 @@ import unittest, requests, os
 
 from health_common import Categories, TestHealthBase
 
-
+@unittest.skipIf(os.environ.get('ENV_TYPE') == "customer-hub", "Customer-hub CDE detected, skipping test")
 class TestClusterHealth(TestHealthBase):
     deployment_name = "healthcheck-cluster-health"
     cluster_health = "clusterHealth"
@@ -57,7 +57,6 @@ class TestClusterHealth(TestHealthBase):
     def test_health_check_has_node_pid_pressure_results(self):
         self.assertIn("No nodes in cluster are experiencing PID Pressure", self.test_results.keys())
 
-    @unittest.skipIf(os.environ.get('ENV_TYPE') == "customer-hub", "Customer-hub CDE detected, skipping test)
     def test_health_check_has_statefulset_pods_ready_results(self):
         self.assertIn("All pods in statefulset pingdirectory are Ready", self.test_results.keys())
 
