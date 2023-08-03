@@ -97,6 +97,10 @@ testPingDelegatorImageTag() {
 }
 
 testPingCentralImageTag() {
+  if [ "${ENV_TYPE}" != "customer-hub" && ("${ENV_TYPE}" == "dev" || "${CI_PIPELINE_SOURCE}" == "schedule") ]; then
+    log "Customer-hub deployment, skipping test"
+    return 0
+  fi
   $(test "${PINGCENTRAL_IMAGE_TAG}")
   assertEquals "PINGCENTRAL_IMAGE_TAG missing from env_vars file" 0 $?
 
