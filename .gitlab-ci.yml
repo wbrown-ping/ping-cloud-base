@@ -124,6 +124,7 @@ chaos-tests:
     - default-gitlab-runner
   image: ${K8S_DEPLOY_TOOLS}
   script:
+    - export SKIP_TESTS="${BRANCH_SKIP_TESTS}"
     - ${SHARED_CI_SCRIPTS_DIR}/test/run-tests.sh chaos
   dependencies:
     - find-cluster
