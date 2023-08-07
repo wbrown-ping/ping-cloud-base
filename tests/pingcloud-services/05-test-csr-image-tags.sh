@@ -97,7 +97,7 @@ testPingDelegatorImageTag() {
 }
 
 testPingCentralImageTag() {
-  if [ "${ENV_TYPE}" != "customer-hub" ] && ( ["${ENV_TYPE}" == "dev" ] || [ "${CI_PIPELINE_SOURCE}" == "schedule" ] ); then
+  if [ "${ENV_TYPE}" != "customer-hub" ] && [ "${CI_PIPELINE_SOURCE}" == "schedule" ]; then
     log "Customer-hub deployment, skipping test"
     return 0
   fi

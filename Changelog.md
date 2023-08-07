@@ -10,11 +10,11 @@
 - Replace ElasticSearch and Kibana by OpenSearch stack
 - Add OpenSearch monitoring and alerting
 - Improve logstash grok patterns to prevent execution timeouts
-- Add resource (cpu & memory) limit and request for every product Job and Cronjob
 - Update prometheus alerts with links to the runbooks
 - Added new Prometheus alerts for Kubernetes metrics
 - Update integration tests to handle SSM parameters, rather than an explicit s3 bucket prefix
 - Update nginx-ingress-controller to v1.6.4 to support EKS 1.26
+- Automate a test to ensure passwords dont leak in pod logs
 - Create new RBAC rules , ping role and service accounts for PD backups and restore
 - Update PD backup/restore integration tests
 - Configure Lifecycle policy for PingFederate Engines
@@ -36,6 +36,8 @@
 - Change PD alerts to see more specific errors
 - Update pd.profile to align with PingDirectory upgrade
 - Update cluster-autoscaler v1.27.0/1.27.1 for eks 1.27
+- Healthcheck pods respond properly to SIGTERM
+- Update PCB with new Radius Proxy Image
 
 _Changes:_
 
@@ -69,11 +71,11 @@ _Changes:_
 - [X] PDO-5358 OpenSearch Migration: Refactor OS Code as Needed
 - [X] PDO-5371 Update PCB Pipeline to deploy CDE dev Environment
 - [X] PDO-5373 PingCentral testing in PCB Pipeline CDE deployment
+- [X] PDO-5378 Automate a test to ensure passwords dont leak in pod logs
 - [X] PDO-5396 Create new RBAC rules , ping role and service accounts for PD backups and restore 
 - [X] PDO-5400 Update PD backup/restore integration tests
 - [X] PDO-5408 Add boolean flag to skip pod liveness probe script for PingFederate engines, PingAccess/WAS engines, and PingDirectory
 - [X] PDO-5409 Add ability to Update Upgrade Scripts w/o Release of New Beluga Version
-- [X] PDO-5418 Add resource (cpu & memory) limit and request for every product Job and Cronjob
 - [X] PDO-5434 Upgrade Kustomize to 5.0.3
 - [X] PDO-5435 Update values.yaml files structure
 - [X] PDO-5467 When rolling pods NLB connection draining isn't occuring causing service interruption
@@ -88,6 +90,7 @@ _Changes:_
 - [X] PDO-5654 Fluentbit Kubernetes filter is not adding metadata into some events
 - [X] PDO-5655 OS: Logs for the pf-transaction-* index are not filtered
 - [X] PDO-5659 git-ops-command.sh responds properly to SIGTERM
+- [X] PDO-5660 Healthcheck pods respond properly to SIGTERM
 - [X] PDO-5671 OS: grokparsefailure in pingaccess logs
 - [x] PDO-5673 OS: Missed logs in PingAccess Indices
 - [X] PDO-5705 Update PCB with toolkit image used as replacement for bitnami/kubectl
@@ -113,7 +116,7 @@ _Changes:_
 - Selectively restore a backend in PD
 - Capture hourly PingDirectory CSD data
 - Enable and manage daily encrypted exports
-- Updated external-dns to v0.13.1
+- Updated external-dns to v0.13.1 
 - Update cluster tools to latest version: kube-state-metrics v2.6.0
 - Remove PA/PF SIEM console logging
 - Updated cluster-autoscaler to v1.23.0
@@ -122,6 +125,8 @@ _Changes:_
 - Upgrade EFS Driver to v1.5.1
 - Add PF requests logs parsing and indexing
 - Fix index template creation race condition issue
+- Update the PD backup job to create new PV at the start of the job and mount it
+- Update the PD restore job to create new PV at the start of the job and mount it
 - Change retry interval for PGO firing alert notification in slack from 5 min to 60 min
 - Added karpenter v0.24.0 and required parameters, KarpenterControllerRole & ClusterEndPoint
 - ILM policy for alerts index changed to move index to warm after 7 days in hot and delete index after 30 days
@@ -179,6 +184,7 @@ _Changes:_
 - Add pingaccess-was-license secret placeholder entry to CHUB
 - Increase replica count (min=7, max=9) within prod/large for Nginx Ingress Controller
 - Backup monitor history everyday for PingDirectory
+- Create backends dynamically through manage-profile for PingDirectory
 - PA-WAS ext ingress is missing from non-customer-hub environments
 - Update kubectl to 1.24.0 for EKS 1.25
 - Update cert-manager to v1.11.2 for EKS 1.25
@@ -190,6 +196,11 @@ _Changes:_
 - Update PingAccess configmap patch to include HEALTHCHECK_HTTPBIN_PA_PUBLIC_HOSTNAME
 - Add BACKENDS_TO_RESTORE variable to restore-op.sh script for running PingDirectory restore job
 - Backup scripts notifications are enabled by default
+- Update healthcheck-httpbin-pa and healthcheck-httpbin-pa-was hostnames to use PRIMARY_DNS_ZONE
+- Remove healthcheck-httpbin-pa from child regions
+- Remove integration kits from PingFederate deployment (excluding pf-pingid) and upgrade opentoken-adapter to v2.7.2
+- Add REGION env var for healthcheck probes in customer hub
+- Fix IRSA role for pingfederate-admin-serviceaccount
 
 _Changes:_
 
@@ -271,11 +282,11 @@ _Changes:_
 - [X] PDO-5144 Add logstash/fluent-bit readiness/liveness probe
 - [X] PDO-5147 Add logstash metrics to prometheus
 - [X] PDO-5148 Modify Prometheus query for all backup alerting to only include the primary pod
-- [X] PDO-5157 Configure customer group from Shared P1 Tenant
 - [X] PDO-5191 Update image_map to align with tagging process
 - [X] PDO-5217 Increase replica count (min=7, max=9) within prod/large for Nginx Ingress Controller
 - [X] PDO-5221 'Field "responseCode.keyword" not found' on the 'Ping Access - Response Codes Over Time' visualization
 - [X] PDO-5223 Remove pa-was config for ArgoCD from non customer-hub CDEs
+- [X] PDD-5226 Remove integration kits from PingFederate deployment (excluding pf-pingid) and upgrade opentoken-adapter to v2.7.2
 - [X] PDO-5232 Configure Fluent-bit kubernetes filter to prevent caching for statefulsets
 - [X] PDO-5248 Bug fix,remove-from-secondary-patch.yaml not getting applied
 - [X] PDO-5255 Allow configuration of certain ArgoCD values per-CDE
@@ -305,6 +316,7 @@ _Changes:_
 - [X] PDO-5474 upgrade Postgres Operator (PGO) to 5.3.1 to support EKS v1.25
 - [X] PDO-5510 Update all healthchecks to use k8s service endpoints
 - [X] PDO-5525 Add PGO Backups Jobs TTL
+- [X] PDO-5547 Create backends dynamically through manage-profile for PingDirectory
 - [X] PDO-5553 Bugfix: remove-from-secondary-patch is broken for logstash-pipeline-alerts
 - [X] PDO-5556 Fix PingAccess healthchecks
 - [X] PDO-5610 Add BACKENDS_TO_RESTORE variable to restore-op.sh script for running PingDirectory restore job
@@ -314,6 +326,8 @@ _Changes:_
 - [X] PDO-5648 [PORT PDO-5508] Extend PingDirectory replica count to up to 50 pods per region and 11 base DNs if needed
 - [X] PDO-5650 set NOTIFICATION_ENABLED to True by default
 - [X] PDO-5690 v1.18 Prepare for Ability to Update Upgrade Scripts w/o Release of New Beluga Version
+- [X] PDO-5804 Add REGION env var for healthcheck probes in customer hub
+- [X] PDO-5869 Fix IRSA role for pingfederate-admin-serviceaccount
 
 ### 1.17.0.0
 
