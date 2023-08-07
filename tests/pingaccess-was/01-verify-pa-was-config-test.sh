@@ -251,7 +251,7 @@ testPaWasIdempotent() {
   export APP_ID=123
   export APP_NAME="TestApp"
   export VIRTUAL_HOST_ID=1
-  export SITE_ID=24
+  export SITE_ID=24 # SiteID coorelating to ArgoCD.  This will test will create a new application referencing the ArgoCD site.
 
   # Cleanup from possible previous run failures
   log "Deleting app: ${APP_NAME} if it exists"
@@ -266,10 +266,10 @@ testPaWasIdempotent() {
   assertEquals "Response value was ${response}" 0 $?
 
   if [ "${ENV_TYPE}" != "customer-hub" ]; then
-  log "Deleting PingAccess App"
-  pa_app_id=10
-  response=$(delete_application "${PA_ADMIN_PASSWORD}" "${PINGACCESS_WAS_API}" "${pa_app_id}")
-  assertEquals "Response value was ${response}" 0 $?
+    log "Deleting PingAccess App"
+    pa_app_id=10
+    response=$(delete_application "${PA_ADMIN_PASSWORD}" "${PINGACCESS_WAS_API}" "${pa_app_id}")
+    assertEquals "Response value was ${response}" 0 $?
   fi
 
   log "Backing up PA-WAS"
