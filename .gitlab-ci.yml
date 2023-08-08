@@ -101,7 +101,6 @@ pa-was-integration-tests:
   script:
     - echo "ENV_TYPE ${ENV_TYPE}"
     - if test -n "${ENV_TYPE}"; then export ENV_TYPE=${ENV_TYPE}; fi
-    - export SKIP_TESTS="${BRANCH_SKIP_TESTS}"
     - ${SHARED_CI_SCRIPTS_DIR}/test/run-tests.sh ${TEST}
   dependencies:
     - find-cluster
@@ -128,7 +127,6 @@ chaos-tests:
   script:
     - echo "ENV_TYPE ${ENV_TYPE}"
     - if test -n "${ENV_TYPE}"; then export ENV_TYPE=${ENV_TYPE}; fi
-    - export SKIP_TESTS="${BRANCH_SKIP_TESTS}"
     - ${SHARED_CI_SCRIPTS_DIR}/test/run-tests.sh chaos
   dependencies:
     - find-cluster
