@@ -26,7 +26,6 @@ variables:
     pingdelegator/01-admin-user-login.sh
     pingdirectory/03-backup-restore.sh
     pingdirectory/08-test-http-connection-handler.sh
-  ENV_TYPE: "${ENV_TYPE:-dev}"
 
 ## Compile stage ##
 # compile:
@@ -100,6 +99,8 @@ pa-was-integration-tests:
     - default-gitlab-runner
   image: ${K8S_DEPLOY_TOOLS}
   script:
+    - echo "ENV_TYPE ${ENV_TYPE}"
+    - if test -n "${ENV_TYPE}"; then export ENV_TYPE=${ENV_TYPE}; fi
     - export SKIP_TESTS="${BRANCH_SKIP_TESTS}"
     - ${SHARED_CI_SCRIPTS_DIR}/test/run-tests.sh ${TEST}
   dependencies:
@@ -125,6 +126,8 @@ chaos-tests:
     - default-gitlab-runner
   image: ${K8S_DEPLOY_TOOLS}
   script:
+    - echo "ENV_TYPE ${ENV_TYPE}"
+    - if test -n "${ENV_TYPE}"; then export ENV_TYPE=${ENV_TYPE}; fi
     - export SKIP_TESTS="${BRANCH_SKIP_TESTS}"
     - ${SHARED_CI_SCRIPTS_DIR}/test/run-tests.sh chaos
   dependencies:
