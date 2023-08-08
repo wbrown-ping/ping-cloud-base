@@ -98,7 +98,7 @@ testPingDelegatorImageTag() {
 
 testPingCentralImageTag() {
   if [ "${ENV_TYPE}" != "customer-hub" ] && [ "${CI_PIPELINE_SOURCE}" == "schedule" ]; then
-    log "Customer-hub deployment, skipping test"
+    log "Detected CDE deploy that does not contain PingCentral.  Skipping test"
     return 0
   fi
   $(test "${PINGCENTRAL_IMAGE_TAG}")
