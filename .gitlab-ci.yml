@@ -26,7 +26,7 @@ variables:
     pingdelegator/01-admin-user-login.sh
     pingdirectory/03-backup-restore.sh
     pingdirectory/08-test-http-connection-handler.sh
-  ENV_TYPE: "${ENV_TYPE}"
+  ENV_TYPE: "${ENV_TYPE:-dev}"
 
 ## Compile stage ##
 # compile:
