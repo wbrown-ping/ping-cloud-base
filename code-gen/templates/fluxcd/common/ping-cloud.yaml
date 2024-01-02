@@ -7,6 +7,9 @@ metadata:
   name: ${PING_CLOUD_NAMESPACE}
   labels:
     app: ${PING_CLOUD_NAMESPACE}
+  annotations:
+    argocd.argoproj.io/compare-options: IgnoreExtraneous
+
 
 ---
 
