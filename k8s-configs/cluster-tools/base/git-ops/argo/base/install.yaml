@@ -355,8 +355,6 @@ spec:
                             description: Namespace sets the namespace that Kustomize
                               adds to all resources
                             type: string
-<<<<<<< Updated upstream
-=======
                           patches:
                             description: Patches is a list of Kustomize patches
                             items:
@@ -388,7 +386,6 @@ spec:
                                   type: object
                               type: object
                             type: array
->>>>>>> Stashed changes
                           replicas:
                             description: Replicas is a list of Kustomize Replicas
                               override specifications
@@ -657,15 +654,12 @@ spec:
                               description: CommonLabels is a list of additional labels
                                 to add to rendered manifests
                               type: object
-<<<<<<< Updated upstream
-=======
                             components:
                               description: Components specifies a list of kustomize
                                 components to add to the kustomization before building
                               items:
                                 type: string
                               type: array
->>>>>>> Stashed changes
                             forceCommonAnnotations:
                               description: ForceCommonAnnotations specifies whether
                                 to force applying common annotations to resources
@@ -696,8 +690,6 @@ spec:
                               description: Namespace sets the namespace that Kustomize
                                 adds to all resources
                               type: string
-<<<<<<< Updated upstream
-=======
                             patches:
                               description: Patches is a list of Kustomize patches
                               items:
@@ -729,7 +721,6 @@ spec:
                                     type: object
                                 type: object
                               type: array
->>>>>>> Stashed changes
                             replicas:
                               description: Replicas is a list of Kustomize Replicas
                                 override specifications
@@ -1148,8 +1139,6 @@ spec:
                         description: Namespace sets the namespace that Kustomize adds
                           to all resources
                         type: string
-<<<<<<< Updated upstream
-=======
                       patches:
                         description: Patches is a list of Kustomize patches
                         items:
@@ -1181,7 +1170,6 @@ spec:
                               type: object
                           type: object
                         type: array
->>>>>>> Stashed changes
                       replicas:
                         description: Replicas is a list of Kustomize Replicas override
                           specifications
@@ -1441,15 +1429,12 @@ spec:
                           description: CommonLabels is a list of additional labels
                             to add to rendered manifests
                           type: object
-<<<<<<< Updated upstream
-=======
                         components:
                           description: Components specifies a list of kustomize components
                             to add to the kustomization before building
                           items:
                             type: string
                           type: array
->>>>>>> Stashed changes
                         forceCommonAnnotations:
                           description: ForceCommonAnnotations specifies whether to
                             force applying common annotations to resources for Kustomize
@@ -1479,8 +1464,6 @@ spec:
                           description: Namespace sets the namespace that Kustomize
                             adds to all resources
                           type: string
-<<<<<<< Updated upstream
-=======
                         patches:
                           description: Patches is a list of Kustomize patches
                           items:
@@ -1512,7 +1495,6 @@ spec:
                                 type: object
                             type: object
                           type: array
->>>>>>> Stashed changes
                         replicas:
                           description: Replicas is a list of Kustomize Replicas override
                             specifications
@@ -1960,8 +1942,6 @@ spec:
                               description: Namespace sets the namespace that Kustomize
                                 adds to all resources
                               type: string
-<<<<<<< Updated upstream
-=======
                             patches:
                               description: Patches is a list of Kustomize patches
                               items:
@@ -1993,7 +1973,6 @@ spec:
                                     type: object
                                 type: object
                               type: array
->>>>>>> Stashed changes
                             replicas:
                               description: Replicas is a list of Kustomize Replicas
                                 override specifications
@@ -2265,15 +2244,12 @@ spec:
                                 description: CommonLabels is a list of additional
                                   labels to add to rendered manifests
                                 type: object
-<<<<<<< Updated upstream
-=======
                               components:
                                 description: Components specifies a list of kustomize
                                   components to add to the kustomization before building
                                 items:
                                   type: string
                                 type: array
->>>>>>> Stashed changes
                               forceCommonAnnotations:
                                 description: ForceCommonAnnotations specifies whether
                                   to force applying common annotations to resources
@@ -2304,8 +2280,6 @@ spec:
                                 description: Namespace sets the namespace that Kustomize
                                   adds to all resources
                                 type: string
-<<<<<<< Updated upstream
-=======
                               patches:
                                 description: Patches is a list of Kustomize patches
                                 items:
@@ -2337,7 +2311,6 @@ spec:
                                       type: object
                                   type: object
                                 type: array
->>>>>>> Stashed changes
                               replicas:
                                 description: Replicas is a list of Kustomize Replicas
                                   override specifications
@@ -2790,8 +2763,6 @@ spec:
                                     description: Namespace sets the namespace that
                                       Kustomize adds to all resources
                                     type: string
-<<<<<<< Updated upstream
-=======
                                   patches:
                                     description: Patches is a list of Kustomize patches
                                     items:
@@ -2823,7 +2794,6 @@ spec:
                                           type: object
                                       type: object
                                     type: array
->>>>>>> Stashed changes
                                   replicas:
                                     description: Replicas is a list of Kustomize Replicas
                                       override specifications
@@ -3112,8 +3082,6 @@ spec:
                                       description: CommonLabels is a list of additional
                                         labels to add to rendered manifests
                                       type: object
-<<<<<<< Updated upstream
-=======
                                     components:
                                       description: Components specifies a list of
                                         kustomize components to add to the kustomization
@@ -3121,7 +3089,6 @@ spec:
                                       items:
                                         type: string
                                       type: array
->>>>>>> Stashed changes
                                     forceCommonAnnotations:
                                       description: ForceCommonAnnotations specifies
                                         whether to force applying common annotations
@@ -3152,8 +3119,6 @@ spec:
                                       description: Namespace sets the namespace that
                                         Kustomize adds to all resources
                                       type: string
-<<<<<<< Updated upstream
-=======
                                     patches:
                                       description: Patches is a list of Kustomize
                                         patches
@@ -3186,7 +3151,6 @@ spec:
                                             type: object
                                         type: object
                                       type: array
->>>>>>> Stashed changes
                                     replicas:
                                       description: Replicas is a list of Kustomize
                                         Replicas override specifications
@@ -3625,8 +3589,6 @@ spec:
                                 description: Namespace sets the namespace that Kustomize
                                   adds to all resources
                                 type: string
-<<<<<<< Updated upstream
-=======
                               patches:
                                 description: Patches is a list of Kustomize patches
                                 items:
@@ -3658,7 +3620,6 @@ spec:
                                       type: object
                                   type: object
                                 type: array
->>>>>>> Stashed changes
                               replicas:
                                 description: Replicas is a list of Kustomize Replicas
                                   override specifications
@@ -3940,8 +3901,6 @@ spec:
                                   description: CommonLabels is a list of additional
                                     labels to add to rendered manifests
                                   type: object
-<<<<<<< Updated upstream
-=======
                                 components:
                                   description: Components specifies a list of kustomize
                                     components to add to the kustomization before
@@ -3949,7 +3908,6 @@ spec:
                                   items:
                                     type: string
                                   type: array
->>>>>>> Stashed changes
                                 forceCommonAnnotations:
                                   description: ForceCommonAnnotations specifies whether
                                     to force applying common annotations to resources
@@ -3980,8 +3938,6 @@ spec:
                                   description: Namespace sets the namespace that Kustomize
                                     adds to all resources
                                   type: string
-<<<<<<< Updated upstream
-=======
                                 patches:
                                   description: Patches is a list of Kustomize patches
                                   items:
@@ -4013,7 +3969,6 @@ spec:
                                         type: object
                                     type: object
                                   type: array
->>>>>>> Stashed changes
                                 replicas:
                                   description: Replicas is a list of Kustomize Replicas
                                     override specifications
@@ -4475,8 +4430,6 @@ spec:
                                 description: Namespace sets the namespace that Kustomize
                                   adds to all resources
                                 type: string
-<<<<<<< Updated upstream
-=======
                               patches:
                                 description: Patches is a list of Kustomize patches
                                 items:
@@ -4508,7 +4461,6 @@ spec:
                                       type: object
                                   type: object
                                 type: array
->>>>>>> Stashed changes
                               replicas:
                                 description: Replicas is a list of Kustomize Replicas
                                   override specifications
@@ -4790,8 +4742,6 @@ spec:
                                   description: CommonLabels is a list of additional
                                     labels to add to rendered manifests
                                   type: object
-<<<<<<< Updated upstream
-=======
                                 components:
                                   description: Components specifies a list of kustomize
                                     components to add to the kustomization before
@@ -4799,7 +4749,6 @@ spec:
                                   items:
                                     type: string
                                   type: array
->>>>>>> Stashed changes
                                 forceCommonAnnotations:
                                   description: ForceCommonAnnotations specifies whether
                                     to force applying common annotations to resources
@@ -4830,8 +4779,6 @@ spec:
                                   description: Namespace sets the namespace that Kustomize
                                     adds to all resources
                                   type: string
-<<<<<<< Updated upstream
-=======
                                 patches:
                                   description: Patches is a list of Kustomize patches
                                   items:
@@ -4863,7 +4810,6 @@ spec:
                                         type: object
                                     type: object
                                   type: array
->>>>>>> Stashed changes
                                 replicas:
                                   description: Replicas is a list of Kustomize Replicas
                                     override specifications
@@ -5256,8 +5202,6 @@ spec:
                                           type: string
                                         namespace:
                                           type: string
-<<<<<<< Updated upstream
-=======
                                         patches:
                                           items:
                                             properties:
@@ -5288,7 +5232,6 @@ spec:
                                                 type: object
                                             type: object
                                           type: array
->>>>>>> Stashed changes
                                         replicas:
                                           items:
                                             properties:
@@ -5455,13 +5398,10 @@ spec:
                                             additionalProperties:
                                               type: string
                                             type: object
-<<<<<<< Updated upstream
-=======
                                           components:
                                             items:
                                               type: string
                                             type: array
->>>>>>> Stashed changes
                                           forceCommonAnnotations:
                                             type: boolean
                                           forceCommonLabels:
@@ -5476,8 +5416,6 @@ spec:
                                             type: string
                                           namespace:
                                             type: string
-<<<<<<< Updated upstream
-=======
                                           patches:
                                             items:
                                               properties:
@@ -5508,7 +5446,6 @@ spec:
                                                   type: object
                                               type: object
                                             type: array
->>>>>>> Stashed changes
                                           replicas:
                                             items:
                                               properties:
@@ -5852,8 +5789,6 @@ spec:
                                           type: string
                                         namespace:
                                           type: string
-<<<<<<< Updated upstream
-=======
                                         patches:
                                           items:
                                             properties:
@@ -5884,7 +5819,6 @@ spec:
                                                 type: object
                                             type: object
                                           type: array
->>>>>>> Stashed changes
                                         replicas:
                                           items:
                                             properties:
@@ -6051,13 +5985,10 @@ spec:
                                             additionalProperties:
                                               type: string
                                             type: object
-<<<<<<< Updated upstream
-=======
                                           components:
                                             items:
                                               type: string
                                             type: array
->>>>>>> Stashed changes
                                           forceCommonAnnotations:
                                             type: boolean
                                           forceCommonLabels:
@@ -6072,8 +6003,6 @@ spec:
                                             type: string
                                           namespace:
                                             type: string
-<<<<<<< Updated upstream
-=======
                                           patches:
                                             items:
                                               properties:
@@ -6104,7 +6033,6 @@ spec:
                                                   type: object
                                               type: object
                                             type: array
->>>>>>> Stashed changes
                                           replicas:
                                             items:
                                               properties:
@@ -6452,8 +6380,6 @@ spec:
                                           type: string
                                         namespace:
                                           type: string
-<<<<<<< Updated upstream
-=======
                                         patches:
                                           items:
                                             properties:
@@ -6484,7 +6410,6 @@ spec:
                                                 type: object
                                             type: object
                                           type: array
->>>>>>> Stashed changes
                                         replicas:
                                           items:
                                             properties:
@@ -6651,13 +6576,10 @@ spec:
                                             additionalProperties:
                                               type: string
                                             type: object
-<<<<<<< Updated upstream
-=======
                                           components:
                                             items:
                                               type: string
                                             type: array
->>>>>>> Stashed changes
                                           forceCommonAnnotations:
                                             type: boolean
                                           forceCommonLabels:
@@ -6672,8 +6594,6 @@ spec:
                                             type: string
                                           namespace:
                                             type: string
-<<<<<<< Updated upstream
-=======
                                           patches:
                                             items:
                                               properties:
@@ -6704,7 +6624,6 @@ spec:
                                                   type: object
                                               type: object
                                             type: array
->>>>>>> Stashed changes
                                           replicas:
                                             items:
                                               properties:
@@ -7032,8 +6951,6 @@ spec:
                                           type: string
                                         namespace:
                                           type: string
-<<<<<<< Updated upstream
-=======
                                         patches:
                                           items:
                                             properties:
@@ -7064,7 +6981,6 @@ spec:
                                                 type: object
                                             type: object
                                           type: array
->>>>>>> Stashed changes
                                         replicas:
                                           items:
                                             properties:
@@ -7231,13 +7147,10 @@ spec:
                                             additionalProperties:
                                               type: string
                                             type: object
-<<<<<<< Updated upstream
-=======
                                           components:
                                             items:
                                               type: string
                                             type: array
->>>>>>> Stashed changes
                                           forceCommonAnnotations:
                                             type: boolean
                                           forceCommonLabels:
@@ -7252,8 +7165,6 @@ spec:
                                             type: string
                                           namespace:
                                             type: string
-<<<<<<< Updated upstream
-=======
                                           patches:
                                             items:
                                               properties:
@@ -7284,7 +7195,6 @@ spec:
                                                   type: object
                                               type: object
                                             type: array
->>>>>>> Stashed changes
                                           replicas:
                                             items:
                                               properties:
@@ -7636,8 +7546,6 @@ spec:
                                                     type: string
                                                   namespace:
                                                     type: string
-<<<<<<< Updated upstream
-=======
                                                   patches:
                                                     items:
                                                       properties:
@@ -7668,7 +7576,6 @@ spec:
                                                           type: object
                                                       type: object
                                                     type: array
->>>>>>> Stashed changes
                                                   replicas:
                                                     items:
                                                       properties:
@@ -7835,13 +7742,10 @@ spec:
                                                       additionalProperties:
                                                         type: string
                                                       type: object
-<<<<<<< Updated upstream
-=======
                                                     components:
                                                       items:
                                                         type: string
                                                       type: array
->>>>>>> Stashed changes
                                                     forceCommonAnnotations:
                                                       type: boolean
                                                     forceCommonLabels:
@@ -7856,8 +7760,6 @@ spec:
                                                       type: string
                                                     namespace:
                                                       type: string
-<<<<<<< Updated upstream
-=======
                                                     patches:
                                                       items:
                                                         properties:
@@ -7888,7 +7790,6 @@ spec:
                                                             type: object
                                                         type: object
                                                       type: array
->>>>>>> Stashed changes
                                                     replicas:
                                                       items:
                                                         properties:
@@ -8232,8 +8133,6 @@ spec:
                                                     type: string
                                                   namespace:
                                                     type: string
-<<<<<<< Updated upstream
-=======
                                                   patches:
                                                     items:
                                                       properties:
@@ -8264,7 +8163,6 @@ spec:
                                                           type: object
                                                       type: object
                                                     type: array
->>>>>>> Stashed changes
                                                   replicas:
                                                     items:
                                                       properties:
@@ -8431,13 +8329,10 @@ spec:
                                                       additionalProperties:
                                                         type: string
                                                       type: object
-<<<<<<< Updated upstream
-=======
                                                     components:
                                                       items:
                                                         type: string
                                                       type: array
->>>>>>> Stashed changes
                                                     forceCommonAnnotations:
                                                       type: boolean
                                                     forceCommonLabels:
@@ -8452,8 +8347,6 @@ spec:
                                                       type: string
                                                     namespace:
                                                       type: string
-<<<<<<< Updated upstream
-=======
                                                     patches:
                                                       items:
                                                         properties:
@@ -8484,7 +8377,6 @@ spec:
                                                             type: object
                                                         type: object
                                                       type: array
->>>>>>> Stashed changes
                                                     replicas:
                                                       items:
                                                         properties:
@@ -8832,8 +8724,6 @@ spec:
                                                     type: string
                                                   namespace:
                                                     type: string
-<<<<<<< Updated upstream
-=======
                                                   patches:
                                                     items:
                                                       properties:
@@ -8864,7 +8754,6 @@ spec:
                                                           type: object
                                                       type: object
                                                     type: array
->>>>>>> Stashed changes
                                                   replicas:
                                                     items:
                                                       properties:
@@ -9031,13 +8920,10 @@ spec:
                                                       additionalProperties:
                                                         type: string
                                                       type: object
-<<<<<<< Updated upstream
-=======
                                                     components:
                                                       items:
                                                         type: string
                                                       type: array
->>>>>>> Stashed changes
                                                     forceCommonAnnotations:
                                                       type: boolean
                                                     forceCommonLabels:
@@ -9052,8 +8938,6 @@ spec:
                                                       type: string
                                                     namespace:
                                                       type: string
-<<<<<<< Updated upstream
-=======
                                                     patches:
                                                       items:
                                                         properties:
@@ -9084,7 +8968,6 @@ spec:
                                                             type: object
                                                         type: object
                                                       type: array
->>>>>>> Stashed changes
                                                     replicas:
                                                       items:
                                                         properties:
@@ -9412,8 +9295,6 @@ spec:
                                                     type: string
                                                   namespace:
                                                     type: string
-<<<<<<< Updated upstream
-=======
                                                   patches:
                                                     items:
                                                       properties:
@@ -9444,7 +9325,6 @@ spec:
                                                           type: object
                                                       type: object
                                                     type: array
->>>>>>> Stashed changes
                                                   replicas:
                                                     items:
                                                       properties:
@@ -9611,13 +9491,10 @@ spec:
                                                       additionalProperties:
                                                         type: string
                                                       type: object
-<<<<<<< Updated upstream
-=======
                                                     components:
                                                       items:
                                                         type: string
                                                       type: array
->>>>>>> Stashed changes
                                                     forceCommonAnnotations:
                                                       type: boolean
                                                     forceCommonLabels:
@@ -9632,8 +9509,6 @@ spec:
                                                       type: string
                                                     namespace:
                                                       type: string
-<<<<<<< Updated upstream
-=======
                                                     patches:
                                                       items:
                                                         properties:
@@ -9664,7 +9539,6 @@ spec:
                                                             type: object
                                                         type: object
                                                       type: array
->>>>>>> Stashed changes
                                                     replicas:
                                                       items:
                                                         properties:
@@ -9984,13 +9858,10 @@ spec:
                                                     additionalProperties:
                                                       type: string
                                                     type: object
-<<<<<<< Updated upstream
-=======
                                                   components:
                                                     items:
                                                       type: string
                                                     type: array
->>>>>>> Stashed changes
                                                   forceCommonAnnotations:
                                                     type: boolean
                                                   forceCommonLabels:
@@ -10005,8 +9876,6 @@ spec:
                                                     type: string
                                                   namespace:
                                                     type: string
-<<<<<<< Updated upstream
-=======
                                                   patches:
                                                     items:
                                                       properties:
@@ -10037,7 +9906,6 @@ spec:
                                                           type: object
                                                       type: object
                                                     type: array
->>>>>>> Stashed changes
                                                   replicas:
                                                     items:
                                                       properties:
@@ -10204,13 +10072,10 @@ spec:
                                                       additionalProperties:
                                                         type: string
                                                       type: object
-<<<<<<< Updated upstream
-=======
                                                     components:
                                                       items:
                                                         type: string
                                                       type: array
->>>>>>> Stashed changes
                                                     forceCommonAnnotations:
                                                       type: boolean
                                                     forceCommonLabels:
@@ -10225,8 +10090,6 @@ spec:
                                                       type: string
                                                     namespace:
                                                       type: string
-<<<<<<< Updated upstream
-=======
                                                     patches:
                                                       items:
                                                         properties:
@@ -10257,7 +10120,6 @@ spec:
                                                             type: object
                                                         type: object
                                                       type: array
->>>>>>> Stashed changes
                                                     replicas:
                                                       items:
                                                         properties:
@@ -10775,8 +10637,6 @@ spec:
                                                     type: string
                                                   namespace:
                                                     type: string
-<<<<<<< Updated upstream
-=======
                                                   patches:
                                                     items:
                                                       properties:
@@ -10807,7 +10667,6 @@ spec:
                                                           type: object
                                                       type: object
                                                     type: array
->>>>>>> Stashed changes
                                                   replicas:
                                                     items:
                                                       properties:
@@ -10974,13 +10833,10 @@ spec:
                                                       additionalProperties:
                                                         type: string
                                                       type: object
-<<<<<<< Updated upstream
-=======
                                                     components:
                                                       items:
                                                         type: string
                                                       type: array
->>>>>>> Stashed changes
                                                     forceCommonAnnotations:
                                                       type: boolean
                                                     forceCommonLabels:
@@ -10995,8 +10851,6 @@ spec:
                                                       type: string
                                                     namespace:
                                                       type: string
-<<<<<<< Updated upstream
-=======
                                                     patches:
                                                       items:
                                                         properties:
@@ -11027,7 +10881,6 @@ spec:
                                                             type: object
                                                         type: object
                                                       type: array
->>>>>>> Stashed changes
                                                     replicas:
                                                       items:
                                                         properties:
@@ -11540,8 +11393,6 @@ spec:
                                                     type: string
                                                   namespace:
                                                     type: string
-<<<<<<< Updated upstream
-=======
                                                   patches:
                                                     items:
                                                       properties:
@@ -11572,7 +11423,6 @@ spec:
                                                           type: object
                                                       type: object
                                                     type: array
->>>>>>> Stashed changes
                                                   replicas:
                                                     items:
                                                       properties:
@@ -11739,13 +11589,10 @@ spec:
                                                       additionalProperties:
                                                         type: string
                                                       type: object
-<<<<<<< Updated upstream
-=======
                                                     components:
                                                       items:
                                                         type: string
                                                       type: array
->>>>>>> Stashed changes
                                                     forceCommonAnnotations:
                                                       type: boolean
                                                     forceCommonLabels:
@@ -11760,8 +11607,6 @@ spec:
                                                       type: string
                                                     namespace:
                                                       type: string
-<<<<<<< Updated upstream
-=======
                                                     patches:
                                                       items:
                                                         properties:
@@ -11792,7 +11637,6 @@ spec:
                                                             type: object
                                                         type: object
                                                       type: array
->>>>>>> Stashed changes
                                                     replicas:
                                                       items:
                                                         properties:
@@ -12134,8 +11978,6 @@ spec:
                                           type: string
                                         namespace:
                                           type: string
-<<<<<<< Updated upstream
-=======
                                         patches:
                                           items:
                                             properties:
@@ -12166,7 +12008,6 @@ spec:
                                                 type: object
                                             type: object
                                           type: array
->>>>>>> Stashed changes
                                         replicas:
                                           items:
                                             properties:
@@ -12333,13 +12174,10 @@ spec:
                                             additionalProperties:
                                               type: string
                                             type: object
-<<<<<<< Updated upstream
-=======
                                           components:
                                             items:
                                               type: string
                                             type: array
->>>>>>> Stashed changes
                                           forceCommonAnnotations:
                                             type: boolean
                                           forceCommonLabels:
@@ -12354,8 +12192,6 @@ spec:
                                             type: string
                                           namespace:
                                             type: string
-<<<<<<< Updated upstream
-=======
                                           patches:
                                             items:
                                               properties:
@@ -12386,7 +12222,6 @@ spec:
                                                   type: object
                                               type: object
                                             type: array
->>>>>>> Stashed changes
                                           replicas:
                                             items:
                                               properties:
@@ -12738,8 +12573,6 @@ spec:
                                                     type: string
                                                   namespace:
                                                     type: string
-<<<<<<< Updated upstream
-=======
                                                   patches:
                                                     items:
                                                       properties:
@@ -12770,7 +12603,6 @@ spec:
                                                           type: object
                                                       type: object
                                                     type: array
->>>>>>> Stashed changes
                                                   replicas:
                                                     items:
                                                       properties:
@@ -12937,13 +12769,10 @@ spec:
                                                       additionalProperties:
                                                         type: string
                                                       type: object
-<<<<<<< Updated upstream
-=======
                                                     components:
                                                       items:
                                                         type: string
                                                       type: array
->>>>>>> Stashed changes
                                                     forceCommonAnnotations:
                                                       type: boolean
                                                     forceCommonLabels:
@@ -12958,8 +12787,6 @@ spec:
                                                       type: string
                                                     namespace:
                                                       type: string
-<<<<<<< Updated upstream
-=======
                                                     patches:
                                                       items:
                                                         properties:
@@ -12990,7 +12817,6 @@ spec:
                                                             type: object
                                                         type: object
                                                       type: array
->>>>>>> Stashed changes
                                                     replicas:
                                                       items:
                                                         properties:
@@ -13334,8 +13160,6 @@ spec:
                                                     type: string
                                                   namespace:
                                                     type: string
-<<<<<<< Updated upstream
-=======
                                                   patches:
                                                     items:
                                                       properties:
@@ -13366,7 +13190,6 @@ spec:
                                                           type: object
                                                       type: object
                                                     type: array
->>>>>>> Stashed changes
                                                   replicas:
                                                     items:
                                                       properties:
@@ -13533,13 +13356,10 @@ spec:
                                                       additionalProperties:
                                                         type: string
                                                       type: object
-<<<<<<< Updated upstream
-=======
                                                     components:
                                                       items:
                                                         type: string
                                                       type: array
->>>>>>> Stashed changes
                                                     forceCommonAnnotations:
                                                       type: boolean
                                                     forceCommonLabels:
@@ -13554,8 +13374,6 @@ spec:
                                                       type: string
                                                     namespace:
                                                       type: string
-<<<<<<< Updated upstream
-=======
                                                     patches:
                                                       items:
                                                         properties:
@@ -13586,7 +13404,6 @@ spec:
                                                             type: object
                                                         type: object
                                                       type: array
->>>>>>> Stashed changes
                                                     replicas:
                                                       items:
                                                         properties:
@@ -13934,8 +13751,6 @@ spec:
                                                     type: string
                                                   namespace:
                                                     type: string
-<<<<<<< Updated upstream
-=======
                                                   patches:
                                                     items:
                                                       properties:
@@ -13966,7 +13781,6 @@ spec:
                                                           type: object
                                                       type: object
                                                     type: array
->>>>>>> Stashed changes
                                                   replicas:
                                                     items:
                                                       properties:
@@ -14133,13 +13947,10 @@ spec:
                                                       additionalProperties:
                                                         type: string
                                                       type: object
-<<<<<<< Updated upstream
-=======
                                                     components:
                                                       items:
                                                         type: string
                                                       type: array
->>>>>>> Stashed changes
                                                     forceCommonAnnotations:
                                                       type: boolean
                                                     forceCommonLabels:
@@ -14154,8 +13965,6 @@ spec:
                                                       type: string
                                                     namespace:
                                                       type: string
-<<<<<<< Updated upstream
-=======
                                                     patches:
                                                       items:
                                                         properties:
@@ -14186,7 +13995,6 @@ spec:
                                                             type: object
                                                         type: object
                                                       type: array
->>>>>>> Stashed changes
                                                     replicas:
                                                       items:
                                                         properties:
@@ -14514,8 +14322,6 @@ spec:
                                                     type: string
                                                   namespace:
                                                     type: string
-<<<<<<< Updated upstream
-=======
                                                   patches:
                                                     items:
                                                       properties:
@@ -14546,7 +14352,6 @@ spec:
                                                           type: object
                                                       type: object
                                                     type: array
->>>>>>> Stashed changes
                                                   replicas:
                                                     items:
                                                       properties:
@@ -14713,13 +14518,10 @@ spec:
                                                       additionalProperties:
                                                         type: string
                                                       type: object
-<<<<<<< Updated upstream
-=======
                                                     components:
                                                       items:
                                                         type: string
                                                       type: array
->>>>>>> Stashed changes
                                                     forceCommonAnnotations:
                                                       type: boolean
                                                     forceCommonLabels:
@@ -14734,8 +14536,6 @@ spec:
                                                       type: string
                                                     namespace:
                                                       type: string
-<<<<<<< Updated upstream
-=======
                                                     patches:
                                                       items:
                                                         properties:
@@ -14766,7 +14566,6 @@ spec:
                                                             type: object
                                                         type: object
                                                       type: array
->>>>>>> Stashed changes
                                                     replicas:
                                                       items:
                                                         properties:
@@ -15086,13 +14885,10 @@ spec:
                                                     additionalProperties:
                                                       type: string
                                                     type: object
-<<<<<<< Updated upstream
-=======
                                                   components:
                                                     items:
                                                       type: string
                                                     type: array
->>>>>>> Stashed changes
                                                   forceCommonAnnotations:
                                                     type: boolean
                                                   forceCommonLabels:
@@ -15107,8 +14903,6 @@ spec:
                                                     type: string
                                                   namespace:
                                                     type: string
-<<<<<<< Updated upstream
-=======
                                                   patches:
                                                     items:
                                                       properties:
@@ -15139,7 +14933,6 @@ spec:
                                                           type: object
                                                       type: object
                                                     type: array
->>>>>>> Stashed changes
                                                   replicas:
                                                     items:
                                                       properties:
@@ -15306,13 +15099,10 @@ spec:
                                                       additionalProperties:
                                                         type: string
                                                       type: object
-<<<<<<< Updated upstream
-=======
                                                     components:
                                                       items:
                                                         type: string
                                                       type: array
->>>>>>> Stashed changes
                                                     forceCommonAnnotations:
                                                       type: boolean
                                                     forceCommonLabels:
@@ -15327,8 +15117,6 @@ spec:
                                                       type: string
                                                     namespace:
                                                       type: string
-<<<<<<< Updated upstream
-=======
                                                     patches:
                                                       items:
                                                         properties:
@@ -15359,7 +15147,6 @@ spec:
                                                             type: object
                                                         type: object
                                                       type: array
->>>>>>> Stashed changes
                                                     replicas:
                                                       items:
                                                         properties:
@@ -15877,8 +15664,6 @@ spec:
                                                     type: string
                                                   namespace:
                                                     type: string
-<<<<<<< Updated upstream
-=======
                                                   patches:
                                                     items:
                                                       properties:
@@ -15909,7 +15694,6 @@ spec:
                                                           type: object
                                                       type: object
                                                     type: array
->>>>>>> Stashed changes
                                                   replicas:
                                                     items:
                                                       properties:
@@ -16076,13 +15860,10 @@ spec:
                                                       additionalProperties:
                                                         type: string
                                                       type: object
-<<<<<<< Updated upstream
-=======
                                                     components:
                                                       items:
                                                         type: string
                                                       type: array
->>>>>>> Stashed changes
                                                     forceCommonAnnotations:
                                                       type: boolean
                                                     forceCommonLabels:
@@ -16097,8 +15878,6 @@ spec:
                                                       type: string
                                                     namespace:
                                                       type: string
-<<<<<<< Updated upstream
-=======
                                                     patches:
                                                       items:
                                                         properties:
@@ -16129,7 +15908,6 @@ spec:
                                                             type: object
                                                         type: object
                                                       type: array
->>>>>>> Stashed changes
                                                     replicas:
                                                       items:
                                                         properties:
@@ -16642,8 +16420,6 @@ spec:
                                                     type: string
                                                   namespace:
                                                     type: string
-<<<<<<< Updated upstream
-=======
                                                   patches:
                                                     items:
                                                       properties:
@@ -16674,7 +16450,6 @@ spec:
                                                           type: object
                                                       type: object
                                                     type: array
->>>>>>> Stashed changes
                                                   replicas:
                                                     items:
                                                       properties:
@@ -16841,13 +16616,10 @@ spec:
                                                       additionalProperties:
                                                         type: string
                                                       type: object
-<<<<<<< Updated upstream
-=======
                                                     components:
                                                       items:
                                                         type: string
                                                       type: array
->>>>>>> Stashed changes
                                                     forceCommonAnnotations:
                                                       type: boolean
                                                     forceCommonLabels:
@@ -16862,8 +16634,6 @@ spec:
                                                       type: string
                                                     namespace:
                                                       type: string
-<<<<<<< Updated upstream
-=======
                                                     patches:
                                                       items:
                                                         properties:
@@ -16894,7 +16664,6 @@ spec:
                                                             type: object
                                                         type: object
                                                       type: array
->>>>>>> Stashed changes
                                                     replicas:
                                                       items:
                                                         properties:
@@ -17240,8 +17009,6 @@ spec:
                                           type: string
                                         namespace:
                                           type: string
-<<<<<<< Updated upstream
-=======
                                         patches:
                                           items:
                                             properties:
@@ -17272,7 +17039,6 @@ spec:
                                                 type: object
                                             type: object
                                           type: array
->>>>>>> Stashed changes
                                         replicas:
                                           items:
                                             properties:
@@ -17439,13 +17205,10 @@ spec:
                                             additionalProperties:
                                               type: string
                                             type: object
-<<<<<<< Updated upstream
-=======
                                           components:
                                             items:
                                               type: string
                                             type: array
->>>>>>> Stashed changes
                                           forceCommonAnnotations:
                                             type: boolean
                                           forceCommonLabels:
@@ -17460,8 +17223,6 @@ spec:
                                             type: string
                                           namespace:
                                             type: string
-<<<<<<< Updated upstream
-=======
                                           patches:
                                             items:
                                               properties:
@@ -17492,7 +17253,6 @@ spec:
                                                   type: object
                                               type: object
                                             type: array
->>>>>>> Stashed changes
                                           replicas:
                                             items:
                                               properties:
@@ -17809,13 +17569,10 @@ spec:
                                           additionalProperties:
                                             type: string
                                           type: object
-<<<<<<< Updated upstream
-=======
                                         components:
                                           items:
                                             type: string
                                           type: array
->>>>>>> Stashed changes
                                         forceCommonAnnotations:
                                           type: boolean
                                         forceCommonLabels:
@@ -17830,8 +17587,6 @@ spec:
                                           type: string
                                         namespace:
                                           type: string
-<<<<<<< Updated upstream
-=======
                                         patches:
                                           items:
                                             properties:
@@ -17862,7 +17617,6 @@ spec:
                                                 type: object
                                             type: object
                                           type: array
->>>>>>> Stashed changes
                                         replicas:
                                           items:
                                             properties:
@@ -18029,13 +17783,10 @@ spec:
                                             additionalProperties:
                                               type: string
                                             type: object
-<<<<<<< Updated upstream
-=======
                                           components:
                                             items:
                                               type: string
                                             type: array
->>>>>>> Stashed changes
                                           forceCommonAnnotations:
                                             type: boolean
                                           forceCommonLabels:
@@ -18050,8 +17801,6 @@ spec:
                                             type: string
                                           namespace:
                                             type: string
-<<<<<<< Updated upstream
-=======
                                           patches:
                                             items:
                                               properties:
@@ -18082,7 +17831,6 @@ spec:
                                                   type: object
                                               type: object
                                             type: array
->>>>>>> Stashed changes
                                           replicas:
                                             items:
                                               properties:
@@ -18600,8 +18348,6 @@ spec:
                                           type: string
                                         namespace:
                                           type: string
-<<<<<<< Updated upstream
-=======
                                         patches:
                                           items:
                                             properties:
@@ -18632,7 +18378,6 @@ spec:
                                                 type: object
                                             type: object
                                           type: array
->>>>>>> Stashed changes
                                         replicas:
                                           items:
                                             properties:
@@ -18799,13 +18544,10 @@ spec:
                                             additionalProperties:
                                               type: string
                                             type: object
-<<<<<<< Updated upstream
-=======
                                           components:
                                             items:
                                               type: string
                                             type: array
->>>>>>> Stashed changes
                                           forceCommonAnnotations:
                                             type: boolean
                                           forceCommonLabels:
@@ -18820,8 +18562,6 @@ spec:
                                             type: string
                                           namespace:
                                             type: string
-<<<<<<< Updated upstream
-=======
                                           patches:
                                             items:
                                               properties:
@@ -18852,7 +18592,6 @@ spec:
                                                   type: object
                                               type: object
                                             type: array
->>>>>>> Stashed changes
                                           replicas:
                                             items:
                                               properties:
@@ -19365,8 +19104,6 @@ spec:
                                           type: string
                                         namespace:
                                           type: string
-<<<<<<< Updated upstream
-=======
                                         patches:
                                           items:
                                             properties:
@@ -19397,7 +19134,6 @@ spec:
                                                 type: object
                                             type: object
                                           type: array
->>>>>>> Stashed changes
                                         replicas:
                                           items:
                                             properties:
@@ -19564,13 +19300,10 @@ spec:
                                             additionalProperties:
                                               type: string
                                             type: object
-<<<<<<< Updated upstream
-=======
                                           components:
                                             items:
                                               type: string
                                             type: array
->>>>>>> Stashed changes
                                           forceCommonAnnotations:
                                             type: boolean
                                           forceCommonLabels:
@@ -19585,8 +19318,6 @@ spec:
                                             type: string
                                           namespace:
                                             type: string
-<<<<<<< Updated upstream
-=======
                                           patches:
                                             items:
                                               properties:
@@ -19617,7 +19348,6 @@ spec:
                                                   type: object
                                               type: object
                                             type: array
->>>>>>> Stashed changes
                                           replicas:
                                             items:
                                               properties:
@@ -19769,8 +19499,6 @@ spec:
                 items:
                   type: string
                 type: array
-<<<<<<< Updated upstream
-=======
               ignoreApplicationDifferences:
                 items:
                   properties:
@@ -19786,20 +19514,16 @@ spec:
                       type: string
                   type: object
                 type: array
->>>>>>> Stashed changes
               preservedFields:
                 properties:
                   annotations:
                     items:
                       type: string
                     type: array
-<<<<<<< Updated upstream
-=======
                   labels:
                     items:
                       type: string
                     type: array
->>>>>>> Stashed changes
                 type: object
               strategy:
                 properties:
@@ -20040,8 +19764,6 @@ spec:
                                 type: string
                               namespace:
                                 type: string
-<<<<<<< Updated upstream
-=======
                               patches:
                                 items:
                                   properties:
@@ -20072,7 +19794,6 @@ spec:
                                       type: object
                                   type: object
                                 type: array
->>>>>>> Stashed changes
                               replicas:
                                 items:
                                   properties:
@@ -20239,13 +19960,10 @@ spec:
                                   additionalProperties:
                                     type: string
                                   type: object
-<<<<<<< Updated upstream
-=======
                                 components:
                                   items:
                                     type: string
                                   type: array
->>>>>>> Stashed changes
                                 forceCommonAnnotations:
                                   type: boolean
                                 forceCommonLabels:
@@ -20260,8 +19978,6 @@ spec:
                                   type: string
                                 namespace:
                                   type: string
-<<<<<<< Updated upstream
-=======
                                 patches:
                                   items:
                                     properties:
@@ -20292,7 +20008,6 @@ spec:
                                         type: object
                                     type: object
                                   type: array
->>>>>>> Stashed changes
                                 replicas:
                                   items:
                                     properties:
@@ -21657,9 +21372,6 @@ spec:
               key: applicationsetcontroller.allowed.scm.providers
               name: argocd-cmd-params-cm
               optional: true
-<<<<<<< Updated upstream
-        image: quay.io/argoproj/argocd:v2.8.3
-=======
         - name: ARGOCD_APPLICATIONSET_CONTROLLER_ENABLE_SCM_PROVIDERS
           valueFrom:
             configMapKeyRef:
@@ -21667,7 +21379,6 @@ spec:
               name: argocd-cmd-params-cm
               optional: true
         image: quay.io/argoproj/argocd:v2.10.0
->>>>>>> Stashed changes
         imagePullPolicy: Always
         name: argocd-applicationset-controller
         ports:
@@ -21790,11 +21501,7 @@ spec:
         - -n
         - /usr/local/bin/argocd
         - /shared/argocd-dex
-<<<<<<< Updated upstream
-        image: quay.io/argoproj/argocd:v2.8.3
-=======
         image: quay.io/argoproj/argocd:v2.10.0
->>>>>>> Stashed changes
         imagePullPolicy: Always
         name: copyutil
         securityContext:
@@ -21864,9 +21571,6 @@ spec:
               key: notificationscontroller.log.level
               name: argocd-cmd-params-cm
               optional: true
-<<<<<<< Updated upstream
-        image: quay.io/argoproj/argocd:v2.8.3
-=======
         - name: ARGOCD_APPLICATION_NAMESPACES
           valueFrom:
             configMapKeyRef:
@@ -21880,7 +21584,6 @@ spec:
               name: argocd-cmd-params-cm
               optional: true
         image: quay.io/argoproj/argocd:v2.10.0
->>>>>>> Stashed changes
         imagePullPolicy: Always
         livenessProbe:
           tcpSocket:
@@ -21957,11 +21660,7 @@ spec:
         - ""
         - --appendonly
         - "no"
-<<<<<<< Updated upstream
-        image: redis:7.0.11-alpine
-=======
         image: redis:7.0.14-alpine
->>>>>>> Stashed changes
         imagePullPolicy: Always
         name: redis
         ports:
@@ -22172,8 +21871,6 @@ spec:
               key: reposerver.enable.git.submodule
               name: argocd-cmd-params-cm
               optional: true
-<<<<<<< Updated upstream
-=======
         - name: ARGOCD_GIT_LS_REMOTE_PARALLELISM_LIMIT
           valueFrom:
             configMapKeyRef:
@@ -22186,18 +21883,13 @@ spec:
               key: reposerver.git.request.timeout
               name: argocd-cmd-params-cm
               optional: true
->>>>>>> Stashed changes
         - name: HELM_CACHE_HOME
           value: /helm-working-dir
         - name: HELM_CONFIG_HOME
           value: /helm-working-dir
         - name: HELM_DATA_HOME
           value: /helm-working-dir
-<<<<<<< Updated upstream
-        image: quay.io/argoproj/argocd:v2.8.3
-=======
         image: quay.io/argoproj/argocd:v2.10.0
->>>>>>> Stashed changes
         imagePullPolicy: Always
         livenessProbe:
           failureThreshold: 3
@@ -22249,11 +21941,7 @@ spec:
         - -n
         - /usr/local/bin/argocd
         - /var/run/argocd/argocd-cmp-server
-<<<<<<< Updated upstream
-        image: quay.io/argoproj/argocd:v2.8.3
-=======
         image: quay.io/argoproj/argocd:v2.10.0
->>>>>>> Stashed changes
         name: copyutil
         securityContext:
           allowPrivilegeEscalation: false
@@ -22552,9 +22240,6 @@ spec:
               key: server.enable.proxy.extension
               name: argocd-cmd-params-cm
               optional: true
-<<<<<<< Updated upstream
-        image: quay.io/argoproj/argocd:v2.8.3
-=======
         - name: ARGOCD_K8SCLIENT_RETRY_MAX
           valueFrom:
             configMapKeyRef:
@@ -22574,7 +22259,6 @@ spec:
               name: argocd-cmd-params-cm
               optional: true
         image: quay.io/argoproj/argocd:v2.10.0
->>>>>>> Stashed changes
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
@@ -22844,9 +22528,6 @@ spec:
               key: controller.kubectl.parallelism.limit
               name: argocd-cmd-params-cm
               optional: true
-<<<<<<< Updated upstream
-        image: quay.io/argoproj/argocd:v2.8.3
-=======
         - name: ARGOCD_K8SCLIENT_RETRY_MAX
           valueFrom:
             configMapKeyRef:
@@ -22866,7 +22547,6 @@ spec:
               name: argocd-cmd-params-cm
               optional: true
         image: quay.io/argoproj/argocd:v2.10.0
->>>>>>> Stashed changes
         imagePullPolicy: Always
         name: argocd-application-controller
         ports:
