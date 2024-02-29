@@ -137,8 +137,6 @@
 - Update cluster-autoscaler v1.29.0 for eks 1.28
 - Add customer tenant to the Opensearch
 - Add nginx ingress signal 9 alert
-- Update nginx-ingress-controller to v1.9.6 to support EKS 1.28
-- No data on Karpenter Grafana dashboards
 
 _Changes:_
 
@@ -318,7 +316,6 @@ _Changes:_
 - [X] PDO-6667 Newrelic-Prometheus-Agent: Send PGO Metrics to New Relic
 - [X] PDO-6676 Identify and map numeric fields in OpenSearch
 - [X] PDO-6677 indexmigration user does not have correct roles or access assigned
-- [X] PDO-6683 Update nginx-ingress-controller to v1.9.6 to support EKS 1.28
 - [X] PDO-6685 HPA: Update Logstash min pods to be at least 2 (to avoid service downtime over upgrades)
 - [X] PDO-6713 Metadata is missing in NewRelic pod logs
 - [X] PDO-6724 Patch PF admin test environment memory and cpu limits to 4Gi
