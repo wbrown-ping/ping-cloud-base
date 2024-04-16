@@ -140,6 +140,7 @@
         <!-- ======================= -->
         <Logger name="apiaudit" level="INFO" additivity="false">
             <AppenderRef ref="APIAuditLog-File"/>
+            <AppenderRef ref="CONSOLE-PA-API-AUDIT"/>
             <!--<AppenderRef ref="CONSOLE_AUDIT"/>-->
             <!--<AppenderRef ref="ApiAuditLog-Database-Failover"/>-->
             <!--<AppenderRef ref="ApiAuditLog-SQLServer-Database-Failover"/>-->
@@ -193,16 +194,13 @@
 
         <Console name="CONSOLE" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{ABSOLUTE} %-5p [%c{1}] %m{nolookups}%n" />
-            <JSONLayout complete="true" compact="true" eventEol="true" objectMessageAsJsonObject="true" properties="true">
-                <KeyValuePair key="logPurpose" value="SYSTEM_OUT.log" />
-            </JSONLayout>     
         </Console>
 
 
         <Console name="CONSOLE-SIEM" target="SYSTEM_OUT">
             <PingSyslogLayout>
                 <JSONLayout complete="true" compact="true" eventEol="true" objectMessageAsJsonObject="true" properties="true">
-                    <KeyValuePair key="logPurpose" value="CONSOLE_SIEM" />
+                    <KeyValuePair key="logPurpose" value="System_SIEM" />
                 </JSONLayout>
             </PingSyslogLayout>
         </Console>
@@ -252,28 +250,60 @@
                      fileName="${sys:pa.home}/log/pingaccess.log"
                      filePattern="${sys:pa.home}/log/pingaccess.log.%i"
                      ignoreExceptions="false">
-            <JSONLayout complete="true" compact="true" eventEol="true" objectMessageAsJsonObject="true" properties="true">
-                <KeyValuePair key="logPurpose" value="pingaccess.log" />
-            </JSONLayout>            
+            <PatternLayout>
+                <!-- Uncomment this if you want to use UTF-8 encoding instead of system's default encoding. -->
+                <!--
+                <charset>UTF-8</charset>
+                -->
+                <pattern>%d{ISO8601} %5p [%X{exchangeId}] %c - %m{nolookups}%n</pattern>
+            </PatternLayout>
             <Policies>
                 <SizeBasedTriggeringPolicy size="100 MB" />
             </Policies>
             <DefaultRolloverStrategy max="4" />
         </RollingFile>
-
+        <Console name="CONSOLE-PA" >
+            <JSONLayout complete="true" compact="true" eventEol="true" objectMessageAsJsonObject="true" properties="true">
+                <KeyValuePair key="timestamp" value="$${date:yyyy-MM-dd HH:mm:ss,S}"/>
+                <KeyValuePair key="level" value="%5p" />
+                <KeyValuePair key="exchangeId" value="%X{exchangeId}" />
+                <KeyValuePair key="logger" value="%c" />
+                <KeyValuePair key="message" value="%m{nolookups}" />
+                <KeyValuePair key="log_name" value="pingaccess" />
+            </JSONLayout>
+        </Console>
         <!-- API auditing file logging configuration-->
         <RollingFile name="APIAuditLog-File"
                      fileName="${sys:pa.home}/log/pingaccess_api_audit.log"
                      filePattern="${sys:pa.home}/log/pingaccess_api_audit.log.%i"
                      ignoreExceptions="false">
-            <JSONLayout complete="true" compact="true" eventEol="true" objectMessageAsJsonObject="true" properties="true">
-                <KeyValuePair key="logPurpose" value="pingaccess_api_audit.log" />
-            </JSONLayout>                 
+            <PatternLayout>
+                <!-- Uncomment this if you want to use UTF-8 encoding instead of system's default encoding. -->
+                <!--
+                <charset>UTF-8</charset>
+                -->
+                <pattern>%d{ISO8601}| %X{exchangeId}| %X{AUDIT.trackingId}| %X{AUDIT.roundTripMS} ms| %X{AUDIT.subject}| %X{AUDIT.authMech}| %X{AUDIT.client}| %X{AUDIT.method}| %X{AUDIT.requestUri}| %X{AUDIT.responseCode} %n</pattern>
+            </PatternLayout>
             <Policies>
                 <SizeBasedTriggeringPolicy size="100 MB" />
             </Policies>
             <DefaultRolloverStrategy max="4" />
         </RollingFile>
+        <Console name="CONSOLE-PA-API-AUDIT" >
+            <JSONLayout complete="true" compact="true" eventEol="true" objectMessageAsJsonObject="true" properties="false">
+              <KeyValuePair key="timestamp" value="$${date:yyyy-MM-dd HH:mm:ss,S}"/>
+              <KeyValuePair key="exchangeId" value="$${ctx:exchangeId:-}"/>
+              <KeyValuePair key="trackingId" value="$${ctx:AUDIT.trackingId:-}"/>
+              <KeyValuePair key="roundTripMS" value="$${ctx:AUDIT.roundTripMS:-} ms"/>
+              <KeyValuePair key="subject" value="$${ctx:AUDIT.subject:-}"/>
+              <KeyValuePair key="authMech" value="$${ctx:AUDIT.authMech:-}"/>
+              <KeyValuePair key="client" value="$${ctx:AUDIT.client:-}"/>
+              <KeyValuePair key="method" value="$${ctx:AUDIT.method:-}"/>
+              <KeyValuePair key="requestUri" value="$${ctx:AUDIT.requestUri:-}"/>
+              <KeyValuePair key="responseCode" value="$${ctx:AUDIT.responseCode:-}"/>
+              <KeyValuePair key="logPurpose" value="pingaccess_api_audit.log" />
+            </JSONLayout>
+        </Console>
 
         <!-- API Audit log : JDBC appender template for Oracle
 
@@ -486,9 +516,6 @@
                 -->
                 <pattern>%d{ISO8601}| %X{exchangeId}| %X{AUDIT.trackingId}| %X{AUDIT.roundTripMS} ms| %X{AUDIT.proxyRoundTripMS} ms| %X{AUDIT.resource}| %X{AUDIT.subject}| %X{AUDIT.authMech}| %X{AUDIT.client}| %X{AUDIT.method}| %X{AUDIT.requestUri}| %X{AUDIT.responseCode}| %X{AUDIT.failedRuleType}| %X{AUDIT.failedRuleName}| %X{AUDIT.applicationName}| %X{AUDIT.resourceName}| %X{AUDIT.pathPrefix} %n</pattern>
             </PatternLayout>
-            <JSONLayout complete="true" compact="true" eventEol="true" objectMessageAsJsonObject="true" properties="true">
-                <KeyValuePair key="logPurpose" value="pingaccess_engine_audit.log" />
-            </JSONLayout>                 
             <Policies>
                 <SizeBasedTriggeringPolicy size="100 MB" />
             </Policies>
@@ -739,9 +766,6 @@
                 -->
                 <pattern>%d{ISO8601}| %X{exchangeId}| %X{AUDIT.trackingId}| %X{AUDIT.roundTripMS} ms| %X{AUDIT.resource}| %X{AUDIT.client}| %X{AUDIT.method}| %X{AUDIT.requestUri}| %X{AUDIT.responseCode}| %X{AUDIT.applicationName}| %X{AUDIT.resourceName}| %X{AUDIT.pathPrefix} %n</pattern>
             </PatternLayout>
-            <JSONLayout complete="true" compact="true" eventEol="true" objectMessageAsJsonObject="true" properties="true">
-                <KeyValuePair key="logPurpose" value="pingaccess_agent_audit.log" />
-            </JSONLayout>                 
             <Policies>
                 <SizeBasedTriggeringPolicy size="100 MB" />
             </Policies>
