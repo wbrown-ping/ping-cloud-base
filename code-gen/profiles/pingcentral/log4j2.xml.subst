@@ -7,10 +7,10 @@
         </Console>
         <Console name="consoleJson" target="SYSTEM_OUT">
             <JSONLayout>
-              <KeyValuePair key="timestamp" value="%d{yyyy-MM-dd HH:mm:ss}"KeyValuePair/>
-              <KeyValuePair key="level" value="%highlight{%-5p}"KeyValuePair/>
-              <KeyValuePair key="logger" value="[%style{%c}{cyan}]"KeyValuePair/>
-              <KeyValuePair key="message" value="%m"KeyValuePair/>
+              <KeyValuePair key="timestamp" value="$${date:yyyy-MM-dd HH:mm:ss,S}"/>
+              <KeyValuePair key="level" value="%5p"/>
+              <KeyValuePair key="logger" value="%c"/>
+              <KeyValuePair key="message" value="%m"/>
             </JSONLayout>
         </Console>
 
@@ -27,11 +27,11 @@
             <DefaultRolloverStrategy max="10"/>
         </RollingFile>
         <!-- Console appender with JSONLayout -->
-        <Console name="consoleJson2" target="SYSTEM_OUT">
+        <Console name="fileJson" target="SYSTEM_OUT">
             <JSONLayout>
-              <KeyValuePair key="timestamp" value="%d{yyyy-MM-dd HH:mm:ss}" />
-              <KeyValuePair key="level" value="%highlight{%-5p}" />
-              <KeyValuePair key="logger" value="[%style{%c}{cyan}]" />
+              <KeyValuePair key="timestamp" value="$${date:yyyy-MM-dd HH:mm:ss,S}" />
+              <KeyValuePair key="level" value="%5p" />
+              <KeyValuePair key="logger" value="%c" />
               <KeyValuePair key="message" value="%m" />
             </JSONLayout>
         </Console>
@@ -54,9 +54,9 @@
         <!-- API Audit Console appender -->
         <Console name="consoleapiaudit" target="SYSTEM_OUT">
           <JSONLayout>
-            <KeyValuePair key="timestamp" value="%d{yyyy-MM-dd HH:mm:ss}" />
-            <KeyValuePair key="level" value="%highlight{%-5p}" />
-            <KeyValuePair key="logger" value="[%style{%c}{cyan}]" />
+            <KeyValuePair key="timestamp" value="$${date:yyyy-MM-dd HH:mm:ss,S}" />
+            <KeyValuePair key="level" value="%5p" />
+            <KeyValuePair key="logger" value="%c" />
             <KeyValuePair key="message" value="%m" />
           </JSONLayout>
         </Console>        
@@ -77,9 +77,9 @@
         
         <Console name="consoleextension" target="SYSTEM_OUT">
           <JSONLayout>
-            <KeyValuePair key="timestamp" value="%d{yyyy-MM-dd HH:mm:ss}" />
-            <KeyValuePair key="level" value="%highlight{%-5p}" />
-            <KeyValuePair key="logger" value="[%style{%c}{cyan}]" />
+            <KeyValuePair key="timestamp" value="$${date:yyyy-MM-dd HH:mm:ss,S}" />
+            <KeyValuePair key="level" value="%5p" />
+            <KeyValuePair key="logger" value="%c" />
             <KeyValuePair key="message" value="%m" />
           </JSONLayout>
         </Console>        
@@ -99,9 +99,9 @@
         </RollingFile>
         <Console name="consolemonitor" target="SYSTEM_OUT">
           <JSONLayout>
-            <KeyValuePair key="timestamp" value="%d{yyyy-MM-dd HH:mm:ss}" />
-            <KeyValuePair key="level" value="%highlight{%-5p}" />
-            <KeyValuePair key="logger" value="[%style{%c}{cyan}]" />
+            <KeyValuePair key="timestamp" value="$${date:yyyy-MM-dd HH:mm:ss,S}" />
+            <KeyValuePair key="level" value="%5p" />
+            <KeyValuePair key="logger" value="%c" />
             <KeyValuePair key="message" value="%m" />
           </JSONLayout>
         </Console>        
@@ -112,39 +112,39 @@
     <Loggers>
 
         <Logger name="apiauditlogger" level="DEBUG" additivity="false" includeLocation="false">
-            <AppenderRef ref="fileapiaudit"/>
+            <!-- <AppenderRef ref="fileapiaudit"/> -->
             <AppenderRef ref="consoleapiaudit"/>
 
         </Logger>
         <Logger name="apiextensionlogger" level="DEBUG" additivity="false" includeLocation="false">
-            <AppenderRef ref="fileextension"/>
+            <!-- <AppenderRef ref="fileextension"/> -->
             <AppenderRef ref="consoleextension"/>
 
         </Logger>
         <Logger name="monitordashboardlogger" level="DEBUG" additivity="false" includeLocation="false">
-            <AppenderRef ref="filemonitor"/>
+            <!-- <AppenderRef ref="filemonitor"/> -->
             <AppenderRef ref="consolemonitor"/>
 
         </Logger>
 
         <Logger name="com.pingidentity" level="INFO" additivity="false" includeLocation="false">
             <!--<AppenderRef ref="console"/>-->
-            <AppenderRef ref="file"/>
-            <AppenderRef ref="consoleJson2"/>
+            <!-- <AppenderRef ref="file"/> -->
+            <AppenderRef ref="fileJson"/>
         </Logger>
 
         <Logger name="org.springframework.boot.web.embedded.jetty.JettyWebServer" level="INFO" additivity="false" includeLocation="false">
             <!--<AppenderRef ref="console"/>-->
-            <AppenderRef ref="file"/>
-            <AppenderRef ref="consoleJson2"/>
+            <!-- <AppenderRef ref="file"/> -->
+            <AppenderRef ref="fileJson"/>
         </Logger>
 
         <Logger name="springfox.documentation.schema.property.CachingModelPropertiesProvider" level="ERROR" additivity="false" includeLocation="false" />
 
         <Root level="WARN">
             <!--<AppenderRef ref="console"/>-->
-            <AppenderRef ref="file"/>
-            <AppenderRef ref="consoleJson2"/>
+            <!-- <AppenderRef ref="file"/> -->
+            <AppenderRef ref="fileJson"/>
         </Root>
     </Loggers>
 </Configuration>
