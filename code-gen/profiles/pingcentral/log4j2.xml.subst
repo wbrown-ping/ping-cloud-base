@@ -6,7 +6,7 @@
             <PatternLayout pattern="%style{%d{ABSOLUTE}}{magenta} %highlight{%-5p} [%style{%c}{cyan}] %m%n"/>
         </Console>
         <Console name="consoleJson" target="SYSTEM_OUT">
-            <JSONLayout complete="true" compact="true" eventEol="true" objectMessageAsJsonObject="true" properties="true">
+            <JSONLayout complete="false" compact="true" eventEol="true" objectMessageAsJsonObject="true" properties="true">
               <KeyValuePair key="timestamp" value="$${date:yyyy-MM-dd HH:mm:ss,S}"/>
             </JSONLayout>
         </Console>
@@ -25,7 +25,7 @@
         </RollingFile>
         <!-- Console appender with JSONLayout -->
         <Console name="fileJson" target="SYSTEM_OUT">
-            <JSONLayout  complete="true" compact="true" eventEol="true" objectMessageAsJsonObject="true" properties="true">
+            <JSONLayout  complete="false" compact="true" eventEol="true" objectMessageAsJsonObject="true" properties="true">
               <KeyValuePair key="timestamp" value="$${date:yyyy-MM-dd HH:mm:ss,S}" />
               <KeyValuePair key="log_name" value="application" />
             </JSONLayout>
@@ -48,7 +48,7 @@
 
         <!-- API Audit Console appender -->
         <Console name="consoleapiaudit" target="SYSTEM_OUT">
-          <JSONLayout  complete="true" compact="true" eventEol="true" objectMessageAsJsonObject="true" properties="true">
+          <JSONLayout  complete="false" compact="true" eventEol="true" objectMessageAsJsonObject="true" properties="true">
             <KeyValuePair key="timestamp" value="$${date:yyyy-MM-dd HH:mm:ss,S}" />
             <KeyValuePair key="log_name" value="application-api" />
           </JSONLayout>
@@ -69,7 +69,7 @@
         </RollingFile>
         
         <Console name="consoleextension" target="SYSTEM_OUT">
-          <JSONLayout  complete="true" compact="true" eventEol="true" objectMessageAsJsonObject="true" properties="true">
+          <JSONLayout  complete="false" compact="true" eventEol="true" objectMessageAsJsonObject="true" properties="true">
             <KeyValuePair key="timestamp" value="$${date:yyyy-MM-dd HH:mm:ss,S}" />
             <KeyValuePair key="log_name" value="application-ext" />
           </JSONLayout>
@@ -89,7 +89,7 @@
             <DefaultRolloverStrategy max="10"/>
         </RollingFile>
         <Console name="consolemonitor" target="SYSTEM_OUT">
-          <JSONLayout  complete="true" compact="true" eventEol="true" objectMessageAsJsonObject="true" properties="true">
+          <JSONLayout  complete="false" compact="true" eventEol="true" objectMessageAsJsonObject="true" properties="true">
             <KeyValuePair key="timestamp" value="$${date:yyyy-MM-dd HH:mm:ss,S}" />
             <KeyValuePair key="log_name" value="monior" />
           </JSONLayout>
