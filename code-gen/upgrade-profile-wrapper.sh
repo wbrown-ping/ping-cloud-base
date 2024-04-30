@@ -22,6 +22,7 @@
 #         for the new version. This has the same effect as running the platform code build job.
 #     APPS_TO_UPGRADE -> An optional space-separated list of apps to upgrade. Defaults to everything, if unset
 #         If provided, it must match the app directories in the profile repo, i.e. 'pingaccess pingdirectory'
+#     #TODO add new variable descriptions
 #
 # The script is non-destructive by design and doesn't push any new state to the server. Instead, it will set up a
 # parallel branch for every CDE branch corresponding to the environments specified through the SUPPORTED_ENVIRONMENT_TYPES environment
@@ -71,6 +72,17 @@ if test -z "${APPS_TO_UPGRADE}"; then
   APPS_TO_UPGRADE="${ALL_APPS}"
 fi
 
+# PROFILES_REPO_USER must be set for authentication to profiles repo
+if test -z "${PROFILES_REPO_USER}"; then
+  echo '=====> PROFILES_REPO_USER environment variable must be set before invoking this script'
+  exit 0
+fi
+# PROFILES_REPO_TOKEN must be set for authentication to profiles repo
+if test -z "${PROFILES_REPO_TOKEN}"; then
+  echo '=====> PROFILES_REPO_TOKEN environment variable must be set before invoking this script'
+  exit 0
+fi
+
 PING_CLOUD_BASE_REPO_URL="${PING_CLOUD_BASE_REPO_URL:-$(git grep ^K8S_GIT_URL= | head -1 | cut -d= -f2)}"
 PING_CLOUD_BASE_REPO_URL="${PING_CLOUD_BASE_REPO_URL:-https://github.com/pingidentity/ping-cloud-base}"
 
@@ -86,7 +98,7 @@ if ! test "${P1AS_UPGRADES_REPO}"; then
     # NEW_VERSION=v*.*.* -> UPGRADE_REPO_VERSION=v*.*-release-branch
     # If NEW_VERSION does not match either regex, the script requires UPGRADE_SCRIPT_VERSION to be set
     VERSION_PREFIX=$(echo "${NEW_VERSION}" | grep -Eo 'v[0-9]+.[0-9]+')
-    if [[ "${NEW_VERSION}" =~ ^v[0-9]+.[0-9]+.[0-9]+(-RC[0-9]+)?$ ]]; then
+    if [[ "${NEW_VERSION}" =~ ^v[0-9]+.[0-9]+.[0-9]+$ ]]; then
       UPGRADE_SCRIPT_VERSION="${VERSION_PREFIX}-release-branch"
     elif [[ "${NEW_VERSION}" =~ ^v[0-9]+.[0-9]+-release-branch$ ]]; then
       UPGRADE_SCRIPT_VERSION="${VERSION_PREFIX}-dev-branch"
