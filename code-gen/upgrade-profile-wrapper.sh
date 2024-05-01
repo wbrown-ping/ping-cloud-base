@@ -22,7 +22,11 @@
 #         for the new version. This has the same effect as running the platform code build job.
 #     APPS_TO_UPGRADE -> An optional space-separated list of apps to upgrade. Defaults to everything, if unset
 #         If provided, it must match the app directories in the profile repo, i.e. 'pingaccess pingdirectory'
-#     #TODO add new variable descriptions
+#     PROFILES_REPO_USER -> A required variable containing the username for authentication to the profiles repo.  Recommended use is
+#                           to export this variable in your environment to avoid plaintext credentials in scripts or console. 
+#     PROFILES_REPO_TOKEN -> A required variable containing the token for authentication to the profiles repo.  Recommended use is
+#                           to export this variable in your environment to avoid plaintext credentials in scripts or console. 
+#     IS_GA -> An optional flag, that will dictate whether the profile code is in the GA, or non-GA mirror.  Defaults to false.  
 #
 # The script is non-destructive by design and doesn't push any new state to the server. Instead, it will set up a
 # parallel branch for every CDE branch corresponding to the environments specified through the SUPPORTED_ENVIRONMENT_TYPES environment
@@ -38,6 +42,7 @@ P1AS_UPGRADES='p1as-upgrades'
 UPGRADE_SCRIPT_NAME='upgrade-profile-repo.sh'
 UPGRADE_DIR_NAME='upgrade-scripts'
 ALL_APPS='all'
+IS_GA="${IS_GA:-true}"
 
 ########################################################################################################################
 # Invokes pushd on the provided directory but suppresses stdout and stderr.
@@ -125,7 +130,7 @@ UPGRADE_SCRIPT_PATH="${P1AS_UPGRADES_REPO}/${UPGRADE_DIR_NAME}/${UPGRADE_SCRIPT_
 
 if test -f "${UPGRADE_SCRIPT_PATH}"; then
   # Execute the upgrade script
-  PING_CLOUD_BASE_REPO_URL="${PING_CLOUD_BASE_REPO_URL}" APPS_TO_UPGRADE="${APPS_TO_UPGRADE}" "${UPGRADE_SCRIPT_PATH}"
+  PROFILES_REPO_USER="${PROFILES_REPO_USER}" PROFILES_REPO_TOKEN="${PROFILES_REPO_TOKEN}" PING_CLOUD_BASE_REPO_URL="${PING_CLOUD_BASE_REPO_URL}" APPS_TO_UPGRADE="${APPS_TO_UPGRADE}" "${UPGRADE_SCRIPT_PATH}"
   exit $?
 else
   echo "=====> Unable to download Upgrade script version: ${UPGRADE_SCRIPT_VERSION}"
