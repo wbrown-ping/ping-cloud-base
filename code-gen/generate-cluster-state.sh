@@ -1077,6 +1077,8 @@ BOOTSTRAP_DIR="${TARGET_DIR}/${BOOTSTRAP_SHORT_DIR}"
 CLUSTER_STATE_REPO_DIR="${TARGET_DIR}/cluster-state"
 PROFILE_REPO_DIR="${TARGET_DIR}/profile-repo"
 PROFILES_DIR="${PROFILE_REPO_DIR}/profiles"
+PROFILE_REPO_MIRRORS=("p1as-pingdirectory")
+
 
 CUSTOMER_HUB='customer-hub'
 PING_CENTRAL='pingcentral'
@@ -1414,10 +1416,52 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
       rm -f "${PRIMARY_PING_KUST_FILE}.bak"
     fi
   fi
-
+  
+  ########################################################################################################################
+  # Begin profile repo cloning and processing
+  ########################################################################################################################
   echo "Copying server profiles for environment ${ENV}"
   ENV_PROFILES_DIR="${PROFILES_DIR}/${ENV_OR_BRANCH}"
   mkdir -p "${ENV_PROFILES_DIR}"
+
+  # If APPS_TO_UPGRADE is being used to upgrade a subset of apps, then remove unused apps from the mirror list
+  # if ! is_all_apps; then
+  #   PROFILE_REPO_MIRRORS=$(comm -12 <(printf '%s\n' "${PROFILE_REPO_MIRRORS[@]}" | sort) <(printf '%s\n' "${APPS_TO_UPGRADE[@]}" | sort))
+  # fi
+  if [ "${UPGRADE}" == "true" ] || [ "${IS_BELUGA_ENV}" ]; then
+      log "UPGRADE or IS_BELUGA_ENV detected, cloning profiles from gitlab.corp.pingidentity.com:ping-cloud-private-tenant/p1as-apps"
+      MICROSERVICE_APP_REPO_URL="${MICROSERVICE_APP_REPO_URL:-git@gitlab.corp.pingidentity.com:ping-cloud-private-tenant/p1as-apps}"
+  else
+    if [ "${IS_GA}" == "true" ]; then
+      log "GA environment detected, cloning profiles from profiles.devops.ping.cloud"
+      MICROSERVICE_APP_REPO_URL="${MICROSERVICE_APP_REPO_URL:-https://${PROFILES_REPO_USER}:${PROFILES_REPO_TOKEN}@profiles.devops.ping.cloud/pingone-advanced-services/p1as-profile-templates}"
+    else
+    log "Non-GA environment detected, cloning profiles from profiles.devops-qa.ping.cloud"
+      MICROSERVICE_APP_REPO_URL="${MICROSERVICE_APP_REPO_URL:-https://${PROFILES_REPO_USER}:${PROFILES_REPO_TOKEN}@profiles.devops-qa.ping.cloud/pingone-advanced-services/p1as-profile-templates}"
+    fi
+  fi
+
+  PROFILE_REPO_MIRROR_DIR="$(mktemp -d)"
+  # Get current PCB branch to use as reference for profile code
+  NEW_VERSION=$(git symbolic-ref --short HEAD)
+  for app_repo in ${PROFILE_REPO_MIRRORS[@]}; do
+    # Remove 'p1as-' prefix from repository names
+    product_name=${app_repo#p1as-}
+    # Clone microservice repo at the new version
+    log "Cloning ${app_repo}@v2.0-release-branch from ${app_repo} to '${PROFILE_REPO_MIRROR_DIR}'"
+    git clone -c advice.detachedHead=false --depth 1 --branch "v2.0-release-branch" "${MICROSERVICE_APP_REPO_URL}/${app_repo}" "${PROFILE_REPO_MIRROR_DIR}/${app_repo}"
+
+    if test $? -ne 0; then
+      log "Unable to clone ${app_repo}@${NEW_VERSION} from ${MICROSERVICE_APP_REPO_URL}"
+      exit 1
+    fi
+    product_name=${app_repo#p1as-}
+    log "Creating profiles directory for ${product_name} in ${ENV_PROFILES_DIR}/"
+    mkdir -p "profiles/${product_name}"
+
+    log "Copying profile code from ${PROFILE_REPO_MIRROR_DIR}/${app_repo}/deploy/${app_repo}/profile/ to ${ENV_PROFILES_DIR}${product_name}"
+    cp -r "${PROFILE_REPO_MIRROR_DIR}/${app_repo}/deploy/${app_repo}/profile/" "${ENV_PROFILES_DIR}/${product_name}"
+  done
 
   cp -pr profiles/. "${ENV_PROFILES_DIR}"
 
