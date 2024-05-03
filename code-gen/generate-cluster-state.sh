@@ -1428,7 +1428,7 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
   # if ! is_all_apps; then
   #   PROFILE_REPO_MIRRORS=$(comm -12 <(printf '%s\n' "${PROFILE_REPO_MIRRORS[@]}" | sort) <(printf '%s\n' "${APPS_TO_UPGRADE[@]}" | sort))
   # fi
-  if [ "${UPGRADE}" == "true" ]; then
+  if [ "${UPGRADE}" == "true" ] || [ "${IS_BELUGA_ENV}" ]; then
       log "UPGRADE or IS_BELUGA_ENV detected, cloning profiles from gitlab.corp.pingidentity.com:ping-cloud-private-tenant/p1as-apps"
       MICROSERVICE_APP_REPO_URL="${MICROSERVICE_APP_REPO_URL:-git@gitlab.corp.pingidentity.com:ping-cloud-private-tenant/p1as-apps}"
   else
