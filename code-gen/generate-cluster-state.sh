@@ -1428,7 +1428,7 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
   # if ! is_all_apps; then
   #   PROFILE_REPO_MIRRORS=$(comm -12 <(printf '%s\n' "${PROFILE_REPO_MIRRORS[@]}" | sort) <(printf '%s\n' "${APPS_TO_UPGRADE[@]}" | sort))
   # fi
-  if [ "${UPGRADE}" == "true" ] || [ "${IS_BELUGA_ENV}" ]; then
+  if [ "${UPGRADE}" == "true" ]; then
       log "UPGRADE or IS_BELUGA_ENV detected, cloning profiles from gitlab.corp.pingidentity.com:ping-cloud-private-tenant/p1as-apps"
       MICROSERVICE_APP_REPO_URL="${MICROSERVICE_APP_REPO_URL:-git@gitlab.corp.pingidentity.com:ping-cloud-private-tenant/p1as-apps}"
   else
@@ -1459,7 +1459,7 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
     log "Creating profiles directory for ${product_name} in ${ENV_PROFILES_DIR}/"
     mkdir -p "profiles/${product_name}"
 
-    log "Copying profile code from ${PROFILE_REPO_MIRROR_DIR}/${app_repo}/deploy/${app_repo}/profile/ to ${ENV_PROFILES_DIR}${product_name}"
+    log "Copying profile code from ${PROFILE_REPO_MIRROR_DIR}/${app_repo}/deploy/${app_repo}/profile/ to ${ENV_PROFILES_DIR}/${product_name}"
     cp -r "${PROFILE_REPO_MIRROR_DIR}/${app_repo}/deploy/${app_repo}/profile/" "${ENV_PROFILES_DIR}/${product_name}"
   done
 
