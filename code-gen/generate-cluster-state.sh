@@ -1452,7 +1452,7 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
     git clone -c advice.detachedHead=false --depth 1 --branch "v2.0-release-branch" "${MICROSERVICE_APP_REPO_URL}/${app_repo}" "${PROFILE_REPO_MIRROR_DIR}/${app_repo}"
 
     if test $? -ne 0; then
-      log "Unable to clone ${app_repo}@${NEW_VERSION} from ${MICROSERVICE_APP_REPO_URL}"
+      log "Unable to clone ${app_repo}@v2.0-release-branch from ${MICROSERVICE_APP_REPO_URL}"
       exit 1
     fi
     product_name=${app_repo#p1as-}

@@ -22,11 +22,6 @@
 #         for the new version. This has the same effect as running the platform code build job.
 #     APPS_TO_UPGRADE -> An optional space-separated list of apps to upgrade. Defaults to everything, if unset
 #         If provided, it must match the app directories in the profile repo, i.e. 'pingaccess pingdirectory'
-#     PROFILES_REPO_USER -> A required variable containing the username for authentication to the profiles repo.  Recommended use is
-#                           to export this variable in your environment to avoid plaintext credentials in scripts or console. 
-#     PROFILES_REPO_TOKEN -> A required variable containing the token for authentication to the profiles repo.  Recommended use is
-#                           to export this variable in your environment to avoid plaintext credentials in scripts or console. 
-#     IS_GA -> An optional flag, that will dictate whether the profile code is in the GA, or non-GA mirror.  Defaults to false.  
 #
 # The script is non-destructive by design and doesn't push any new state to the server. Instead, it will set up a
 # parallel branch for every CDE branch corresponding to the environments specified through the SUPPORTED_ENVIRONMENT_TYPES environment
@@ -42,7 +37,6 @@ P1AS_UPGRADES='p1as-upgrades'
 UPGRADE_SCRIPT_NAME='upgrade-profile-repo.sh'
 UPGRADE_DIR_NAME='upgrade-scripts'
 ALL_APPS='all'
-IS_GA="${IS_GA:-true}"
 
 ########################################################################################################################
 # Invokes pushd on the provided directory but suppresses stdout and stderr.
@@ -75,17 +69,6 @@ fi
 if test -z "${APPS_TO_UPGRADE}"; then
   echo '=====> APPS_TO_UPGRADE not set, continuing with upgrading everything'
   APPS_TO_UPGRADE="${ALL_APPS}"
-fi
-
-# PROFILES_REPO_USER must be set for authentication to profiles repo
-if test -z "${PROFILES_REPO_USER}"; then
-  echo '=====> PROFILES_REPO_USER environment variable must be set before invoking this script'
-  exit 0
-fi
-# PROFILES_REPO_TOKEN must be set for authentication to profiles repo
-if test -z "${PROFILES_REPO_TOKEN}"; then
-  echo '=====> PROFILES_REPO_TOKEN environment variable must be set before invoking this script'
-  exit 0
 fi
 
 PING_CLOUD_BASE_REPO_URL="${PING_CLOUD_BASE_REPO_URL:-$(git grep ^K8S_GIT_URL= | head -1 | cut -d= -f2)}"
