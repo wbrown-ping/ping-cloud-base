@@ -1433,13 +1433,13 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
       MICROSERVICE_APP_REPO_URL="${MICROSERVICE_APP_REPO_URL:-git@gitlab.corp.pingidentity.com:ping-cloud-private-tenant/p1as-apps}"
   elif test "${CI_SERVER}" = "yes";then
       log "CI/CD deploy detected, cloning profiles from gitlab.corp.pingidentity.com:ping-cloud-private-tenant/p1as-apps"
-      MICROSERVICE_APP_REPO_URL="${MICROSERVICE_APP_REPO_URL:-https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.example.com/ping-cloud-private-tenant/p1as-apps}"
+      MICROSERVICE_APP_REPO_URL="${MICROSERVICE_APP_REPO_URL:-https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.corp.pingidentity.com/ping-cloud-private-tenant/p1as-apps}"
   else
     if [ "${IS_GA}" == "true" ]; then
       log "GA environment detected, cloning profiles from profiles.devops.ping.cloud"
       MICROSERVICE_APP_REPO_URL="${MICROSERVICE_APP_REPO_URL:-https://${PROFILES_REPO_USER}:${PROFILES_REPO_TOKEN}@profiles.devops.ping.cloud/pingone-advanced-services/p1as-profile-templates}"
     else
-    log "Non-GA environment detected, cloning profiles from profiles.devops-qa.ping.cloud"
+      log "Non-GA environment detected, cloning profiles from profiles.devops-qa.ping.cloud"
       MICROSERVICE_APP_REPO_URL="${MICROSERVICE_APP_REPO_URL:-https://${PROFILES_REPO_USER}:${PROFILES_REPO_TOKEN}@profiles.devops-qa.ping.cloud/pingone-advanced-services/p1as-profile-templates}"
     fi
   fi
