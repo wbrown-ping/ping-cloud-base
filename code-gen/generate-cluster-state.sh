@@ -1428,10 +1428,12 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
   # if ! is_all_apps; then
   #   PROFILE_REPO_MIRRORS=$(comm -12 <(printf '%s\n' "${PROFILE_REPO_MIRRORS[@]}" | sort) <(printf '%s\n' "${APPS_TO_UPGRADE[@]}" | sort))
   # fi
-  if [ "${UPGRADE}" == "true" ] || [ "${IS_BELUGA_ENV}" ]; then
+  if [ "${UPGRADE}" == "true" ] || [ "${IS_BELUGA_ENV}" ] && test "${CI_SERVER}" != "yes"; then
       log "UPGRADE or IS_BELUGA_ENV detected, cloning profiles from gitlab.corp.pingidentity.com:ping-cloud-private-tenant/p1as-apps"
       MICROSERVICE_APP_REPO_URL="${MICROSERVICE_APP_REPO_URL:-git@gitlab.corp.pingidentity.com:ping-cloud-private-tenant/p1as-apps}"
-  else
+  elif test "${CI_SERVER}" = "yes";then
+      log "CI/CD deploy detected, cloning profiles from gitlab.corp.pingidentity.com:ping-cloud-private-tenant/p1as-apps"
+      MICROSERVICE_APP_REPO_URL="${MICROSERVICE_APP_REPO_URL:-https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.example.com/ping-cloud-private-tenant/p1as-apps}"
     if [ "${IS_GA}" == "true" ]; then
       log "GA environment detected, cloning profiles from profiles.devops.ping.cloud"
       MICROSERVICE_APP_REPO_URL="${MICROSERVICE_APP_REPO_URL:-https://${PROFILES_REPO_USER}:${PROFILES_REPO_TOKEN}@profiles.devops.ping.cloud/pingone-advanced-services/p1as-profile-templates}"
