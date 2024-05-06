@@ -1509,10 +1509,4 @@ if ! "${QUIET}"; then
   echo
   echo "3) Deploy bootstrap files onto each CDE by navigating to ${BOOTSTRAP_DIR} and running:"
   echo 'kustomize build | kubectl apply -f -'
-  echo "DEBUG: PR PATH is '$PR_PATH'"
-  echo "DEBUG: CSR PATH is '$CSR_PATH'"
-  echo "DEBUG: ----"
-  ls -al $PR_PATH
-  echo "---"
-  ls -al $CSR_PATH
 fi
