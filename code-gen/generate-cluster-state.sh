@@ -1428,6 +1428,8 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
   # Begin profile repo cloning and processing
   ########################################################################################################################
   echo "Copying server profiles for environment ${ENV}"
+  cp -pr profiles/. "${ENV_PROFILES_DIR}"
+
   ENV_PROFILES_DIR="${PROFILES_DIR}/${ENV_OR_BRANCH}"
   mkdir -p "${ENV_PROFILES_DIR}"
 
@@ -1452,8 +1454,6 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
     log "Copying profile code from ${PROFILE_REPO_MIRROR_DIR}/${app_repo}/deploy/${app_repo}/profile/ to ${ENV_PROFILES_DIR}/${product_name}"
     cp "${PROFILE_REPO_MIRROR_DIR}/${app_repo}/deploy/${app_repo}/profile/*" "${ENV_PROFILES_DIR}/${product_name}"
   done
-
-  cp -pr profiles/. "${ENV_PROFILES_DIR}"
 
   if test "${ENV}" = "${CUSTOMER_HUB}"; then
     echo "CHUB deploy identified, retaining only PingCentral and PingAccess profiles"
