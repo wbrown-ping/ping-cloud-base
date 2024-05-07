@@ -1424,29 +1424,26 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
   ENV_PROFILES_DIR="${PROFILES_DIR}/${ENV_OR_BRANCH}"
   mkdir -p "${ENV_PROFILES_DIR}"
 
-  # If APPS_TO_UPGRADE is being used to upgrade a subset of apps, then remove unused apps from the mirror list
-  # if ! is_all_apps; then
-  #   PROFILE_REPO_MIRRORS=$(comm -12 <(printf '%s\n' "${PROFILE_REPO_MIRRORS[@]}" | sort) <(printf '%s\n' "${APPS_TO_UPGRADE[@]}" | sort))
-  # fi
-  if [ "${UPGRADE}" == "true" ] || [ "${IS_BELUGA_ENV}" ] && test "${CI_SERVER}" != "yes"; then
-      log "UPGRADE or IS_BELUGA_ENV detected, cloning profiles from gitlab.corp.pingidentity.com:ping-cloud-private-tenant/p1as-apps"
-      MICROSERVICE_APP_REPO_URL="${MICROSERVICE_APP_REPO_URL:-git@gitlab.corp.pingidentity.com:ping-cloud-private-tenant/p1as-apps}"
-  elif test "${CI_SERVER}" = "yes";then
+  # First check if CI/CD pipeline execution
+  if test "${CI_SERVER}" = "yes"; then
       log "CI/CD deploy detected, cloning profiles from gitlab.corp.pingidentity.com:ping-cloud-private-tenant/p1as-apps"
       MICROSERVICE_APP_REPO_URL="${MICROSERVICE_APP_REPO_URL:-https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.corp.pingidentity.com/ping-cloud-private-tenant/p1as-apps}"
-  else
-    if [ "${IS_GA}" == "true" ]; then
+  # Next check if this is an upgrade (i.e. BeOps execution) or a Beluga environment (i.e Beluga Dev execution)
+  elif [ "${UPGRADE}" == "true" ] || [ "${IS_BELUGA_ENV}" ]; then
+      log "UPGRADE or IS_BELUGA_ENV detected, cloning profiles from gitlab.corp.pingidentity.com:ping-cloud-private-tenant/p1as-apps"
+      MICROSERVICE_APP_REPO_URL="${MICROSERVICE_APP_REPO_URL:-git@gitlab.corp.pingidentity.com:ping-cloud-private-tenant/p1as-apps}"
+  # Next, check if this is GA (i.e new customer creation in GA)
+  elif [ "${IS_GA}" == "true" ]; then
       log "GA environment detected, cloning profiles from profiles.devops.ping.cloud"
       MICROSERVICE_APP_REPO_URL="${MICROSERVICE_APP_REPO_URL:-https://${PROFILES_REPO_USER}:${PROFILES_REPO_TOKEN}@profiles.devops.ping.cloud/pingone-advanced-services/p1as-profile-templates}"
-    else
-      log "Non-GA environment detected, cloning profiles from profiles.devops-qa.ping.cloud"
-      MICROSERVICE_APP_REPO_URL="${MICROSERVICE_APP_REPO_URL:-https://${PROFILES_REPO_USER}:${PROFILES_REPO_TOKEN}@profiles.devops-qa.ping.cloud/pingone-advanced-services/p1as-profile-templates}"
-    fi
+  # Finally, assume this is non-GA environment (i.e new customer creation in Non-Prod)
+  else
+    log "Non-GA environment detected, cloning profiles from profiles.devops-qa.ping.cloud"
+    MICROSERVICE_APP_REPO_URL="${MICROSERVICE_APP_REPO_URL:-https://${PROFILES_REPO_USER}:${PROFILES_REPO_TOKEN}@profiles.devops-qa.ping.cloud/pingone-advanced-services/p1as-profile-templates}"
   fi
 
+  # Create temp dir for cloned profiles
   PROFILE_REPO_MIRROR_DIR="$(mktemp -d)"
-  # Get current PCB branch to use as reference for profile code
-  NEW_VERSION=$(git symbolic-ref --short HEAD)
   for app_repo in ${PROFILE_REPO_MIRRORS[@]}; do
     # Remove 'p1as-' prefix from repository names
     product_name=${app_repo#p1as-}
