@@ -1455,10 +1455,6 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
       log "Unable to clone ${app_repo}@v2.0-release-branch from ${MICROSERVICE_APP_REPO_URL}"
       exit 1
     fi
-    product_name=${app_repo#p1as-}
-    log "Creating profiles directory for ${product_name} in ${ENV_PROFILES_DIR}/"
-    mkdir -p "profiles/${product_name}"
-
     log "Copying profile code from ${PROFILE_REPO_MIRROR_DIR}/${app_repo}/deploy/${app_repo}/profile/ to ${ENV_PROFILES_DIR}/${product_name}"
     cp -r "${PROFILE_REPO_MIRROR_DIR}/${app_repo}/deploy/${app_repo}/profile/" "${ENV_PROFILES_DIR}/${product_name}"
   done
