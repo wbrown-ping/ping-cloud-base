@@ -1446,8 +1446,11 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
       log "Unable to clone ${app_repo}@${app_repo_branch} from ${MICROSERVICE_APP_REPO_URL}"
       exit 1
     fi
+    log "Creating directory for ${app_repo} profiles in ${ENV_PROFILES_DIR}"
+    mkdir -p "${ENV_PROFILES_DIR}/${product_name}"
+
     log "Copying profile code from ${PROFILE_REPO_MIRROR_DIR}/${app_repo}/deploy/${app_repo}/profile/ to ${ENV_PROFILES_DIR}/${product_name}"
-    cp -r "${PROFILE_REPO_MIRROR_DIR}/${app_repo}/deploy/${app_repo}/profile/" "${ENV_PROFILES_DIR}/${product_name}"
+    cp "${PROFILE_REPO_MIRROR_DIR}/${app_repo}/deploy/${app_repo}/profile/*" "${ENV_PROFILES_DIR}/${product_name}"
   done
 
   cp -pr profiles/. "${ENV_PROFILES_DIR}"
