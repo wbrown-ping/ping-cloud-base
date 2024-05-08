@@ -97,3 +97,5 @@ Demote an old primary to secondary
 - When the rollout is complete, this region will be demoted to secondary and point to the new primary.
 
 - Verify that servers in this cluster join the existing servers for every Ping application.
+
+#TODO update this file
