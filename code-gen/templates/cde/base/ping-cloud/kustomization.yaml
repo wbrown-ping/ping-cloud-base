@@ -19,7 +19,7 @@ resources:
 # under the granular-updates directory.
 - granular-updates
 
-configMapGenerator:
+patchesStrategicMerge:
 
 ### Ping app known_hosts file ###
 
