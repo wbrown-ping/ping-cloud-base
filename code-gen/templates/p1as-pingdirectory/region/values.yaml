@@ -1,4 +1,5 @@
- serverProfilePath: "profiles/pingdirectory"
+pingdirectory:  
+  serverProfilePath: "profiles/pingdirectory"
   location: "Austin"
   backupFileName: ""
   # This is the environment variable to select the backend(s) to restore in PD
