@@ -17,7 +17,7 @@ global:
   ############################################################
 
   sealedSecrets: false
-  sshKnownHosts: ${KNOWN_HOSTS_CLUSTER_STATE_REPO}
+  sshKnownHosts: "${KNOWN_HOSTS_CLUSTER_STATE_REPO}"
   secrets:
     ping-cloud:
       pingdirectory-passwords:
@@ -44,7 +44,6 @@ global:
         #cert_one: "asdfasdf"
         #cert_two: asdfasdf
       pingdirectory-ssh-id-key-secret:
-        # Required for microservice deployment
         sshIdKeyBase64: "${SSH_ID_KEY_BASE64}"
 
   # delegated admin application settings
