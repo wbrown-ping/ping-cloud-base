@@ -18,7 +18,7 @@ helmCharts:
 
 ### This field is used to trigger a resync of the p1as-pingdirectory helm chart ###
 configMapGenerator:
-  - name: last-update-reason
+  - name: pingdirectory-last-update-reason
     literals:
       - UPDATE_REASON=""
 

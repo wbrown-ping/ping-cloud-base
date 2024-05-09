@@ -1,129 +1,152 @@
-########################################################################################################################
-# Customer parameters that are shared by multiple apps
-########################################################################################################################
-
 global:
-
-  ############################################################
-  # Secrets
-  ############################################################
-  # Expected format for each secret:
-  # NAMESPACE:
-  #   SECRETNAME:
-  #     KEY1: VALUE1
-  #     KEY2: VALUE2
-  # Note: NAMESPACE & SECRETNAME need to match exactly,
-  #   but secret keys should follow Helm's camelCase guidance
-  ############################################################
-
-  sealedSecrets: false
-  secrets:
-
-  ########################################################
-  # Multi-region parameters
-  ########################################################
-  isMultiCluster: ${IS_MULTI_CLUSTER}
-
-  # primaryRegion is the primary AWS region name
-  # the primary region should have the same value for region and primaryRegion
-  primaryRegion: "${PRIMARY_REGION}"
-
-  # primaryDnsZone is the primary dns zone for customer for region
-  primaryDnsZone: "${PRIMARY_DNS_ZONE}"
-
-  # primaryTenantDomain is the primary domain suffix for customer for region
-  # the primary region should have the same value for tenantDomain and primaryTenantDomain
-  primaryTenantDomain: "${PRIMARY_TENANT_DOMAIN}"
-
-  # secondaryTenantDomains is an optional comma-separated list of the tenant domain suffixes of secondary regions used
-  # for PingFederate adaptive clustering using the JGroups DNS_PING discovery protocol:
-  #
-  #   - Do NOT include the primary tenant domain in the list
-  #   - Do NOT include the CDE prefix in the domain name
-  #
-  # For example, if the primary domain is "tuna.us1.ping-preview.cloud", then set it
-  # to "tuna.eu1.ping-preview.cloud,tuna.au1.ping-preview.cloud" to specify secondary
-  # domains in regions eu1 and au1.
-  #
-  # NOTES:
-  #   - Only used in multi-cluster environments. If provided, PF will be configured with DNS_PING.
-  #   - It is recommended that SECONDARY_TENANT_DOMAINS be set apriori, even before the
-  #     secondary regions are created to avoid pod rollouts. DNS_PING will simply ignore
-  #     unreachable domains. If it is not set beforehand, then all servers in the PF
-  #     cluster (admin and engines) must be re-rolled to pick up the change.
-  secondaryTenantDomains: "${SECONDARY_TENANT_DOMAINS}"
-
-  # globalTenantDomain is the region-independent URL used for DNS failover/routing
-  globalTenantDomain: "${GLOBAL_TENANT_DOMAIN}"
-
-  ########################################################
-  # S3 buckets
-  ########################################################
-  # pingArtifactRepoUrl is the ping-hosted common artifacts URL
-  pingArtifactRepoUrl: "${PING_ARTIFACT_REPO_URL}"
-
-  # logArchiveUrl is the customer-specific log URL for region
-  logArchiveUrl: "${LOG_ARCHIVE_URL}"
-
-  # backupUrl is the customer-specific backup URL for region
-  backupUrl: "${BACKUP_URL}"
-
-  ########################################################
-  # Miscellaneous ping-cloud variables
-  ########################################################
-  # pingCloudNamespace is the namespace where Ping apps are deployed
-  pingCloudNamespace: "${PING_CLOUD_NAMESPACE}"
-
-  # k8sGitBranch is the ping-cloud-base git branch for base Kubernetes manifests
-  k8sGitBranch: "${K8S_GIT_BRANCH}"
-
-  # ecrRegistryName is the name of the Docker image registry
-  ecrRegistryName: "${ECR_REGISTRY_NAME}/dev"
-
-  # clusterName is the eks cluster name
-  clusterName: "${CLUSTER_NAME}"
-
-  # serverProfileUrl is the git URL for the profile repo
-  serverProfileUrl: "${SERVER_PROFILE_URL}"
-
-  # serverProfileBranch is the git branch for the profile repo
-  serverProfileBranch: "${SERVER_PROFILE_BRANCH_DERIVED}"
-
+  # Base backup URL for all services
+  backupUrl: "ssm://walkerbrown-primary/pcpt/service/storage/backup/uri"
+  # The cloud provider to deploy to
+  cloudProvider: "aws"
+  # DevOps user and key for the deployment licenses
+  devOpsUser: "ssm://pcpt/devops-license/user"
+  devOpsKey: "ssm://pcpt/devops-license/key" 
+  # The customer DNS zone to be appended to pingdirectory URLs. Should be replaced when deploying locally.
+  dnsZone: "walkerbrown-primary.ping-demo.com"
+  # Beluga public ECR registry
+  ecrRegistryName: "public.ecr.aws/r2h3l6e4/dev"
+  env: "dev"
+  # Region-independent URL used for DNS failover routing
+  globalTenantDomain: "ping-demo.com"
   # The image pull policy for all images
   imagePullPolicy: "Always"
-
+  # The IRSA role ARN to be used for the ping serviceAccount
+  irsaPingAnnotationKeyValue: ""
   # Boolean determining if this is an isolated microservice or a full PCB deploy
-  isMicroserviceDeploy: false
+  isMicroserviceDeploy: true
+  # Boolean determining if deploying to a multi-region environment
+  isMultiRegion: false
+  # String for known hosts for Ping apps, usually refers to CSR
+  knownHosts: "|1|xlRP9jqO9XaS+yvtrJQ3eakpuFo=|2NT/9zkqwGkEjSWE5IDHRdRHNQQ= ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCqyQh/szYdP7ykDdwp8pWMgrFmuXU4mEf27Wzz6QcR/ZJsIRVCdslVjmt9RA1ljanAVPI8zjp/oI6NPICh8l638vRLt8lFbNMfMMfkzxiIXs0mLAuQ2XSbRglPDF4mAQ7C+oD/B01XXKWU4Vack37i0R9RMtkl3spFB8Hq7HJi4/wy87U7FMHfjHWYXr3GAOg1PfRyTAyHij0XXuBhxzz1vMoiI5DkgH8CKuKf+AmW5KHxKX3zPCoKe7nDw3/Re4ghYhc34ldOSZlQin/dIyT/GQy0ayRWGXc0KB2ijrDCxd4N4INBhdqCRDPwkxwqVRUToBFw6Q1zBdlVlK5ViFEV"
+  logArchiveUrl: "ssm://walkerbrown-primary/pcpt/service/storage/logs/uri"
+  newRelicVersion: v2.0-release-branch-latest
+  #argo-events configuration
+  notificationEnabled: "true"
+  notificationEndpoint: "http://webhook-eventsource-svc.argo-events:12999/notification"
+  pingCloudNamespace: "ping-cloud"
+  # Ping-hosted common artifacts URL
+  pingArtifactRepoUrl: "https://ping-artifacts.s3-us-west-2.amazonaws.com"
+  # The primary region to deploy resources, may or may not be the same as `region`
+  primaryRegion: us-west-2
+  # region is the AWS region name
+  region: "us-west-2"
+  # serverProfileUrl is the git URL for the profile repo
+  serverProfileUrl: "ssh://APKA2IO25QZRQO75CGFY@git-codecommit.us-west-2.amazonaws.com/v1/repos/walkerbrown-primary-profile-repo"
+  serverProfileBranch: "dev"  
+  slackChannel: "p1as-application-oncall"
 
-  ########################################################
-  # Environment-specific variables
-  ########################################################
-  # environmentType is used by server profile hooks
-  environmentType: "${ENVIRONMENT_TYPE}"
+  # The name of the tenant.  If provided, this value will be used for the cluster name and is case sensetive
+  tenantName: "ping"
+  userBaseDn: "dc=example,dc=com"
+  userBaseDn_2: ""
+  userBaseDn_3: ""
+  userBaseDn_4: ""
+  userBaseDn_5: ""
 
-  # env is used by Kubernetes manifests
-  env: "${ENV}"
+  secrets:
+    ping-cloud:
+      pingdirectory-passwords:
+        rootUserPassword: MkZlZGVyYXRlTTByZQ==
+        adminUserPassword: MkZlZGVyYXRlTTByZQ==
+        encryptionPassword: MkZlZGVyYXRlTTByZQ==
+        oldEncryptionPasswords: MkZlZGVyYXRlTTByZQ==
+        encryptionSettingsPin: MkZlZGVyYXRlTTByZQ==
+        p14c:
+          clientId: "ODkwNzM2NTQtNGVkMy00YTViLWI4OWMtZmY2YjVlMWI3ZDFi"
+          clientSecret: "UXA4aTAudHg4U3dVSWphdnlYWn5KYTZLQlA5SzN+azljTUYuUWF4UTZYclBvdHpmOU5DbFk2bHRLLjBJUU42MA=="
+          environmentId: "YzNlMzczNTctNTA2Mi00MWJjLTk5NzItYTdlYTlkMTRhNWEy"
+        adsCrt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUN2akNDQWFZQ0NRQ3NMaEptdEYwQ3VEQU5CZ2txaGtpRzl3MEJBUXNGQURBZ01SNHdIQVlEVlFRRERCVnMKYjJOaGJHaHZjM1F1Ykc5allXeGtiMjFoYVc0d0lCY05NakF3TmpNd01UZ3hOekkwV2hnUE1qRXlNREEyTURZeApPREUzTWpSYU1DQXhIakFjQmdOVkJBTU1GV3h2WTJGc2FHOXpkQzVzYjJOaGJHUnZiV0ZwYmpDQ0FTSXdEUVlKCktvWklodmNOQVFFQkJRQURnZ0VQQURDQ0FRb0NnZ0VCQUtmalRHZVgweHhubG5LbXBodFB1Z21jRjNXRHREZmsKOUgyWGh4aXpsTzliNzhPWlk3ZGRxZXVpRktBU3ZZZEtzSE80cUVLMXhtMitvTHZaa2RIandFYlc5dVJYQ2Zucgo3cUpRaHpiemZpemtFOXE2MVBHazJTNGNlcytyUlBDZVlFSEUrd1J5bUdnMnNabXgrdVNLb1RvQk5lMnNnQ2lWCkw0YmpBZ3NKdkdxUzI2T0ZleTF6WTVRYXRmUkI0QlFKSis1eFJ3Z3BCSXdJOExRN3ozS0pkQlVyTll3TDlUemYKSVc2UjcxMHlORVhWWkxqa0pwemJTeGtub3kxQlc3SFJwYmxxNFZaWEFEWDNSYlpuV2xKRWhubkRBVGxPcWtregp5cHBUSnhvaEtkK0pZYXRFRUxWNC9DajkyR3UwcEJtSXorazkrWnJob3J1RTBkSHM2T0tlYStVQ0F3RUFBVEFOCkJna3Foa2lHOXcwQkFRc0ZBQU9DQVFFQVNVcUU1RUw1ZEttNDJWcmFEclpRM0prNXlTUUNtZE1HNGFoYmFndVUKNDk1aEV5NDlhNVhDL3NoS0hCUnJaVy95RTJiS1dTOTBKdzA2aVpUWkk0a3JXZnk5NUtxVlJhWkNYUHc4K0lWdwpLMjJZSTJ1MWVUNlpWYkpuL1dJL2VuMDBwNk1mRjhFTmF3STZTc081dzlVUnRhSFpRK2lhc1BSUERqeVljUC93CnNpbWlBeTB2a2hZSUM5Qmw1K0QxV3FwWm1PRnMvdW5EZC8xUFRxSXF5cHZINUcyYjBvUmdLTTUzQlBIZFBKajAKcEpObFBTblJFNThVNkM5RG5BcSt2cFlJZFE1UWdtQWVaMVA0T2E0cGdHY0NHNlBVYVRoalUxeFhFL01CQWFFRgpwV0pYT2pqWHUwdVpFbXE0bHFJakZEcmZDSkVISkliRmtzMUJjZVVQK3BkU2F3PT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
+        adsKey: LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JSUV2d0lCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQktrd2dnU2xBZ0VBQW9JQkFRQ240MHhubDlNY1o1WnkKcHFZYlQ3b0puQmQxZzdRMzVQUjlsNGNZczVUdlcrL0RtV08zWGFucm9oU2dFcjJIU3JCenVLaEN0Y1p0dnFDNwoyWkhSNDhCRzF2YmtWd241Nis2aVVJYzI4MzRzNUJQYXV0VHhwTmt1SEhyUHEwVHdubUJCeFBzRWNwaG9OckdaCnNmcmtpcUU2QVRYdHJJQW9sUytHNHdJTENieHFrdHVqaFhzdGMyT1VHclgwUWVBVUNTZnVjVWNJS1FTTUNQQzAKTzg5eWlYUVZLeldNQy9VODN5RnVrZTlkTWpSRjFXUzQ1Q2FjMjBzWko2TXRRVnV4MGFXNWF1RldWd0ExOTBXMgpaMXBTUklaNXd3RTVUcXBKTThxYVV5Y2FJU25maVdHclJCQzFlUHdvL2RocnRLUVppTS9wUGZtYTRhSzdoTkhSCjdPamlubXZsQWdNQkFBRUNnZ0VCQUp4NXMwcVNMUWM2WFBTNjhmSmVtb3crV1hjRHE4SzB1Rk1lR2FJaUxsdngKR2tUNkFBQjFZZHZta3NhbThOTGFBQis3S2NnVFY4QU5mZzNYT0p1aFpDSWlWTFo1a1NqSWh2L3RnampyTk54dQpMenNjQzBDMVhsNGwyU2tZL2dZdDlwVVdITWNHYjVvaDcrSEtDb2RiMWUwVUY4bFBqNXREZ0twOWhmZjN1UTZ5CkUxRWl0WHJ6Yk9qNzU4QllXRXc1cXdPS2orWGZIS3FJcDc2dGp6NEM3dlJPUDF5OFBaN1BuYUV2V3VSVXNIdkUKVTB1aXJVc3doYjZJSE10UUxGM21EUEo5Y2lEWmI3NWFjbmtEZTRHc1ZQSHJ5bDNKMGpnZnpNS2dtT1RKZWVFTAprcEsvUHI1eVNMTEZnNjloYVlDU0hLVEt6ME9OUjVXc3dmdjl2WnBjQXNFQ2dZRUEwNEZ3cjcwMitVK3R5d1NNCmlZM0JvNFZEeXVLVXlsQThxUE1COGlCK0cxaXdJenBWSk1hakNZR2dLcUhMZUpGWjM0RGNCUkNiVnZ0RlhpU0UKSW5NQ0taYStlOTh1UXVjcGJzV2tBM3oxT0hMN1dscFp3OTMwZlBkVkNVYW1KZEhYUTJjQ01udDFMRmwyWmVQTwpyVG1rMmdXMHMzYTNHMWRvNjFJM3NZamNHc2tDZ1lFQXl6VFhKa3RUVXZ6L1hqVDhrMDBoUFREWjZzR1RUOEt2CjBERzU0c1ZNYWRTb2hXYi9oUkZ6WHo4Q21YMWQyRDZSS3NaK3pVNjcydCtqY0pDdmd2L3phRWpBZ3M5cXVMTFIKd2s1S29qbmZGT2FobEN3TDladVA0c01kcHZwU2JUS0RPTGdzMXQ1TkcreTlkZEFiSzdMNDFkMTRSbEw4bHZ4OApzdnk4eitvR3VqMENnWUJaU1NGYTd0T1FONVMwU1gxU2JDYzhjbnVGNEZUVGV6L0FTcVdkb3gzWlNYMUJ3ZFJECnJCOFRXa2RVOSt3L1A0empEekRTYW9wSkU5WGF3aXVOcDJOWVR5eW1lamE3UTM1NEpyTHdUZ1h2Q0lzWFAyRDUKa0c4dmVmSEo4cXNjK0JLWmY1aXIydlpCL0pwQXRRU0FsLzhCa3JzUHI2UG94T09qdzVlRE9MVkNFUUtCZ1FDegptNExISURFSDJ3TEQrOFY3Vk9NYU9NR0VFNURuSU1kUkY0S2JnNVBrdnNndEVUcXNIUjZDZ3lrRERhSVM3a3BWCktwa05VcGdML3p0dzFSR3NraHBNaEhGVHJZMUFyeDFqeHR1RXcrMy9oVkl2cXpidTRZNnQrWk9OOFJkRjJTM08KeGtzcnA5VXo1MjRXWWRpQ0tYQnpaNHRWYlNoQk0rM3NMaU9kQ2Ria2FRS0JnUUN4b3ZCYXpjR2VEMXFsRjREUgo0eXZpYUpCeUNPM3ludEQwMXAvUGRCTDJNWHA2bjAzWVZEa1BHUytqamZtamt3QVV0ek9RU2pZUGViWWtlb21yClZMZ2N1YkN1VGZsNmNQbnRxUHZxM1pVT2ZqUlB1REI4MjZ0Rm82RDZEUHYwQ043WnE4Y3ZpK3h0RExqWjRDbG8KdFd3a3JWZ3JTeEljd1dyaTBMcXNXTExmV2c9PQotLS0tLUVORCBQUklWQVRFIEtFWS0tLS0tCg==
+        keystoreP12: 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
+        dmanagerPassword: MkZlZGVyYXRlTTByZQ==
+        pfAdminUserPassword: MkZlZGVyYXRlTTByZQ==
+        pfLdapPassword: MkZlZGVyYXRlTTByZQ==
+        acmeCertKeystorePassword: MkZlZGVyYXRlTTByZQ==
+        daOauthTokenValidatorSecret: MkZlZGVyYXRlTTByZQ==
+        newrelicLicenseKey: dW51c2VkCg==
 
-  isBelugaEnv: ${IS_BELUGA_ENV}
+      pingdirectory-license:
+        pingDirectoryLicense: ""
 
-  ########################################################
-  # DevOps License environment variables
-  ########################################################
-  pingIdentityDevopsUser: "${PING_IDENTITY_DEVOPS_USER}"
-  pingIdentityDevopsKey: "${PING_IDENTITY_DEVOPS_KEY}"
+      pingdirectory-truststore-certs:
+        # Optional certificate(s) to add to the PD truststore. Ex:
+        #cert_one: "asdfasdf"
+        #cert_two: asdfasdf
+        # Required if doing microservice deploy
+        tls.crt: ""
+        tls.key: ""
+        keystore.p12: ""
+    # Required for microservice deployment
+    sshIdKeyFile: ""LS0tLS1CRUdJTiBPUEVOU1NIIFBSSVZBVEUgS0VZLS0tLS0KYjNCbGJuTnphQzFyWlhrdGRqRUFBQUFBQkc1dmJtVUFBQUFFYm05dVpRQUFBQUFBQUFBQkFBQUJsd0FBQUFkemMyZ3RjbgpOaEFBQUFBd0VBQVFBQUFZRUF5d1VZQ3k4THhkR0ljZGgxdGNtcHpFZHl6c2xoQWh5Yy8wcXRaS1dHUXBLaUt0Y3kzT3NlCmFFbDVVY3Y4Y2pOWVRrS3BSbDliNjZIY2FoMW1sbGlJRzBtSGhZUE1qYnFJVjZ5c3pOL25FeWNQRzBjMnBjRmRLVDMwbEMKOTBnaTh1MGVXdnlJMGRuWjBQdlZBcWJjOHZzYlJxMVBsUU9tQUNLb0hRVXJGejdhdm1Ua1NEWFRBZkJTYTJZcytvT0tadgpGUzFPYnduaXZGbzdQL05rQnpWSFBiNzVCR2o3Q1pqa09YVFhqYXZoN2NZZVRjWXpJVWNZZldoZXlZSmVtTkVuNlhlRTFuCnlPNG5abUg4WThaNXNCWnpHN2tSRjBlcGpXSjhaV1d3UWJHdkE2QWRPTUk1OEtiVHhqekFXMi9DaHpVQytNMVZvWUpXMVgKUnJzVFFVK3JwaTlMek1veGdTOWg1U2JpeVhlSmlwaWFYYll3bk9DYmd3WW52ZTF5OGhsQlNHZUR5eEVTSXN0Y0Q2a2dUMgpNOXRlRUUzb1BtTTRHSkpkd2x5ZVE1bTV1VnFkSFRRMENCVjF2YkZ1aXBsSDVNZEdURXNGVmU0b1VyRm5tOFNrNTVhOUM4CjQ1UUdmOGtPWXEvRzR6dkppYXdwRUpNTUh0SXpza3FxNGZTbnA0NHpBQUFGa0sxSVo5T3RTR2ZUQUFBQUIzTnphQzF5YzIKRUFBQUdCQU1zRkdBc3ZDOFhSaUhIWWRiWEpxY3hIY3M3SllRSWNuUDlLcldTbGhrS1NvaXJYTXR6ckhtaEplVkhML0hJegpXRTVDcVVaZlcrdWgzR29kWnBaWWlCdEpoNFdEekkyNmlGZXNyTXpmNXhNbkR4dEhOcVhCWFNrOTlKUXZkSUl2THRIbHI4CmlOSFoyZEQ3MVFLbTNQTDdHMGF0VDVVRHBnQWlxQjBGS3hjKzJyNWs1RWcxMHdId1VtdG1MUHFEaW1ieFV0VG04SjRyeGEKT3ovelpBYzFSejIrK1FSbyt3bVk1RGwwMTQycjRlM0dIazNHTXlGSEdIMW9Yc21DWHBqUkorbDNoTlo4anVKMlpoL0dQRwplYkFXY3h1NUVSZEhxWTFpZkdWbHNFR3hyd09nSFRqQ09mQ20wOFk4d0Z0dndvYzFBdmpOVmFHQ1Z0VjBhN0UwRlBxNll2ClM4ektNWUV2WWVVbTRzbDNpWXFZbWwyMk1KemdtNE1HSjczdGN2SVpRVWhuZzhzUkVpTExYQStwSUU5alBiWGhCTjZENWoKT0JpU1hjSmNua09adWJsYW5SMDBOQWdWZGIyeGJvcVpSK1RIUmt4TEJWWHVLRkt4WjV2RXBPZVd2UXZPT1VCbi9KRG1Ldgp4dU03eVltc0tSQ1REQjdTTTdKS3F1SDBwNmVPTXdBQUFBTUJBQUVBQUFHQWVXQ3NSVk4xU0duRGw3MEFjeFVFYlZ0eUttCnQva2hHbFU0UkVNbDQ3N09WYUN4N3FDK2FPSVc5OEZ3bEwvc0x2MHFwTUpnU3hJaWw5YS92ejc0TXlySTNEZG5HY0JFZzMKWjZPWEZFM3hDeVJaQmNnSHhnWGJPdU1Ock9MS1YyTDZMUWVUbHVXM2hSbjM1UWxldEpRZ1FiQktCdGFmdnFiVDVMSUQ2TQp5ck1MZUxVOVBtYmZwdE1WazV4YzI5RjFGNkxFRVFHWmJoZGhiRVFiRzBaaExXYXZZWVR5aXNuY3BJK0lrQXJuVEsrS3R3ClJyTnVza0NkUmF6MnJxZEJBMEJYK1RBSmtacGxsOElITFNEUTcvUWs2ZmJUM0N5VVpvc3QyMnhrYUVuRXVXdDM5N2Y5VjkKbXpKY2NKWFRDdTZxUnJpU2s0cm1GUkVyTWZhYkptMlVQOE5DMm14ck5ZSDM1V2N2TG5XQnY4VndzRS9KNDVqL1kwZ1RZZAozc0Q4a2VIZU55T3N1bCsxZnRlYldJN2hqMUlsMW1PR0hXdEFORFlIcVIzZExYVXB3TEhPeWwvQVB5Wklob2JPeldBeSsyCk5RcVpvZzU2ZUpuRVdwR2FOUTNRT200bDVlcmFXeFRMMzgwWHlvVkpIWVYzbVJJbEFrUnVtcEFuVnJTMjMvSndLaEFBQUEKd1FDYXFWdjBQeG5kakYwL0lNckVheDFQZU5sVkFhV3RZVzJpZ2FBdW5GNXREL3JFTHkrQThoRWEza0NPelFucVVZUlNKdwpRVmMrdFN5UEtsWUgxck42clVTM2VwWTlhQ3d3b3dsc3VuMGRuUHdVcHZOT0VKQWU3ZGkzbi9aeXVNcVRFQi9kT0x0MUNiCmNzcy9VaVc0azZla3VCb0R4UUxvZDYvT1A3YW5zSnJBdUxrTzRkWm9RS1o3eHQ2WThTdVZKd3pzS1JVeHZpK1pNMGZGTkIKNE11U1NNaVBIbnlTbFhDZFAvai9weUczdktkSDYrVWU0K3NNdGxhd2phSTFVeWUrRUFBQURCQVBObUdOY2Znd1l2Y3EyMAppbW5nVFo4VGFNQWdXOUl5SnpLQXpCOHVnQlRXNUNkdmdQS2R3SUE2TWRDejJqQVNrYllDYzAvelJ5R3Y4SXNmdHdtSHl5Clh3NHZaQUZQSDFGR1R2QnR5UXFDRDFjYTI3UWhIVFhNeEV3SWFxcW51aStUVmxaVzVVdFRFcUxqVUFIVWMxNnBNL2tWRlEKVjBSZHVPNWhiRGowR0tDL0dDbnN5NEs1dG5ud1pzRkNURk0vWVBYcm5wWjRVRXFtZU4rV3VsSk56aVg1c201RmRrS2huUApuQ1N4WGhTUXFZMW1pR1VOdXBTY29uVytWUmRjWWJ5d0FBQU1FQTFZZlZCV252bFB3Zk5wWlFhY01WOUg4V1l3UjFUQTdLCmFJeVB1d2VVd2NHUkd1NGE1amJvL3g1WS83eDIxb3NvajExWVRIUmxtaGNPQnZRbUFSQVhCQzg3ZEFtNGY0NmdPKzdnY0sKWm5aYkg2R3VvWm5JemVtRjdBYTR6ZzdwWVBkZUFvWW00a3ZQWWtGNE5GM3BZREJFRG9UUkpVc25Ec2cwa1VuMzRmV1BLNwo2RSt4cU1lcEIxRlBzV0FQYmQ1UVJvcFVOQ0F3S2dnVml2OXM5Z2F1UFNzUnYrZStpOWw4bi84U3dvR3ZRVjlsY3FscXJ0CldMbVkvWXRibnRrbG81QUFBQUdYZGhiR3RsY21KeWIzZHVRSGRoYkd0bGNtSnliM2R1TFhJQgotLS0tLUVORCBPUEVOU1NIIFBSSVZBVEUgS0VZLS0tLS0K""
 
-  #### FEATURE FLAGS ##################################################################################################
-  # Most are disabled by default
-  # Please follow runbook instructions for the given feature flag to enable/disable
 
-  # !!! Provisioning for PingFederate is not yet available for multi-region customers !!!
-  # Runbook: https://confluence.pingidentity.com/display/PingCloud/How+to+Enable+and+Configure+PingFederate+Provisioning
-  pfProvisioningEnabled: ${PF_PROVISIONING_ENABLED}
+# delegated admin application settings
+delegatedAdmin:
+  defaultGrantTypeClientId: "dadmin"
+  exclusiveScopeName: "urn:pingidentity:directory-delegated-admin"
+  identityMapperName: "DAEntryUUIDMatch"
+  oauthTokenValidatorClientId: "dapingdirectory"
+  pingFederateAtvName: "DAPingFederateValidator"
+  pingFederateInstanceName: "DAPingFederate"
 
-  radiusProxyEnabled: ${RADIUS_PROXY_ENABLED}
+# pingfederate application settings
+pingFederate:
+  enginePort: "9031"
+  engineServer: "pingfederate"
 
-  external_ingress_enabled: ${EXTERNAL_INGRESS_ENABLED}
-
-  # Runbook: https://pingidentity.atlassian.net/wiki/spaces/PDA/pages/427688292/How+to+Enable+and+Disable+Healthchecks+-+1.19.0
-  healthchecksEnabled: ${HEALTHCHECKS_ENABLED}
-  #####################################################################################################################
+# pingdirectory application settings
+pingdirectory:
+  serverProfilePath: "profiles/pingdirectory"
+  location: "Austin"
+  backupFileName: ""
+  # This is the environment variable to select the backend(s) to restore in PD
+  # Allowed values:appintegrations platformconfig userRoot userRoot_2 userRoot_3 userRoot_4 userRoot_5
+  # Seperated with a semi-colon(;) Example: userRoot;userRoot_2
+  # No values set would just restore all backends in PD
+  backendsToRestore: ""
+  monitorBucketUrl: "ssm://walkerbrown-primary/pcpt/service/storage/pd-monitor/uri"
+  # Changes PURGE_BATCH_SIZE for -Dcom.unboundid.directory.server.plugins.PurgeExpiredDataPlugin.BATCH_SIZE= - default is 10000
+  purgeBatchSize: "10000"
+  # Add auth cert(s) - space delimited if multiple - here to enable X.509-based authentication via SASL
+  # More info here: https://confluence.pingidentity.com/display/proserv/Enabling+X.509+Authentication+with+PingDirectory
+  # Example: PD_X509_AUTH_CERTS=cert_one cert_two
+  pdX509AuthCerts: ""
+  # Set to false to avoid skipping liveness probe. Skipping the liveness (SKIP_LIVENESS=true) is the default for PingDirectory.
+  skipLiveness: true
+  # Customization for pingdirectory ingress resource
+  ingress:
+    enableExternalIngress: false
+    # Customization for pingdirectory service resource
+    ingressClassName: "nginx-private"
+  statefulSet:
+    lastUpdateReason: "NA"
+    replicas: "1"
+    # Set container limits for the pingdirectory deployment
+    resources:
+      limits:
+        memory: "4Gi"
+        cpu:  "2"
+      requests:
+        memory: "4Gi"
+        cpu: "2"
+  # Persistent volume size configuration.
+  persistentVolume:
+    size: 40Gi
+    # Storage class Name configuration for the persistent volume.
+    storageClassName: "pingdirectory-gp3"
+    # Storage provisioner configuration for managing the persistent volume.
+    storageProvisioner: "ebs.csi.aws.com"
+    # File system type configuration for the persistent volume.
+    fsType: "ext4"
+    # Storage type configuration for the persistent volume.
+    storageType: "gp3"
+  # PingDirectory Shared Cache Settings 
+  # Set this to 'true' to use shared cache for the local backends
+  pdUseSharedCache: "false"
+  # Set this to define overall cache size .This would to be shared across all local backends
+  sharedCachePercent: "55"
