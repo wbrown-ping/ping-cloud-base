@@ -16,6 +16,17 @@ global:
         acmeCertKeystorePassword: MkZlZGVyYXRlTTByZQ==
         daOauthTokenValidatorSecret: MkZlZGVyYXRlTTByZQ==
         newrelicLicenseKey: dW51c2VkCg==
+
+        pingdirectory-license:
+        pingDirectoryLicense: ""
+
+      pingdirectory-truststore-certs:
+        # Optional certificate(s) to add to the PD truststore. Ex:
+        #cert_one: "asdfasdf"
+        #cert_two: asdfasdf
+      pingdirectory-ssh-id-key-secret:
+        sshIdKeyBase64: "${SSH_ID_KEY_BASE64}"
+        
 pingdirectory:  
   serverProfilePath: "profiles/pingdirectory"
   backupFileName: ""

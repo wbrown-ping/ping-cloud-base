@@ -20,16 +20,6 @@ global:
   sshKnownHosts: "${KNOWN_HOSTS_CLUSTER_STATE_REPO}"
   secrets:
 
-      pingdirectory-license:
-        pingDirectoryLicense: ""
-
-      pingdirectory-truststore-certs:
-        # Optional certificate(s) to add to the PD truststore. Ex:
-        #cert_one: "asdfasdf"
-        #cert_two: asdfasdf
-      pingdirectory-ssh-id-key-secret:
-        sshIdKeyBase64: "${SSH_ID_KEY_BASE64}"
-
   # delegated admin application settings
   delegatedAdmin:
     defaultGrantTypeClientId: "dadmin"
