@@ -624,6 +624,7 @@ organize_code_for_csr() {
           ;;
       esac
 
+      echo "DEBUG: Running substitute vars on $app_target_dir"
       # Substitute the env vars in the app directories
       substitute_vars "${app_target_dir}" "${REPO_VARS}"
       # TODO: These duplicate calls are needed to substitute the derived variables & the IS_BELUGA_ENV

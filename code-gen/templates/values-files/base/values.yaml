@@ -15,10 +15,10 @@ global:
   # Note: NAMESPACE & SECRETNAME need to match exactly,
   #   but secret keys should follow Helm's camelCase guidance
   ############################################################
+  secrets:
 
   sealedSecrets: false
   sshKnownHosts: "${KNOWN_HOSTS_CLUSTER_STATE_REPO}"
-  secrets:
 
   # delegated admin application settings
   delegatedAdmin:

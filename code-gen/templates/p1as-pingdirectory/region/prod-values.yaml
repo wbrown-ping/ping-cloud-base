@@ -47,6 +47,7 @@ pingdirectory:
   monitorBucketUrl: "ssm://cluster-name/pcpt/service/storage/pd-monitor/uri"
   # Changes PURGE_BATCH_SIZE for -Dcom.unboundid.directory.server.plugins.PurgeExpiredDataPlugin.BATCH_SIZE= - default is 10000
   purgeBatchSize: "10000"
+  maxHeapSize: "32g"
   # Add auth cert(s) - space delimited if multiple - here to enable X.509-based authentication via SASL
   # More info here: https://confluence.pingidentity.com/display/proserv/Enabling+X.509+Authentication+with+PingDirectory
   # Example: PD_X509_AUTH_CERTS=cert_one cert_two
@@ -65,14 +66,22 @@ pingdirectory:
     pingdirectory:
       resources:
         limits:
-          memory: "4Gi"
-          cpu:  "2"
+          memory: "60Gi"
+          cpu:  "10"
         requests:
-          memory: "4Gi"
-          cpu: "2"          
+          memory: "45Gi"
+          cpu: "4"
+    statsdExporter:
+      resources:
+        limits:
+          cpu: "100m"
+          memory: "300Mi"
+        requests:
+          cpu: "100m"
+          memory: "300Mi"          
   # Persistent volume size configuration.
   persistentVolume:
-    size: 40Gi
+    size: 100Gi
     # Storage class Name configuration for the persistent volume.
     storageClassName: "pingdirectory-gp3"
     # Storage provisioner configuration for managing the persistent volume.
