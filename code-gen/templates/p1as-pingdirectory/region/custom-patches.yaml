@@ -4,4 +4,4 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: pingdirectory-custom-environment-variables
+  name: pingdirectory-custom-placeholder
