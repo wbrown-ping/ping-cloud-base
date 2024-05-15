@@ -22,9 +22,9 @@ configMapGenerator:
     literals:
       - UPDATE_REASON=""
   ### This is needed for the empty custom-patches.yaml file to work ###
-  - name: pingdirectory-custom-environment-variables
+  - name: beluga-tools-custom-placeholder
   ### This is needed for the empty custom-patches.yaml file to work in base folder ###
-  - name: pingdirectory-custom-environment-variables-base      
+  - name: beluga-tools-custom-placeholder-base      
 
 patchesStrategicMerge:
   ### PS/GSO customizations to OOTB resources should only go into this file. Otherwise, CSR auto-updates will break. ###
