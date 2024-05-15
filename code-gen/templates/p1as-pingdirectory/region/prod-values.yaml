@@ -35,15 +35,6 @@ pingdirectory:
   # Seperated with a semi-colon(;) Example: userRoot;userRoot_2
   # No values set would just restore all backends in PD
   backendsToRestore: ""
-  # Define the contents for your descriptor.json file here, in yaml. An example is provided below for syntax.
-  # descriptorFile: |-
-  #   us-west-2:
-  #     hostname: abc
-  #     replicas: 1
-  #   us-east-2:
-  #     hostname: def
-  #     replicas: 2
-  descriptorFile: ""
   monitorBucketUrl: "ssm://cluster-name/pcpt/service/storage/pd-monitor/uri"
   # Changes PURGE_BATCH_SIZE for -Dcom.unboundid.directory.server.plugins.PurgeExpiredDataPlugin.BATCH_SIZE= - default is 10000
   purgeBatchSize: "10000"
