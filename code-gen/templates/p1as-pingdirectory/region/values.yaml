@@ -51,7 +51,7 @@ pingdirectory:
     ingressClassName: "nginx-private"
   statefulSet:
     lastUpdateReason: "NA"
-    replicas: "3"
+    replicas: "2"
     # Set container limits for the pingdirectory deployment
     pingdirectory:
       resources:
