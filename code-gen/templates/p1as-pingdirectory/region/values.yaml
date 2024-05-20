@@ -1,5 +1,3 @@
-global:
-
 pingdirectory:  
   serverProfilePath: "profiles/pingdirectory"
   backupFileName: ""
@@ -37,14 +35,6 @@ pingdirectory:
   # Persistent volume size configuration.
   persistentVolume:
     size: 40Gi
-    # Storage class Name configuration for the persistent volume.
-    storageClassName: "pingdirectory-gp3"
-    # Storage provisioner configuration for managing the persistent volume.
-    storageProvisioner: "ebs.csi.aws.com"
-    # File system type configuration for the persistent volume.
-    fsType: "ext4"
-    # Storage type configuration for the persistent volume.
-    storageType: "gp3"
   # PingDirectory Shared Cache Settings 
   # Set this to 'true' to use shared cache for the local backends
   pdUseSharedCache: "false"
