@@ -46,7 +46,7 @@ Promote a region from secondary to primary
 
 - Edit the region's ping-cloud/kustomization.yaml file (e.g. k8s-configs/us-west-2/ping-cloud/kustomization.yaml).
   Comment out the `remove-from-secondary-patch.yaml` patch in the `patchesStrategicMerge` section. 
-  Note: You do not need to do this for pingdirectory resources
+  Note: You do not need to do this for microservice resources
 
 - Edit each app's env_vars or values file (e.g. PF's env_vars would be at
   k8s-configs/us-west-2/ping-cloud/pingfederate/env_vars, PD's values file would be p1as-pingdirectory/us-west-2/values.yaml). 
