@@ -45,18 +45,6 @@ global:
         sshIdKeyBase64: "${SSH_ID_KEY_BASE64}"
           sshKnownHosts: "${KNOWN_HOSTS_CLUSTER_STATE_REPO}"
 
-  # Define the contents for your descriptor.json file here, in yaml. An example is provided below for syntax.  
-  # Also see the descriptor.json.readme file in p1as-pingdirectory/deploy/templates/config directory of the 
-  # p1as-pingdirectory repo for more info
-  # descriptorFile: |-
-  #   us-west-2:
-  #     hostname: abc
-  #     replicas: 1
-  #   us-east-2:
-  #     hostname: def
-  #     replicas: 2
-  descriptorFile: ""
-
   ########################################################
   # Multi-region parameters
   ########################################################
@@ -149,6 +137,22 @@ global:
   ########################################################
   pingIdentityDevopsUser: "${PING_IDENTITY_DEVOPS_USER}"
   pingIdentityDevopsKey: "${PING_IDENTITY_DEVOPS_KEY}"
+
+  ########################################################
+  # Shared Application Variables
+  ########################################################
+  # Define the contents for your descriptor.json file here, in yaml. An example is provided below for syntax.  
+  # Also see the descriptor.json.readme file in p1as-pingdirectory/deploy/templates/config directory of the 
+  # p1as-pingdirectory repo for more info
+  # descriptorFile: |-
+  #   us-west-2:
+  #     hostname: abc
+  #     replicas: 1
+  #   us-east-2:
+  #     hostname: def
+  #     replicas: 2
+  descriptorFile: ""
+
 
   #### FEATURE FLAGS ##################################################################################################
   # Most are disabled by default
