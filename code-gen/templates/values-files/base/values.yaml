@@ -17,16 +17,33 @@ global:
   ############################################################
   sealedSecrets: false
   secrets:
-  sshKnownHosts: "${KNOWN_HOSTS_CLUSTER_STATE_REPO}"
+    ping-cloud:
+      pingdirectory-passwords:
+        rootUserPassword: MkZlZGVyYXRlTTByZQ==
+        adminUserPassword: MkZlZGVyYXRlTTByZQ==
+        encryptionPassword: MkZlZGVyYXRlTTByZQ==
+        oldEncryptionPasswords: MkZlZGVyYXRlTTByZQ==
+        encryptionSettingsPin: MkZlZGVyYXRlTTByZQ==
+        p14cClientId: "ODkwNzM2NTQtNGVkMy00YTViLWI4OWMtZmY2YjVlMWI3ZDFi"
+        p14cClientSecret: "UXA4aTAudHg4U3dVSWphdnlYWn5KYTZLQlA5SzN+azljTUYuUWF4UTZYclBvdHpmOU5DbFk2bHRLLjBJUU42MA=="
+        p14cEnvironmentId: "YzNlMzczNTctNTA2Mi00MWJjLTk5NzItYTdlYTlkMTRhNWEy"
+        dmanagerPassword: MkZlZGVyYXRlTTByZQ==
+        pfAdminUserPassword: MkZlZGVyYXRlTTByZQ==
+        pfLdapPassword: MkZlZGVyYXRlTTByZQ==
+        acmeCertKeystorePassword: MkZlZGVyYXRlTTByZQ==
+        daOauthTokenValidatorSecret: MkZlZGVyYXRlTTByZQ==
+        newrelicLicenseKey: dW51c2VkCg==
 
-  # delegated admin application settings
-  delegatedAdmin:
-    defaultGrantTypeClientId: "dadmin"
-    exclusiveScopeName: "urn:pingidentity:directory-delegated-admin"
-    identityMapperName: "DAEntryUUIDMatch"
-    oauthTokenValidatorClientId: "dapingdirectory"
-    pingFederateAtvName: "DAPingFederateValidator"
-    pingFederateInstanceName: "DAPingFederate"
+        pingdirectory-license:
+        pingDirectoryLicense: ""
+
+      pingdirectory-truststore-certs:
+        # Optional certificate(s) to add to the PD truststore. Ex:
+        #cert_one: "asdfasdf"
+        #cert_two: asdfasdf
+      pingdirectory-ssh-id-key-secret:
+        sshIdKeyBase64: "${SSH_ID_KEY_BASE64}"
+          sshKnownHosts: "${KNOWN_HOSTS_CLUSTER_STATE_REPO}"
 
   # Define the contents for your descriptor.json file here, in yaml. An example is provided below for syntax.  
   # Also see the descriptor.json.readme file in p1as-pingdirectory/deploy/templates/config directory of the 
@@ -39,12 +56,6 @@ global:
   #     hostname: def
   #     replicas: 2
   descriptorFile: ""
-
-  # pingfederate application settings
-  pingFederate:
-    enginePort: "9031"
-    engineServer: "pingfederate"
-
 
   ########################################################
   # Multi-region parameters

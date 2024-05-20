@@ -1,32 +1,5 @@
 global:
-  secrets:
-    ping-cloud:
-      pingdirectory-passwords:
-        rootUserPassword: MkZlZGVyYXRlTTByZQ==
-        adminUserPassword: MkZlZGVyYXRlTTByZQ==
-        encryptionPassword: MkZlZGVyYXRlTTByZQ==
-        oldEncryptionPasswords: MkZlZGVyYXRlTTByZQ==
-        encryptionSettingsPin: MkZlZGVyYXRlTTByZQ==
-        p14cClientId: "ODkwNzM2NTQtNGVkMy00YTViLWI4OWMtZmY2YjVlMWI3ZDFi"
-        p14cClientSecret: "UXA4aTAudHg4U3dVSWphdnlYWn5KYTZLQlA5SzN+azljTUYuUWF4UTZYclBvdHpmOU5DbFk2bHRLLjBJUU42MA=="
-        p14cEnvironmentId: "YzNlMzczNTctNTA2Mi00MWJjLTk5NzItYTdlYTlkMTRhNWEy"
-        dmanagerPassword: MkZlZGVyYXRlTTByZQ==
-        pfAdminUserPassword: MkZlZGVyYXRlTTByZQ==
-        pfLdapPassword: MkZlZGVyYXRlTTByZQ==
-        acmeCertKeystorePassword: MkZlZGVyYXRlTTByZQ==
-        daOauthTokenValidatorSecret: MkZlZGVyYXRlTTByZQ==
-        newrelicLicenseKey: dW51c2VkCg==
 
-        pingdirectory-license:
-        pingDirectoryLicense: ""
-
-      pingdirectory-truststore-certs:
-        # Optional certificate(s) to add to the PD truststore. Ex:
-        #cert_one: "asdfasdf"
-        #cert_two: asdfasdf
-      pingdirectory-ssh-id-key-secret:
-        sshIdKeyBase64: "${SSH_ID_KEY_BASE64}"
-        
 pingdirectory:  
   serverProfilePath: "profiles/pingdirectory"
   backupFileName: ""
