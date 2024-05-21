@@ -61,15 +61,7 @@ pingdirectory:
           cpu:  "10"
         requests:
           memory: "45Gi"
-          cpu: "4"
-    statsdExporter:
-      resources:
-        limits:
-          cpu: "100m"
-          memory: "300Mi"
-        requests:
-          cpu: "100m"
-          memory: "300Mi"          
+          cpu: "4"  
   # Persistent volume size configuration.
   persistentVolume:
     size: 100Gi
