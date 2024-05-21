@@ -43,7 +43,7 @@ global:
         #cert_two: asdfasdf
       pingdirectory-ssh-id-key-secret:
         sshIdKeyBase64: "${SSH_ID_KEY_BASE64}"
-          sshKnownHosts: "${KNOWN_HOSTS_CLUSTER_STATE_REPO}"
+  sshKnownHosts: "${KNOWN_HOSTS_CLUSTER_STATE_REPO}"
 
   ########################################################
   # Multi-region parameters
