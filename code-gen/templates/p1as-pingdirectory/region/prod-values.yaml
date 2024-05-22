@@ -1,34 +1,4 @@
-global:
-  secrets:
-    ping-cloud:
-      pingdirectory-passwords:
-        rootUserPassword: MkZlZGVyYXRlTTByZQ==
-        adminUserPassword: MkZlZGVyYXRlTTByZQ==
-        encryptionPassword: MkZlZGVyYXRlTTByZQ==
-        oldEncryptionPasswords: MkZlZGVyYXRlTTByZQ==
-        encryptionSettingsPin: MkZlZGVyYXRlTTByZQ==
-        p14cClientId: "ODkwNzM2NTQtNGVkMy00YTViLWI4OWMtZmY2YjVlMWI3ZDFi"
-        p14cClientSecret: "UXA4aTAudHg4U3dVSWphdnlYWn5KYTZLQlA5SzN+azljTUYuUWF4UTZYclBvdHpmOU5DbFk2bHRLLjBJUU42MA=="
-        p14cEnvironmentId: "YzNlMzczNTctNTA2Mi00MWJjLTk5NzItYTdlYTlkMTRhNWEy"
-        dmanagerPassword: MkZlZGVyYXRlTTByZQ==
-        pfAdminUserPassword: MkZlZGVyYXRlTTByZQ==
-        pfLdapPassword: MkZlZGVyYXRlTTByZQ==
-        acmeCertKeystorePassword: MkZlZGVyYXRlTTByZQ==
-        daOauthTokenValidatorSecret: MkZlZGVyYXRlTTByZQ==
-        newrelicLicenseKey: dW51c2VkCg==
-
-        pingdirectory-license:
-        pingDirectoryLicense: ""
-
-      pingdirectory-truststore-certs:
-        # Optional certificate(s) to add to the PD truststore. Ex:
-        #cert_one: "asdfasdf"
-        #cert_two: asdfasdf
-      pingdirectory-ssh-id-key-secret:
-        sshIdKeyBase64: "${SSH_ID_KEY_BASE64}"
-        
 pingdirectory:  
-  serverProfilePath: "profiles/pingdirectory"
   backupFileName: ""
   # This is the environment variable to select the backend(s) to restore in PD
   # Allowed values:appintegrations platformconfig userRoot userRoot_2 userRoot_3 userRoot_4 userRoot_5
@@ -73,14 +43,6 @@ pingdirectory:
   # Persistent volume size configuration.
   persistentVolume:
     size: 100Gi
-    # Storage class Name configuration for the persistent volume.
-    storageClassName: "pingdirectory-gp3"
-    # Storage provisioner configuration for managing the persistent volume.
-    storageProvisioner: "ebs.csi.aws.com"
-    # File system type configuration for the persistent volume.
-    fsType: "ext4"
-    # Storage type configuration for the persistent volume.
-    storageType: "gp3"
   # PingDirectory Shared Cache Settings 
   # Set this to 'true' to use shared cache for the local backends
   pdUseSharedCache: "false"
