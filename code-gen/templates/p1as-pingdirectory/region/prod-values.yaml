@@ -18,8 +18,6 @@ pingdirectory:
   # Customization for pingdirectory ingress resource
   ingress:
     enableExternalIngress: false
-    # Customization for pingdirectory service resource
-    ingressClassName: "nginx-private"
   statefulSet:
     lastUpdateReason: "NA"
     replicas: "3"
