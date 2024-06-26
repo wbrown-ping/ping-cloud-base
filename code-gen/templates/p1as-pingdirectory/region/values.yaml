@@ -15,6 +15,17 @@ pingdirectory:
   pdX509AuthCerts: ""
   # Set to false to avoid skipping liveness probe. Skipping the liveness (SKIP_LIVENESS=true) is the default for PingDirectory.
   skipLiveness: true
+
+  # Alternate Base DNs
+  userBaseDn_2: ""
+  userBaseDn_3: ""
+  userBaseDn_4: ""
+  userBaseDn_5: ""
+  # Multiple Backend IDs
+  USER_BACKEND_ID_2: userRoot_2
+  USER_BACKEND_ID_3: userRoot_3
+  USER_BACKEND_ID_4: userRoot_4
+  USER_BACKEND_ID_5: userRoot_5
   # Customization for pingdirectory ingress resource
   ingress:
     enableExternalIngress: false

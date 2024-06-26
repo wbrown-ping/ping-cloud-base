@@ -110,6 +110,8 @@ global:
   ########################################################
   # Miscellaneous ping-cloud variables
   ########################################################
+  # PingDirectory base DN
+  userBaseDn: "dc=example,dc=com"
   # pingCloudNamespace is the namespace where Ping apps are deployed
   pingCloudNamespace: "${PING_CLOUD_NAMESPACE}"
 
