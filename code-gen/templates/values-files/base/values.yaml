@@ -113,6 +113,11 @@ global:
   ########################################################
   # PingDirectory base DN
   userBaseDn: "dc=example,dc=com"
+  # Alternate Base DNs
+  userBaseDn_2: ""
+  userBaseDn_3: ""
+  userBaseDn_4: ""
+  userBaseDn_5: ""
   # pingCloudNamespace is the namespace where Ping apps are deployed
   pingCloudNamespace: "${PING_CLOUD_NAMESPACE}"
 

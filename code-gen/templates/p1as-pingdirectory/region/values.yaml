@@ -11,13 +11,6 @@ pingdirectory:
   maxHeapSize: "3g"
   # Set to false to avoid skipping liveness probe. Skipping the liveness (SKIP_LIVENESS=true) is the default for PingDirectory.
   skipLiveness: true
-
-  # Alternate Base DNs
-  userBaseDn_2: ""
-  userBaseDn_3: ""
-  userBaseDn_4: ""
-  userBaseDn_5: ""
-
   # The IRSA role ARN to be used for the PingDirectory serviceAccount
   irsaPdAnnotationKeyValue: "" 
 
