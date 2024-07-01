@@ -54,9 +54,10 @@ global:
       daOauthTokenValidatorSecret: MkZlZGVyYXRlTTByZQ==
       # Optional license key for PingDirectory
       pingDirectoryLicense: ""
-      # Optional certificate(s) to add to the PD truststore. Name must have the prefix "pdTruststore" Ex:
-      # pdTruststoreCertOne: "asdfasdf"
-      # pdTruststoreCertTwo: "asdfasdf"
+      # Optional certificate(s) to add to the PD truststore. Name must have the prefix "pdTruststore" Ex below:
+      # More info here: https://confluence.pingidentity.com/display/proserv/Enabling+X.509+Authentication+with+PingDirectory
+      # pdTruststoreCertOne: "certOneData"
+      # pdTruststoreCertTwo: "certTwoData"
 
   ########################################################
   # Multi-region parameters
