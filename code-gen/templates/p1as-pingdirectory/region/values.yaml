@@ -22,6 +22,9 @@ pingdirectory:
   userBaseDn_4: ""
   userBaseDn_5: ""
 
+  # The IRSA role ARN to be used for the PingDirectory serviceAccount
+  irsaPdAnnotationKeyValue: "" 
+
   # Customization for pingdirectory ingress resource
   ingress:
     enableExternalIngress: false
