@@ -1084,7 +1084,7 @@ BOOTSTRAP_DIR="${TARGET_DIR}/${BOOTSTRAP_SHORT_DIR}"
 CLUSTER_STATE_REPO_DIR="${TARGET_DIR}/cluster-state"
 PROFILE_REPO_DIR="${TARGET_DIR}/profile-repo"
 PROFILES_DIR="${PROFILE_REPO_DIR}/profiles"
-PROFILE_REPO_MIRRORS=("p1as-pingdirectory:${PD_PROFILE_BRANCH:-v2.0-release-branch}")
+PROFILE_REPO_MIRRORS=("p1as-pingdirectory")
 
 
 CUSTOMER_HUB='customer-hub'
@@ -1435,9 +1435,12 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
 
   # Create temp dir for cloned profiles
   PROFILE_REPO_MIRROR_DIR="$(mktemp -d)"
-  for app_entry in ${PROFILE_REPO_MIRRORS[@]}; do
-    app_repo=${app_entry%%:*}
-    app_repo_branch=${app_entry#*:}
+  for app_repo in ${PROFILE_REPO_MIRRORS[@]}; do
+    app_repo_branch=$(yq e '.helmCharts[].version' ./templates/${app_repo}/region/kustomization.yaml)
+    # Remove '-latest' from app_repo_branch if present
+    if [[ $app_repo_branch == *"-latest"* ]]; then
+      app_repo_branch="${app_repo_branch%-latest}"
+    fi
     # Remove 'p1as-' prefix from repository names
     product_name=${app_repo#p1as-}
     # Clone microservice repo at the new version
@@ -1452,7 +1455,7 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
     mkdir -p "${ENV_PROFILES_DIR}/${product_name}"
 
     log "Copying profile code from ${PROFILE_REPO_MIRROR_DIR}/${app_repo}/deploy/${app_repo}/profile/ to ${ENV_PROFILES_DIR}/${product_name}"
-    cp -r "${PROFILE_REPO_MIRROR_DIR}/${app_repo}/deploy/${app_repo}/profile/." "${ENV_PROFILES_DIR}/${product_name}"
+    cp -r "${PROFILE_REPO_MIRROR_DIR}/${app_repo}/profile/." "${ENV_PROFILES_DIR}/${product_name}"
   done
 
   if test "${ENV}" = "${CUSTOMER_HUB}"; then
