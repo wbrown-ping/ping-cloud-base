@@ -827,7 +827,7 @@ export SERVER_PROFILE_URL="${SERVER_PROFILE_URL:-${SERVER_PROFILE_URL_DERIVED}}"
 export K8S_GIT_URL="${K8S_GIT_URL:-https://github.com/pingidentity/ping-cloud-base.git}"
 export K8S_GIT_BRANCH="${K8S_GIT_BRANCH:-${CURRENT_GIT_BRANCH}}"
 
-export MICROSERVICE_APP_REPO_URL="${MICROSERVICE_APP_REPO_URL:-git@gitlab.corp.pingidentity.com:ping-cloud-private-tenant/p1as-apps}"
+export MICROSERVICE_APP_REPO_URL="${MICROSERVICE_APP_REPO_URL:-git@gitlab.corp.pingidentity.com:ping-cloud-private-tenant}"
 
 export SSH_ID_PUB_FILE="${SSH_ID_PUB_FILE}"
 export SSH_ID_KEY_FILE="${SSH_ID_KEY_FILE}"
@@ -1445,10 +1445,10 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
     product_name=${app_repo#p1as-}
     # Clone microservice repo at the new version
     log "Cloning ${app_repo}@${app_repo_branch} to '${PROFILE_REPO_MIRROR_DIR}'"
-    git clone -c advice.detachedHead=false --depth 1 --branch "${app_repo_branch}" "${MICROSERVICE_APP_REPO_URL}/${app_repo}" "${PROFILE_REPO_MIRROR_DIR}/${app_repo}"
+    git clone -c advice.detachedHead=false --depth 1 --branch "${app_repo_branch}" "${MICROSERVICE_APP_REPO_URL}/p1as-apps/${app_repo}" "${PROFILE_REPO_MIRROR_DIR}/${app_repo}"
 
     if test $? -ne 0; then
-      log "Unable to clone ${app_repo}@${app_repo_branch} from ${MICROSERVICE_APP_REPO_URL}"
+      log "Unable to clone ${app_repo}@${app_repo_branch} from ${MICROSERVICE_APP_REPO_URL}/p1as-apps"
       exit 1
     fi
     log "Creating directory for ${app_repo} profiles in ${ENV_PROFILES_DIR}"
