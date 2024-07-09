@@ -1438,9 +1438,8 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
   for app_repo in ${PROFILE_REPO_MIRRORS[@]}; do
     app_repo_branch=$(yq e '.helmCharts[].version' ./templates/${app_repo}/region/kustomization.yaml)
     # Remove '-latest' from app_repo_branch if present
-    if [[ $app_repo_branch == *"-latest"* ]]; then
-      app_repo_branch="${app_repo_branch%-latest}"
-    fi
+    app_repo_branch="${app_repo_branch%-latest}"
+
     # Remove 'p1as-' prefix from repository names
     product_name=${app_repo#p1as-}
     # Clone microservice repo at the new version
