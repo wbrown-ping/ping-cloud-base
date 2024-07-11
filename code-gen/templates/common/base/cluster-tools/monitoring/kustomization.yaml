@@ -346,7 +346,7 @@ patchesStrategicMerge:
       prefix: "${CLUSTER_NAME}-${TENANT_NAME}"
 
 - |-
-  apiVersion: v1
+  apiVersion: apps/v1
   kind: StatefulSet
   metadata:
     name: thanos-storegateway
@@ -355,7 +355,7 @@ patchesStrategicMerge:
     template:
       spec:
         containers:
-        - name: thanos-storegateway
+        - name: storegateway
           resources:
             limits:
               memory: "8Gi"
