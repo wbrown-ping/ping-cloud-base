@@ -498,6 +498,9 @@ data:
     is_forward_only: true
     http_server_enabled: true
     http_server_port: 8001
+    log:
+      level: debug
+      stdout: true
 ---
 # Source: p1as-newrelic/charts/nri-bundle/charts/nri-kube-events/templates/configmap.yaml
 apiVersion: v1
