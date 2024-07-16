@@ -217,6 +217,7 @@ data:
     log:
       level: debug
       file: /path/to/logfile.log
+      stdout: true
 ---
 # Source: p1as-newrelic/charts/nri-bundle/charts/newrelic-infrastructure/templates/ksm/scraper-configmap.yaml
 apiVersion: v1
