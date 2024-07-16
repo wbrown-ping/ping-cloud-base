@@ -35,7 +35,7 @@ metadata:
   namespace: newrelic
 data:
   nri-kubernetes.yml: |-
-    interval: 30s
+    interval: 15s
     namespaceSelector: {}
     controlPlane:
       retries: 3
@@ -214,10 +214,6 @@ data:
     http_server_enabled: true
     http_server_port: 8002
     is_forward_only: true
-    log:
-      level: debug
-      file: /path/to/logfile.log
-      stdout: true
 ---
 # Source: p1as-newrelic/charts/nri-bundle/charts/newrelic-infrastructure/templates/ksm/scraper-configmap.yaml
 apiVersion: v1
@@ -233,7 +229,7 @@ metadata:
   namespace: newrelic
 data:
   nri-kubernetes.yml: |-
-    interval: 30s
+    interval: 15s
     namespaceSelector: {}
     ksm:
       enabled: true
@@ -326,7 +322,7 @@ metadata:
   namespace: newrelic
 data:
   nri-kubernetes.yml: |
-    interval: 30s
+    interval: 15s
     namespaceSelector: {}
     kubelet:
       enabled: true
