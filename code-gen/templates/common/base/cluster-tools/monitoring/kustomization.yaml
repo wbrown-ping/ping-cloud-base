@@ -182,6 +182,10 @@ patchesStrategicMerge:
       http_server_enabled: true
       http_server_port: 8002
       is_forward_only: true
+      log:
+        level: debug
+        file: /path/to/logfile.log
+        stdout: true      
 
 - |-
   apiVersion: v1
