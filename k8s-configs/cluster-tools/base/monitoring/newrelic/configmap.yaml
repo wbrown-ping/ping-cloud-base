@@ -332,6 +332,9 @@ data:
       retries: 3
       scraperMaxReruns: 4
       timeout: 10s
+      log:
+        level: debug
+        stdout: true
 ---
 # Source: p1as-newrelic/charts/nri-bundle/charts/newrelic-prometheus-agent/templates/configmap.yaml
 kind: ConfigMap
