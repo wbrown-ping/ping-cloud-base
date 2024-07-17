@@ -11,12 +11,9 @@
 - Support customer bringing their own certificate for their external server and adding it to PingDataSync truststore
 - Making Graviton as default for NON-GA environment, fix GA consistency across envs
 - Updated Newrelic agent to latest version
-<<<<<<< HEAD
 - Refactor update-profile-wrapper code to support new variables for microservice profile mirrors.
 - De-duplicate prod-values.yaml
-=======
 - Updating memory limits for thanos-storegateway
->>>>>>> b7c981bfe (Update changelog)
 
 _Changes:_
 
@@ -30,12 +27,9 @@ _Changes:_
 - [X] PDO-7527 Grafana: Update PGO dashboards to be compatible with the current PGO version
 - [X] PDO-7608 Making Graviton as default for NON-GA environment, fix GA consistency across envs
 - [X] PDO-7248 NewRelic: Upgrade APM agent to latest version
-<<<<<<< HEAD
 - [X] PDO-7445 Remove toplogy-descriptor volume mount from products where not needed
 - [X] PDO-7469 De-duplicate prod-values.yaml
-=======
 - [X] PDO-7669 Thanos: Storage Gateway crashlooping with OOM killed when choosing old range of data on Prometheus/Grafana UI
->>>>>>> b7c981bfe (Update changelog)
 
 ### 1.19.1.0
 
