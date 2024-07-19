@@ -38,7 +38,7 @@ data:
     interval: 30s
     namespaceSelector:
       matchLabels:
-        kubernetes.io/metadata.name=ping-cloud
+        kubernetes.io/metadata.name: ping-cloud
     controlPlane:
       retries: 3
       timeout: 10s
@@ -234,7 +234,7 @@ data:
     interval: 30s
     namespaceSelector:
       matchLabels:
-        kubernetes.io/metadata.name=ping-cloud
+        kubernetes.io/metadata.name: ping-cloud
     ksm:
       enabled: true
       retries: 3
@@ -329,7 +329,7 @@ data:
     interval: 30s
     namespaceSelector:
       matchLabels:
-        kubernetes.io/metadata.name=ping-cloud
+        kubernetes.io/metadata.name: ping-cloud
     kubelet:
       enabled: true
       retries: 3
