@@ -38,18 +38,19 @@ data:
     interval: 30s
     namespaceSelector:
       matchLabels:
-        kubernetes.io/metadata.name: amazon-gaurdduty
-        kubernetes.io/metadata.name: amazon-cloudwatch
-        kubernetes.io/metadata.name: argocd
-        kubernetes.io/metadata.name: cert-manager
-        kubernetes.io/metadata.name: elastic-stack-logging
-        kubernetes.io/metadata.name: external-dns
-        kubernetes.io/metadata.name: ingress-nginx-private
-        kubernetes.io/metadata.name: ingress-nginx-public
-        kubernetes.io/metadata.name: newrelic
-        kubernetes.io/metadata.name: ping-cloud
-        kubernetes.io/metadata.name: postgres-operator
-        kubernetes.io/metadata.name: prometheus
+        kubernetes.io/metadata.name: 
+          - "amazon-gaurdduty"
+          - "amazon-cloudwatch"
+          - "argocd"
+          - "cert-manager"
+          - "elastic-stack-logging"
+          - "external-dns"
+          - "ingress-nginx-private"
+          - "ingress-nginx-public"
+          - "newrelic"
+          - "ping-cloud"
+          - "postgres-operator"
+          - "prometheus"
     controlPlane:
       retries: 3
       timeout: 10s
@@ -245,18 +246,19 @@ data:
     interval: 30s
     namespaceSelector:
       matchLabels:
-        kubernetes.io/metadata.name: amazon-gaurdduty
-        kubernetes.io/metadata.name: amazon-cloudwatch
-        kubernetes.io/metadata.name: argocd
-        kubernetes.io/metadata.name: cert-manager
-        kubernetes.io/metadata.name: elastic-stack-logging
-        kubernetes.io/metadata.name: external-dns
-        kubernetes.io/metadata.name: ingress-nginx-private
-        kubernetes.io/metadata.name: ingress-nginx-public
-        kubernetes.io/metadata.name: newrelic
-        kubernetes.io/metadata.name: ping-cloud
-        kubernetes.io/metadata.name: postgres-operator
-        kubernetes.io/metadata.name: prometheus        
+        kubernetes.io/metadata.name: 
+          - "amazon-gaurdduty"
+          - "amazon-cloudwatch"
+          - "argocd"
+          - "cert-manager"
+          - "elastic-stack-logging"
+          - "external-dns"
+          - "ingress-nginx-private"
+          - "ingress-nginx-public"
+          - "newrelic"
+          - "ping-cloud"
+          - "postgres-operator"
+          - "prometheus"  
     ksm:
       enabled: true
       retries: 3
@@ -352,18 +354,19 @@ data:
     interval: 30s
     namespaceSelector:
       matchLabels:
-        kubernetes.io/metadata.name: amazon-gaurdduty
-        kubernetes.io/metadata.name: amazon-cloudwatch
-        kubernetes.io/metadata.name: argocd
-        kubernetes.io/metadata.name: cert-manager
-        kubernetes.io/metadata.name: elastic-stack-logging
-        kubernetes.io/metadata.name: external-dns
-        kubernetes.io/metadata.name: ingress-nginx-private
-        kubernetes.io/metadata.name: ingress-nginx-public
-        kubernetes.io/metadata.name: newrelic
-        kubernetes.io/metadata.name: ping-cloud
-        kubernetes.io/metadata.name: postgres-operator
-        kubernetes.io/metadata.name: prometheus
+        kubernetes.io/metadata.name: 
+          - "amazon-gaurdduty"
+          - "amazon-cloudwatch"
+          - "argocd"
+          - "cert-manager"
+          - "elastic-stack-logging"
+          - "external-dns"
+          - "ingress-nginx-private"
+          - "ingress-nginx-public"
+          - "newrelic"
+          - "ping-cloud"
+          - "postgres-operator"
+          - "prometheus"
     kubelet:
       enabled: true
       retries: 3
