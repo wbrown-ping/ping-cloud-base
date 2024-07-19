@@ -91,3 +91,203 @@ patches:
       - op: remove
         path: /metadata/annotations/helm.sh~1hook-delete-policy
       
+patchesStrategicMerge:
+
+- |-
+  apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: nri-bundle-nrk8s-controlplane
+    namespace: newrelic
+  data:
+    nri-kubernetes.yml: |-
+    interval: 30s
+    namespaceSelector: {}
+    controlPlane:
+      retries: 3
+      timeout: 10s
+      enabled: true
+      etcd:
+        autodiscover:
+          - endpoints:
+              - auth:
+                  type: bearer
+                insecureSkipVerify: true
+                url: https://localhost:4001
+              - url: http://localhost:2381
+            matchNode: true
+            namespace: kube-system
+            selector: tier=control-plane,component=etcd
+          - endpoints:
+              - auth:
+                  type: bearer
+                insecureSkipVerify: true
+                url: https://localhost:4001
+            matchNode: true
+            namespace: kube-system
+            selector: k8s-app=etcd-manager-main
+          - endpoints:
+              - auth:
+                  type: bearer
+                insecureSkipVerify: true
+                url: https://localhost:4001
+            matchNode: true
+            namespace: kube-system
+            selector: k8s-app=etcd
+        enabled: true
+      scheduler:
+        autodiscover:
+          - endpoints:
+              - auth:
+                  type: bearer
+                insecureSkipVerify: true
+                url: https://localhost:10259
+            matchNode: true
+            namespace: kube-system
+            selector: tier=control-plane,component=kube-scheduler
+          - endpoints:
+              - auth:
+                  type: bearer
+                insecureSkipVerify: true
+                url: https://localhost:10259
+            matchNode: true
+            namespace: kube-system
+            selector: k8s-app=kube-scheduler
+          - endpoints:
+              - auth:
+                  type: bearer
+                insecureSkipVerify: true
+                url: https://localhost:10259
+            matchNode: true
+            namespace: openshift-kube-scheduler
+            selector: app=openshift-kube-scheduler,scheduler=true
+          - endpoints:
+              - auth:
+                  type: bearer
+                insecureSkipVerify: true
+                url: https://localhost:10259
+            matchNode: true
+            namespace: kube-system
+            selector: app=openshift-kube-scheduler,scheduler=true
+        enabled: true
+      controllerManager:
+        autodiscover:
+          - endpoints:
+              - auth:
+                  type: bearer
+                insecureSkipVerify: true
+                url: https://localhost:10257
+            matchNode: true
+            namespace: kube-system
+            selector: tier=control-plane,component=kube-controller-manager
+          - endpoints:
+              - auth:
+                  type: bearer
+                insecureSkipVerify: true
+                url: https://localhost:10257
+            matchNode: true
+            namespace: kube-system
+            selector: k8s-app=kube-controller-manager
+          - endpoints:
+              - auth:
+                  type: bearer
+                insecureSkipVerify: true
+                url: https://localhost:10257
+            matchNode: true
+            namespace: openshift-kube-controller-manager
+            selector: app=kube-controller-manager,kube-controller-manager=true
+          - endpoints:
+              - auth:
+                  type: bearer
+                insecureSkipVerify: true
+                url: https://localhost:10257
+            matchNode: true
+            namespace: kube-system
+            selector: app=kube-controller-manager,kube-controller-manager=true
+          - endpoints:
+              - auth:
+                  type: bearer
+                insecureSkipVerify: true
+                url: https://localhost:10257
+            matchNode: true
+            namespace: kube-system
+            selector: app=controller-manager,controller-manager=true
+        enabled: true
+      apiServer:
+        autodiscover:
+          - endpoints:
+              - auth:
+                  type: bearer
+                insecureSkipVerify: true
+                url: https://localhost:8443
+              - auth:
+                  type: bearer
+                insecureSkipVerify: true
+                url: https://localhost:6443
+              - url: http://localhost:8080
+            matchNode: true
+            namespace: kube-system
+            selector: tier=control-plane,component=kube-apiserver
+          - endpoints:
+              - auth:
+                  type: bearer
+                insecureSkipVerify: true
+                url: https://localhost:8443
+              - url: http://localhost:8080
+            matchNode: true
+            namespace: kube-system
+            selector: k8s-app=kube-apiserver
+          - endpoints:
+              - auth:
+                  type: bearer
+                insecureSkipVerify: true
+                url: https://localhost:8443
+              - auth:
+                  type: bearer
+                insecureSkipVerify: true
+                url: https://localhost:6443
+            matchNode: true
+            namespace: openshift-kube-apiserver
+            selector: app=openshift-kube-apiserver,apiserver=true
+          - endpoints:
+              - auth:
+                  type: bearer
+                insecureSkipVerify: true
+                url: https://localhost:8443
+            matchNode: true
+            namespace: kube-system
+            selector: app=openshift-kube-apiserver,apiserver=true
+        enabled: true
+
+- |-
+  apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: nri-bundle-nrk8s-ksm
+    namespace: newrelic
+  data:
+    nri-kubernetes.yml: |-
+      interval: 30s
+      namespaceSelector: {}
+      ksm:
+        enabled: true
+        retries: 3
+        scheme: http
+        selector: app.kubernetes.io/name=kube-state-metrics
+        timeout: 10s
+
+- |-
+  apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: nri-bundle-nrk8s-kubelet
+    namespace: newrelic
+  data:
+    nri-kubernetes.yml: |
+      interval: 30s
+      namespaceSelector: {}
+      kubelet:
+        enabled: true
+        retries: 3
+        scraperMaxReruns: 4
+        timeout: 10s        
