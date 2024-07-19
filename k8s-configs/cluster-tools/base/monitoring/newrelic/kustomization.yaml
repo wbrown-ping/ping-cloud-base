@@ -275,6 +275,9 @@ patchesStrategicMerge:
         scheme: http
         selector: app.kubernetes.io/name=kube-state-metrics
         timeout: 10s
+      log:
+        level: debug
+        stdout: true        
 
 - |-
   apiVersion: v1
@@ -290,4 +293,7 @@ patchesStrategicMerge:
         enabled: true
         retries: 3
         scraperMaxReruns: 4
-        timeout: 10s        
+        timeout: 10s     
+      log:
+        level: debug
+        stdout: true                   
