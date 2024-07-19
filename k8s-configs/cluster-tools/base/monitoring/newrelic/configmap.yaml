@@ -216,6 +216,9 @@ data:
     http_server_enabled: true
     http_server_port: 8002
     is_forward_only: true
+    log:
+      level: debug
+      stdout: true    
 ---
 # Source: p1as-newrelic/charts/nri-bundle/charts/newrelic-infrastructure/templates/ksm/scraper-configmap.yaml
 apiVersion: v1
@@ -241,9 +244,6 @@ data:
       scheme: http
       selector: app.kubernetes.io/name=kube-state-metrics
       timeout: 10s
-    log:
-      level: debug
-      stdout: true
 
 ---
 # Source: p1as-newrelic/charts/nri-bundle/charts/newrelic-infrastructure/templates/kubelet/agent-configmap.yaml
@@ -339,9 +339,6 @@ data:
       retries: 3
       scraperMaxReruns: 4
       timeout: 10s
-    log:
-      level: debug
-      stdout: true      
 ---
 # Source: p1as-newrelic/charts/nri-bundle/charts/newrelic-prometheus-agent/templates/configmap.yaml
 kind: ConfigMap
