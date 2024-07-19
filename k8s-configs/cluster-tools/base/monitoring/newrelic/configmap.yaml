@@ -36,7 +36,9 @@ metadata:
 data:
   nri-kubernetes.yml: |-
     interval: 30s
-    namespaceSelector: {}
+    namespaceSelector:
+      matchLabels:
+        kubernetes.io/metadata.name=ping-cloud
     controlPlane:
       retries: 3
       timeout: 10s
@@ -230,7 +232,9 @@ metadata:
 data:
   nri-kubernetes.yml: |-
     interval: 30s
-    namespaceSelector: {}
+    namespaceSelector:
+      matchLabels:
+        kubernetes.io/metadata.name=ping-cloud
     ksm:
       enabled: true
       retries: 3
@@ -323,7 +327,9 @@ metadata:
 data:
   nri-kubernetes.yml: |
     interval: 30s
-    namespaceSelector: {}
+    namespaceSelector:
+      matchLabels:
+        kubernetes.io/metadata.name=ping-cloud
     kubelet:
       enabled: true
       retries: 3
