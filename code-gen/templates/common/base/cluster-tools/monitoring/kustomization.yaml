@@ -181,10 +181,7 @@ patchesStrategicMerge:
         clusterName: ${NEW_RELIC_ENVIRONMENT_NAME}
       http_server_enabled: true
       http_server_port: 8002
-      is_forward_only: true
-      log:
-        level: debug
-        stdout: true        
+      is_forward_only: true   
 
 - |-
   apiVersion: v1
