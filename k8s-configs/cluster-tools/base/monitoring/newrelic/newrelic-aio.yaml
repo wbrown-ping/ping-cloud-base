@@ -113,7 +113,6 @@ data:
         - external-dns
         - ingress-nginx-private
         - ingress-nginx-public
-        - newrelic
         - ping-cloud
         - postgres-operator
         - prometheus
@@ -323,7 +322,6 @@ data:
         - external-dns
         - ingress-nginx-private
         - ingress-nginx-public
-        - newrelic
         - ping-cloud
         - postgres-operator
         - prometheus
@@ -432,7 +430,6 @@ data:
         - external-dns
         - ingress-nginx-private
         - ingress-nginx-public
-        - newrelic
         - ping-cloud
         - postgres-operator
         - prometheus

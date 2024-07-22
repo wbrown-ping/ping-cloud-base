@@ -49,7 +49,6 @@ data:
         - external-dns
         - ingress-nginx-private
         - ingress-nginx-public
-        - newrelic
         - ping-cloud
         - postgres-operator
         - prometheus
@@ -229,7 +228,7 @@ data:
       clusterName: test-cluster
     http_server_enabled: true
     http_server_port: 8002
-    is_forward_only: true  
+    is_forward_only: true
 ---
 # Source: p1as-newrelic/charts/nri-bundle/charts/newrelic-infrastructure/templates/ksm/scraper-configmap.yaml
 apiVersion: v1
@@ -259,7 +258,6 @@ data:
         - external-dns
         - ingress-nginx-private
         - ingress-nginx-public
-        - newrelic
         - ping-cloud
         - postgres-operator
         - prometheus
@@ -369,7 +367,6 @@ data:
         - external-dns
         - ingress-nginx-private
         - ingress-nginx-public
-        - newrelic
         - ping-cloud
         - postgres-operator
         - prometheus
