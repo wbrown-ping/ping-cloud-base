@@ -100,7 +100,23 @@ metadata:
 data:
   nri-kubernetes.yml: |-
     interval: 30s
-    namespaceSelector: {}
+    namespaceSelector:
+      matchExpressions:
+      - key: kubernetes.io/metadata.name
+        operator: In
+        values:
+        - amazon-gaurdduty
+        - amazon-cloudwatch
+        - argocd
+        - cert-manager
+        - elastic-stack-logging
+        - external-dns
+        - ingress-nginx-private
+        - ingress-nginx-public
+        - newrelic
+        - ping-cloud
+        - postgres-operator
+        - prometheus
     controlPlane:
       retries: 3
       timeout: 10s
@@ -294,7 +310,23 @@ metadata:
 data:
   nri-kubernetes.yml: |-
     interval: 30s
-    namespaceSelector: {}
+    namespaceSelector:
+      matchExpressions:
+      - key: kubernetes.io/metadata.name
+        operator: In
+        values:
+        - amazon-gaurdduty
+        - amazon-cloudwatch
+        - argocd
+        - cert-manager
+        - elastic-stack-logging
+        - external-dns
+        - ingress-nginx-private
+        - ingress-nginx-public
+        - newrelic
+        - ping-cloud
+        - postgres-operator
+        - prometheus
     ksm:
       enabled: true
       retries: 3
@@ -387,7 +419,23 @@ metadata:
 data:
   nri-kubernetes.yml: |
     interval: 30s
-    namespaceSelector: {}
+    namespaceSelector:
+      matchExpressions:
+      - key: kubernetes.io/metadata.name
+        operator: In
+        values:
+        - amazon-gaurdduty
+        - amazon-cloudwatch
+        - argocd
+        - cert-manager
+        - elastic-stack-logging
+        - external-dns
+        - ingress-nginx-private
+        - ingress-nginx-public
+        - newrelic
+        - ping-cloud
+        - postgres-operator
+        - prometheus
     kubelet:
       enabled: true
       retries: 3
