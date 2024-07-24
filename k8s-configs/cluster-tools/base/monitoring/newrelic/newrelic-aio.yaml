@@ -103,19 +103,15 @@ data:
     namespaceSelector:
       matchExpressions:
       - key: kubernetes.io/metadata.name
-        operator: In
+        operator: NotIn
         values:
-        - amazon-gaurdduty
-        - amazon-cloudwatch
-        - argocd
-        - cert-manager
-        - elastic-stack-logging
-        - external-dns
-        - ingress-nginx-private
-        - ingress-nginx-public
-        - ping-cloud
-        - postgres-operator
-        - prometheus
+        - default
+        - health
+        - kube-node-lease
+        - kube-public
+        - kube-system
+        - pod-reaper
+        - newrelic
     controlPlane:
       retries: 3
       timeout: 10s
@@ -312,19 +308,15 @@ data:
     namespaceSelector:
       matchExpressions:
       - key: kubernetes.io/metadata.name
-        operator: In
+        operator: NotIn
         values:
-        - amazon-gaurdduty
-        - amazon-cloudwatch
-        - argocd
-        - cert-manager
-        - elastic-stack-logging
-        - external-dns
-        - ingress-nginx-private
-        - ingress-nginx-public
-        - ping-cloud
-        - postgres-operator
-        - prometheus
+        - default
+        - health
+        - kube-node-lease
+        - kube-public
+        - kube-system
+        - pod-reaper
+        - newrelic
     ksm:
       enabled: true
       retries: 3
@@ -420,19 +412,15 @@ data:
     namespaceSelector:
       matchExpressions:
       - key: kubernetes.io/metadata.name
-        operator: In
+        operator: NotIn
         values:
-        - amazon-gaurdduty
-        - amazon-cloudwatch
-        - argocd
-        - cert-manager
-        - elastic-stack-logging
-        - external-dns
-        - ingress-nginx-private
-        - ingress-nginx-public
-        - ping-cloud
-        - postgres-operator
-        - prometheus
+        - default
+        - health
+        - kube-node-lease
+        - kube-public
+        - kube-system
+        - pod-reaper
+        - newrelic
     kubelet:
       enabled: true
       retries: 3
