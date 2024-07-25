@@ -9,7 +9,7 @@ queryFrontend:
   service:
     clusterIP: None
 compactor:
-  enabled: true
+  enabled: false
   retentionResolutionRaw: 15d
   retentionResolution5m: 15d
   retentionResolution1h: 15d
