@@ -15,7 +15,7 @@ compactor:
   retentionResolution1h: 15d
   resourcesPreset: 'large'
   persistence:
-    enabled: true
+    enabled: false
 storegateway:
   enabled: true
   resourcesPreset: 'large'

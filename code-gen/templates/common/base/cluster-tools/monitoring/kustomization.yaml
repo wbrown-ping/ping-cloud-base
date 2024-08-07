@@ -286,6 +286,16 @@ patchesStrategicMerge:
   kind: ServiceAccount
   metadata:
     namespace: prometheus
+    name: thanos-compactor
+    annotations:
+      purpose: thanos-compactor
+      ${IRSA_THANOS_ANNOTATION_KEY_VALUE}
+
+- |-
+  apiVersion: v1
+  kind: ServiceAccount
+  metadata:
+    namespace: prometheus
     name: thanos-receive
     annotations:
       purpose: thanos-receiver
