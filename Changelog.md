@@ -14,7 +14,7 @@
 - Refactor update-profile-wrapper code to support new variables for microservice profile mirrors.
 - De-duplicate prod-values.yaml
 - Updating memory limits for thanos-storegateway
-- Remove Thanos compactor pod from codebase
+- Increase ephemeral storage for thanos compactor
 
 _Changes:_
 
