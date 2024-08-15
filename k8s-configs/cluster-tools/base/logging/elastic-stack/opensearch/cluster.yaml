@@ -23,7 +23,7 @@ spec:
       prometheus.io/port: "9200"
     serviceName: opensearch
     serviceAccount: opensearch
-    version: 2.9.0
+    version: 2.11.0
     image: 705370621539.dkr.ecr.us-west-2.amazonaws.com/pingcloud-monitoring/opensearch:PDO-8086
     podSecurityContext:
       runAsNonRoot: true
@@ -93,7 +93,7 @@ spec:
     opensearchCredentialsSecret:
       name: opensearch-dashboard-credentials
     replicas: 1
-    image: public.ecr.aws/r2h3l6e4/pingcloud-clustertools/opensearchproject/opensearch-dashboards:2.9.0
+    image: public.ecr.aws/r2h3l6e4/pingcloud-clustertools/opensearchproject/opensearch-dashboards:2.11.0
     resources:
       requests:
          memory: "512Mi"
