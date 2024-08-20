@@ -72,6 +72,8 @@ spec:
           secretKeyRef:
             name: opensearch-dashboard-oidc
             key: client_secret
+      - name: DISABLE_INSTALL_DEMO_CONFIG
+        value: "true"
     additionalConfig:
       opensearch.ssl.verificationMode: "Full"
       opensearch_security.auth.anonymous_auth_enabled: "false"
