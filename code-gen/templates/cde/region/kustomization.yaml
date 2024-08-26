@@ -237,5 +237,3 @@ patchesStrategicMerge:
 
   ### CloudWatch is disabled by default but should be added for GA envs
   #- ../base/cluster-tools/monitoring/disable-cloudwatch.yaml
-
-  ### Developer CDE Environments - the following will be UNCOMMENTED if we are in a developer CDE
