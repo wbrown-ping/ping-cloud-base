@@ -34,6 +34,8 @@ patchesStrategicMerge:
     name: cluster-info
   data:
     newrelic_cluster_name: ${NEW_RELIC_ENVIRONMENT_NAME}
+    tenant_domain: ${TENANT_DOMAIN}
+
 
 ### enrichment-bootstrap service account ###
 - |-
