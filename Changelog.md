@@ -19,6 +19,7 @@
 - Updating memory limits plus other enhancements for thanos-compactor
 - Adding Cross zone load balancing and graceful shutdown to nginx
 - Upgrade External DNS to v0.14.2
+- Setup log4j.xml file latest in PF V12 version
 
 _Changes:_
 
@@ -42,6 +43,7 @@ _Changes:_
 - [X] PDO-8085 Restrict PingFederate and PingAccess heartbeat response
 - [X] PDO-8150 Improve Stability and Shutdown Handling
 - [X] PDO-8194 Upgrade External DNS to v0.14.2
+- [X] PDO-8152 Setup log4j.xml file latest in PF V12 version
 
 ### 1.19.1.0
 
