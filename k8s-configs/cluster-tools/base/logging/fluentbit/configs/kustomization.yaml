@@ -11,9 +11,12 @@ configMapGenerator:
   - name: fluent-bit-config
     files:
       - fluent-bit.conf
+    literals:
+      - log.level=error
   - name: fluent-bit-parsers
     files:
       - parsers.conf
+    
 
 resources:
   - pipelines
