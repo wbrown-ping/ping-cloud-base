@@ -15,16 +15,10 @@ spec:
       adminCredentialsSecret:
         name: opensearch-admin-credentials # Name of a secret that contains username/password for admin access
   general:
-    annotations:
-      newrelic.io/scrape: "true"
-      prometheus.io/scrape: "true"
-      prometheus.io/scheme: "https"
-      prometheus.io/path: "/_prometheus/metrics"
-      prometheus.io/port: "9200"
     serviceName: opensearch
     serviceAccount: opensearch
     version: 2.11.1
-    image: 705370621539.dkr.ecr.us-west-2.amazonaws.com/pingcloud-monitoring/opensearch:PDO-8184
+    image: 705370621539.dkr.ecr.us-west-2.amazonaws.com/pingcloud-monitoring/opensearch:PDO-8184_amd64
     imagePullPolicy: Always
     podSecurityContext:
       runAsNonRoot: true
