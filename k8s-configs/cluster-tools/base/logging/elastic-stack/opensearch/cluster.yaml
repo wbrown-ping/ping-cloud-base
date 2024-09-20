@@ -23,8 +23,8 @@ spec:
       prometheus.io/port: "9200"
     serviceName: opensearch
     serviceAccount: opensearch
-    version: 2.17.0
-    image: opensearchproject/opensearch:2.17.0
+    version: 2.11.1
+    image: 705370621539.dkr.ecr.us-west-2.amazonaws.com/pingcloud-monitoring/opensearch:PDO-8184
     imagePullPolicy: Always
     podSecurityContext:
       runAsNonRoot: true
@@ -39,13 +39,13 @@ spec:
     additionalConfig:
       node.search.cache.size: 500m
       cluster.max_shards_per_node: "10000"
-      # prometheus.indices: "false"
+      prometheus.indices: "false"
       reindex.remote.allowlist: "localhost:9200"
       plugins.alerting.filter_by_backend_roles: "true"
       opensearch.notifications.general.filter_by_backend_roles: "true"
   dashboards:
     enable: true
-    version: 2.17.0
+    version: 2.11.1
     podSecurityContext:
       runAsNonRoot: true
       runAsUser: 1000
@@ -94,7 +94,7 @@ spec:
     opensearchCredentialsSecret:
       name: opensearch-dashboard-credentials
     replicas: 1
-    image: opensearchproject/opensearch-dashboards:2.17.0
+    image: public.ecr.aws/r2h3l6e4/pingcloud-clustertools/opensearchproject/opensearch-dashboards:2.11.1
     resources:
       requests:
          memory: "512Mi"
