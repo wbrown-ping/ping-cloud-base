@@ -24,7 +24,7 @@ spec:
     serviceName: opensearch
     serviceAccount: opensearch
     version: 2.11.1
-    image: 705370621539.dkr.ecr.us-west-2.amazonaws.com/pingcloud-monitoring/opensearch:PDO-8184
+    image: opensearchproject/opensearch:2.17.0
     imagePullPolicy: Always
     podSecurityContext:
       runAsNonRoot: true
