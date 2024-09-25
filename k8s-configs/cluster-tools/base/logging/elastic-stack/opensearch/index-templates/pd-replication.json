@@ -24,7 +24,7 @@
           "type": "date"
         },
         "time": {
-          "type": "date"
+          "type": "string"
         },
         "@version": {
           "type": "text",
