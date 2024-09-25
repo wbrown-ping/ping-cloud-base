@@ -23,6 +23,9 @@
         "@timestamp": {
           "type": "date"
         },
+        "time": {
+          "type": "date"
+        },
         "@version": {
           "type": "text",
           "fields": {
