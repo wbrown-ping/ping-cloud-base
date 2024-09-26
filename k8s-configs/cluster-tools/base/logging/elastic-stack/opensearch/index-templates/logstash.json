@@ -52,6 +52,9 @@
         "@timestamp": {
           "type": "date"
         },
+        "time": {
+          "type": "text"
+        },
         "geoip": {
           "dynamic": "true",
           "properties": {
