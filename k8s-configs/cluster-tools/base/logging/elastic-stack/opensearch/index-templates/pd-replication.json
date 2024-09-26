@@ -23,7 +23,7 @@
         "@timestamp": {
           "type": "date"
         },
-        "time": {
+        "ingest_time": {
           "type": "text"
         },
         "@version": {
