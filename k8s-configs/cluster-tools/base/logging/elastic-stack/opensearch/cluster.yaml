@@ -17,10 +17,6 @@ spec:
   general:
     annotations:
       newrelic.io/scrape: "true"
-      prometheus.io/scrape: "true"
-      prometheus.io/scheme: "https"
-      prometheus.io/path: "/_prometheus/metrics"
-      prometheus.io/port: "9200"
     serviceName: opensearch
     serviceAccount: opensearch
     version: 2.11.1
