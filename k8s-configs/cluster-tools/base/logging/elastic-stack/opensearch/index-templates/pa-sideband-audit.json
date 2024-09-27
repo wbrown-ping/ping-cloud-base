@@ -24,6 +24,9 @@
         "@timestamp": {
           "type": "date"
         },
+        "ingest_timestamp": {
+          "type": "text"
+        },
         "roundTripMS": {
           "type": "integer"
         },
