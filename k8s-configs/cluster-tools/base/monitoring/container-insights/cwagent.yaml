@@ -68,7 +68,7 @@ data:
       "logs": {
         "metrics_collected": {
             "prometheus": {
-              "prometheus_config_path": "/tmp/prometheus.yaml",
+              "prometheus_config_path": "/etc/cwagentconfig/prometheus.yaml",
               "emf_processor": {
                 "metric_declaration_dedup": true
               }
@@ -77,13 +77,6 @@ data:
         "force_flush_interval": 5
       }
     }
-kind: ConfigMap
-metadata:
-  name: cwagentconfig
-  namespace: amazon-cloudwatch
----
-apiVersion: v1
-data:
   prometheus.yaml: |-
     global:
       scrape_interval: 60s
@@ -113,7 +106,7 @@ data:
           action: drop
 kind: ConfigMap
 metadata:
-  name: cwagentpromconfig
+  name: cwagentconfig
   namespace: amazon-cloudwatch
 
 ---
@@ -168,8 +161,6 @@ spec:
           volumeMounts:
             - name: cwagentconfig
               mountPath: /etc/cwagentconfig
-            - name: cwagentconfig
-              mountPath: /tmp/           
             - name: rootfs
               mountPath: /rootfs
               readOnly: true
@@ -192,9 +183,6 @@ spec:
         - name: cwagentconfig
           configMap:
             name: cwagentconfig
-        - name: cwagentpromconfig
-          configMap:
-            name: cwagentpromconfig            
         - name: rootfs
           hostPath:
             path: /
