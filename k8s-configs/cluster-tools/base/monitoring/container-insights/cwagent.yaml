@@ -68,7 +68,7 @@ data:
       "logs": {
         "metrics_collected": {
             "prometheus": {
-              "prometheus_config_path": "/etc/cwagentpromconfig/prometheus.yaml",
+              "prometheus_config_path": "/tmp/prometheus.yaml",
               "emf_processor": {
                 "metric_declaration_dedup": true
               }
@@ -169,7 +169,7 @@ spec:
             - name: cwagentconfig
               mountPath: /etc/cwagentconfig
             - name: cwagentconfig
-              mountPath: /etc/cwagentpromconfig           
+              mountPath: /tmp/           
             - name: rootfs
               mountPath: /rootfs
               readOnly: true
