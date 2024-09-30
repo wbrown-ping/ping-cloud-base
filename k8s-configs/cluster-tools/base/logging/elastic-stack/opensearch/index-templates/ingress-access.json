@@ -158,7 +158,7 @@
         "@timestamp": {
           "type": "date"
         },
-        "ingest_timestamp": {
+        "fluentbit_ingest_timestamp": {
           "type": "text"
         },
         "nginx": {
