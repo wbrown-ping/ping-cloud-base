@@ -23,6 +23,10 @@
         "@timestamp": {
           "type": "date"
         },
+        "fluentbit_ingest_timestamp": {
+          "type": "date",
+          "format": "strict_date_hour_minute_second_fraction"
+        },
         "@version": {
           "type": "text",
           "fields": {
