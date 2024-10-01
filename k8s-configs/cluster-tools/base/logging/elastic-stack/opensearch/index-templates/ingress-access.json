@@ -12,6 +12,9 @@
     },
     "mappings": {
       "properties": {
+        "suggestions": {
+          "type": "search_as_you_type"
+        },
         "cluster_name": {
           "type": "text",
           "fields": {
