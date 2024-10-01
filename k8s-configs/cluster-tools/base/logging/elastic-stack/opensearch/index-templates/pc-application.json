@@ -26,7 +26,7 @@
           "type": "date"
         },
         "fluentbit_ingest_timestamp": {
-          "type": "date",
+          "type": "date_nanos",
           "format": "date_hour_minute_second_fraction"
         },
         "cluster_name": {
