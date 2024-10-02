@@ -23,9 +23,9 @@ class TestOpenSearchLogs(unittest.TestCase):
             ["kubectl", "port-forward", "service/opensearch-cluster-headless", "9200:9200", 
              "-n", "elastic-stack-logging"], stdout=subprocess.PIPE
         )
-        time.sleep(5)  # Give port-forwarding time to establish
-
-        # Get OpenSearch credentials from the secret in the 'opensearch-admin-credentials' secret
+         # Give port-forwarding time to establish
+        time.sleep(5) 
+        # Get OpenSearch Admin user/password from the secret in the 'opensearch-admin-credentials' secret
         secret = v1.read_namespaced_secret("opensearch-admin-credentials", "elastic-stack-logging")
         username = base64.b64decode(secret.data['username']).decode('utf-8')
         password = base64.b64decode(secret.data['password']).decode('utf-8')
@@ -38,7 +38,7 @@ class TestOpenSearchLogs(unittest.TestCase):
         cls.opensearch_client = OpenSearch(
             hosts=[{'host': 'localhost', 'port': 9200}],
             http_auth=(username, password),
-            use_ssl=True,  # Adjust SSL if needed
+            use_ssl=True, 
             verify_certs=False,
             ssl_show_warn = False,
             timeout=240 # in seconds
@@ -61,13 +61,13 @@ class TestOpenSearchLogs(unittest.TestCase):
         }
         # Fetch indexes by regex
         response = self.opensearch_client.search(index=index_name, body=query)
-        print(response)
 
         # Verify that the fluentbit_ingestion_field has a time in milliseconds
         for hit in response['hits']['hits']:
             timestamp_field = hit['_source'].get('fluentbit_ingest_timestamp')
             self.assertIsNotNone(timestamp_field, "fluentbit_ingest_timestamp is missing")
              # Validate timestamp format matches (YYYY-MM-DDTHH:MM:SS.SSSSSSSSSZ)
+             # Note milliseconds might be in range of 1-9 digits
             timestamp_regex = r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{1,9}Z$'
             match = re.match(timestamp_regex, timestamp_field)
             self.assertTrue(
