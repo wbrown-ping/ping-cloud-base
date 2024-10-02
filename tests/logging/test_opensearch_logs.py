@@ -5,19 +5,14 @@ import time
 import base64
 import requests
 import urllib3
-from kubernetes import client, config
 from opensearchpy import OpenSearch
+from k8s_utils import K8sUtils
 
 class TestOpenSearchLogs(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        cls.k8s = K8sUtils()
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-        # Load Kubernetes configuration
-        config.load_kube_config()
-
-        # Create Kubernetes client
-        v1 = client.CoreV1Api()
-
         # Port-forward the OpenSearch service (opensearch-cluster-headless)
         cls.port_forward_process = subprocess.Popen(
             ["kubectl", "port-forward", "service/opensearch-cluster-headless", "9200:9200", 
@@ -26,9 +21,12 @@ class TestOpenSearchLogs(unittest.TestCase):
          # Give port-forwarding time to establish
         time.sleep(5) 
         # Get OpenSearch Admin user/password from the secret in the 'opensearch-admin-credentials' secret
-        secret = v1.read_namespaced_secret("opensearch-admin-credentials", "elastic-stack-logging")
-        username = base64.b64decode(secret.data['username']).decode('utf-8')
-        password = base64.b64decode(secret.data['password']).decode('utf-8')
+        opensearch_creds_secret = cls.k8s.get_namespaced_secret(
+            "opensearch-admin-credentials", "elastic-stack-logging"
+        )
+        username = base64.b64decode(opensearch_creds_secret.data['username']).decode('utf-8')
+        password = base64.b64decode(opensearch_creds_secret.data['password']).decode('utf-8')
+        print(username, password)
         response = requests.get(f"https://localhost:{9200}", verify=False, auth=(username, password))
         if response.status_code == 200:
             print("Port-forward established successfully.")
@@ -70,8 +68,7 @@ class TestOpenSearchLogs(unittest.TestCase):
              # Note milliseconds might be in range of 1-9 digits
             timestamp_regex = r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{1,9}Z$'
             match = re.match(timestamp_regex, timestamp_field)
-            self.assertTrue(
-                match is not None,
+            self.assertIsNotNone(match,
                 f"fluentbit_ingestion_field is not a valid timestamp: {timestamp_field}"
             )
 if __name__ == '__main__':
