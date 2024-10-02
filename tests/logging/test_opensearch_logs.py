@@ -5,7 +5,6 @@ import time
 import base64
 import requests
 import urllib3
-from datetime import datetime
 
 from kubernetes import client, config
 from opensearchpy import OpenSearch
