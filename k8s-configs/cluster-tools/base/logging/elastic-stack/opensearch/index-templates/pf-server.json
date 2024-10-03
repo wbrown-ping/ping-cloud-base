@@ -24,10 +24,7 @@
           "type": "date"
         },
         "fluentbit_ingest_timestamp": {
-          "match": "fluentbit_ingest_timestamp",
-          "mapping": {
-            "type": "date_nanos"
-          }
+          "type": "date_nanos"
         },
         "@version": {
           "type": "text",
