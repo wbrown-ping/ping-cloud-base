@@ -90,7 +90,7 @@ spec:
               cpu: "150m"
               memory: 100Mi
         - name: logstash
-          image: public.ecr.aws/r2h3l6e4/pingcloud-monitoring/logstash/dev:v1.19-release-branch-latest
+          image: 705370621539.dkr.ecr.us-west-2.amazonaws.com/pingcloud-monitoring/logstash:PDO-8404
           imagePullPolicy: Always
           command:
             - "/bin/sh"
@@ -212,9 +212,6 @@ spec:
               mountPath: /usr/share/logstash/config/pipelines.yml
               subPath: pipelines.yml
               readOnly: true
-            - name: logstash-pipeline-main
-              mountPath: /usr/share/logstash/pipeline/main
-              readOnly: true
             - name: logstash-pipeline-customer
               mountPath: /usr/share/logstash/pipeline/customer
               readOnly: true
@@ -270,9 +267,6 @@ spec:
               memory: 100Mi
       terminationGracePeriodSeconds: 60
       volumes:
-        - name: logstash-pipeline-main
-          configMap:
-            name: logstash-pipeline-main
         - name: logstash-pipeline-customer
           configMap:
             name: logstash-pipeline-customer
