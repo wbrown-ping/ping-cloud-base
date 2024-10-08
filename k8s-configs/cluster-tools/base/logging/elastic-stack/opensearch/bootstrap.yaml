@@ -57,6 +57,8 @@ spec:
           - name: DASHBOARDS_PATH
             value: "/usr/share/opensearch/data/dashboards"
         volumeMounts:
+          - name: os-notifications-channels
+            mountPath: /usr/share/opensearch/data/notifications
           - name: os-dashboards-pd
             mountPath: /usr/share/opensearch/data/dashboards/pd
           - name: os-dashboards-pf
