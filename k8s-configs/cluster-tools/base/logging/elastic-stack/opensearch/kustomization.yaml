@@ -5,7 +5,7 @@ namespace: elastic-stack-logging
 
 resources:
 # - alerts
-# - index-templates
+- index-templates
 # - ism-policies
 - notifications
 - security_configs
