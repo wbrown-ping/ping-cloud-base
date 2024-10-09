@@ -78,6 +78,9 @@ spec:
             cpu: "500m"
       restartPolicy: OnFailure
       volumes:
+        - name: os-notifications-channels
+          configMap:
+            name: os-notifications-channels
         - name: os-dashboards-pd
           configMap:
             name: os-dashboards-pd
