@@ -155,7 +155,37 @@ spec:
             - name: PIPELINE_WORKERS
               value: "2"
 ---
+# Update logstash to use a customer pipeline configuration from configMap, overriding image defaults
 
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: logstash
+spec:
+  template:
+    spec:
+      containers:
+      - name: logstash
+        volumeMounts:
+        - name: customer-pipeline-custom-volume
+          mountPath: /usr/share/logstash/pipeline/
+      volumes:
+      - name: customer-pipeline-custom-volume
+        configMap:
+          name: customer-pipeline-custom
+
+# Corresponding configMap for above logstash patch.  
+# Replace the data section with the contents of the customer pipeline configuration file.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: customer-pipeline-custom
+data:
+  logstash-config.conf: |
+    # Paste the contents of your logstash config here
+    {
+      "key": "value"
+    }
 ################################################
 #                OpenSearch
 ################################################
