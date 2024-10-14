@@ -168,7 +168,7 @@ spec:
       - name: logstash
         volumeMounts:
         - name: customer-pipeline-custom-volume
-          mountPath: /usr/share/logstash/pipeline/
+          mountPath: /usr/share/logstash/pipeline/customer
       volumes:
       - name: customer-pipeline-custom-volume
         configMap:
@@ -176,12 +176,17 @@ spec:
 
 # Corresponding configMap for above logstash patch.  
 # Replace the data section with the contents of the customer pipeline configuration file.
+# You will also need to name the data entries to be match the existing file on image.  Options are below
+# and depend on if you are trying to overwrite the input, filter, or output:
+#  - input.conf
+#  - filter.conf
+#  - output.conf
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: customer-pipeline-custom
 data:
-  logstash-config.conf: |
+  <replace-me>.conf: |
     # Paste the contents of your logstash config here
     {
       "key": "value"
