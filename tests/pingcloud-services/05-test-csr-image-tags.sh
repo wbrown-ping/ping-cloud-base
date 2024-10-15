@@ -167,7 +167,7 @@ testLogstashImageTag() {
   assertEquals "LOGSTASH_IMAGE_TAG missing from env_vars file" 0 $?
 
   local logstashImage=$(kubectl get pod -n elastic-stack-logging logstash-elastic-0 -o jsonpath='{.spec.containers[?(@.name=="logstash")].image}' | awk -F: '{print $2}')
-  assertEquals "logstash CSR image tag doesn't match Beluga default image tag" "${logstashImage}" "${LOGSTASH_IMAGE_TAG}"
+  assertEquals "logstash CSR image tag doesn't match Beluga default image tag" "${LOGSTASH_IMAGE_TAG}" "${logstashImage}" 
   # unique_count=$(getUniqueTagCount "logstash")
   # assertEquals "Logstash is using multiple image tag versions" 1 "${unique_count}"
 
@@ -185,7 +185,7 @@ testOpensearchBootstrapImageTag() {
   assertEquals "OPENSEARCH_BOOTSTRAP_IMAGE_TAG missing from env_vars file" 0 $?
 
   local osBootstrapImage=$(kubectl get pods -n elastic-stack-logging -l job-name=opensearch-bootstrap -o jsonpath='{.items[*].spec.containers[*].image}' | awk -F: '{print $2}')
-  assertEquals "os-bootstrap CSR image tag doesn't match Beluga default image tag" "${osBootstrapImage}" "${OPENSEARCH_BOOTSTRAP_IMAGE_TAG}"
+  assertEquals "os-bootstrap CSR image tag doesn't match Beluga default image tag" "${OPENSEARCH_BOOTSTRAP_IMAGE_TAG}" "${osBootstrapImage}" 
   # unique_count=$(getUniqueTagCount "os-bootstrap")
   # assertEquals "OpensearchBootstrap is using multiple image tag versions" 1 "${unique_count}"
 
