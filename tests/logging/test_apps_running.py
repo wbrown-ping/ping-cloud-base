@@ -23,7 +23,7 @@ class TestApplicationStatus(unittest.TestCase):
     def test_os_bootstrap_pod_running_or_completed(self):
         pods = self.all_pods
         os_bootstrap_running_or_completed = all(pod.status.phase in ['Running', 'Succeeded'] for pod in pods if pod.metadata.name.startswith('opensearch-bootstrap'))
-        self.assertTrue(os_bootstrap_running_or_completed, "os-bootstrap pod is neither running nor completed")
+        self.assertTrue(os_bootstrap_running_or_completed, "opensearch-bootstrap pod is neither running nor completed")
 
     def test_opensearch_cluster_dashboards_pods_running(self):
         pods = self.all_pods
