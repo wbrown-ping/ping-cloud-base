@@ -1143,114 +1143,6 @@ spec:
 #               weight: 1
 #         nodeAffinity:
           
-<<<<<<< Updated upstream
-      securityContext:
-        fsGroup: 1001
-        fsGroupChangePolicy: Always
-        supplementalGroups: []
-        sysctls: []
-      containers:
-        - name: storegateway
-          image: docker.io/bitnami/thanos:0.35.0-debian-12-r4
-          imagePullPolicy: "IfNotPresent"
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-              - ALL
-            privileged: false
-            readOnlyRootFilesystem: true
-            runAsGroup: 1001
-            runAsNonRoot: true
-            runAsUser: 1001
-            seLinuxOptions: {}
-            seccompProfile:
-              type: RuntimeDefault
-          args:
-            - store
-            - --log.level=info
-            - --log.format=logfmt
-            - --grpc-address=0.0.0.0:10901
-            - --http-address=0.0.0.0:10902
-            - --data-dir=/data
-            - --objstore.config-file=/conf/objstore.yml
-          ports:
-            - name: http
-              containerPort: 10902
-              protocol: TCP
-            - name: grpc
-              containerPort: 10901
-              protocol: TCP
-          livenessProbe:
-            failureThreshold: 6
-            initialDelaySeconds: 30
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 30
-            httpGet:
-              path: /-/healthy
-              port: http
-              scheme: HTTP
-          readinessProbe:
-            failureThreshold: 6
-            initialDelaySeconds: 30
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 30
-            httpGet:
-              path: /-/ready
-              port: http
-              scheme: HTTP
-          resources:
-            limits:
-              cpu: "1.5"
-              ephemeral-storage: 1024Mi
-              memory: 3072Mi
-            requests:
-              cpu: "1.0"
-              ephemeral-storage: 50Mi
-              memory: 2048Mi
-          volumeMounts:
-            - name: objstore-config
-              mountPath: /conf
-            - name: data
-              mountPath: /data
-      volumes:
-        - name: objstore-config
-          secret:
-            secretName: thanos-objstore-config
-        - name: data
-          emptyDir: {}
----
-# # Source: thanos/templates/compactor/servicemonitor.yaml
-# apiVersion: monitoring.coreos.com/v1
-# kind: ServiceMonitor
-# metadata:
-#   name: thanos-compactor
-#   namespace: "prometheus"
-#   labels:
-#     app.kubernetes.io/instance: thanos
-#     app.kubernetes.io/managed-by: Helm
-#     app.kubernetes.io/name: thanos
-#     app.kubernetes.io/version: 0.35.0
-#     helm.sh/chart: thanos-15.5.0
-#     prometheus: agent
-#     app.kubernetes.io/component: compactor
-# spec:
-#   jobLabel: thanos
-#   endpoints:
-#     - port: http
-#   namespaceSelector:
-#     matchNames:
-#       - "prometheus"
-#   selector:
-#     matchLabels:
-#       app.kubernetes.io/instance: thanos
-#       app.kubernetes.io/name: thanos
-#       app.kubernetes.io/component: compactor
-#       prometheus-operator/monitor: 'true'
-# ---
-=======
 #       securityContext:
 #         fsGroup: 1001
 #         fsGroupChangePolicy: Always
@@ -1357,7 +1249,6 @@ spec:
       app.kubernetes.io/component: compactor
       prometheus-operator/monitor: 'true'
 ---
->>>>>>> Stashed changes
 # Source: thanos/templates/query-frontend/servicemonitor.yaml
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
