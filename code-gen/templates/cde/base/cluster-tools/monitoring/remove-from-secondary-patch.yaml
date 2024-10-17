@@ -326,12 +326,12 @@ metadata:
 $patch: delete
 ---
 # Source: thanos/templates/storegateway/serviceaccount.yaml
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: thanos-storegateway
-  namespace: prometheus
-$patch: delete
+# apiVersion: v1
+# kind: ServiceAccount
+# metadata:
+#   name: thanos-storegateway
+#   namespace: prometheus
+# $patch: delete
 ---
 # Source: thanos/templates/receive/configmap.yaml
 apiVersion: v1
@@ -374,12 +374,12 @@ metadata:
 $patch: delete
 ---
 # Source: thanos/templates/storegateway/service.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: thanos-storegateway
-  namespace: prometheus
-$patch: delete
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: thanos-storegateway
+#   namespace: prometheus
+# $patch: delete
 ---
 # Source: thanos/templates/compactor/deployment.yaml
 # apiVersion: apps/v1
@@ -415,12 +415,12 @@ metadata:
 $patch: delete
 ---
 # Source: thanos/templates/storegateway/statefulset.yaml
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: thanos-storegateway
-  namespace: prometheus
-$patch: delete
+# apiVersion: apps/v1
+# kind: StatefulSet
+# metadata:
+#   name: thanos-storegateway
+#   namespace: prometheus
+# $patch: delete
 ---
 apiVersion: v1
 kind: Secret
