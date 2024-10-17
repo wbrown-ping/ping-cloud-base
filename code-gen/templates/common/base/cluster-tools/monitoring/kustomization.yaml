@@ -276,15 +276,15 @@ patchesStrategicMerge:
       purpose: thanos-receiver
       ${IRSA_THANOS_ANNOTATION_KEY_VALUE}
 
-- |-
-  apiVersion: v1
-  kind: ServiceAccount
-  metadata:
-    namespace: prometheus
-    name: thanos-storegateway
-    annotations:
-      purpose: thanos-storegateway
-      ${IRSA_THANOS_ANNOTATION_KEY_VALUE}
+# - |-
+#   apiVersion: v1
+#   kind: ServiceAccount
+#   metadata:
+#     namespace: prometheus
+#     name: thanos-storegateway
+#     annotations:
+#       purpose: thanos-storegateway
+#       ${IRSA_THANOS_ANNOTATION_KEY_VALUE}
 
 - |-
   apiVersion: v1
@@ -321,22 +321,22 @@ patchesStrategicMerge:
         aws_sdk_auth: True
       prefix: "${CLUSTER_NAME}-${TENANT_NAME}"
 
-- |-
-  apiVersion: apps/v1
-  kind: StatefulSet
-  metadata:
-    name: thanos-storegateway
-    namespace: prometheus
-  spec:
-    template:
-      spec:
-        containers:
-        - name: storegateway
-          resources:
-            limits:
-              memory: "8Gi"
-            requests:
-              memory: "3Gi"
+# - |-
+#   apiVersion: apps/v1
+#   kind: StatefulSet
+#   metadata:
+#     name: thanos-storegateway
+#     namespace: prometheus
+#   spec:
+#     template:
+#       spec:
+#         containers:
+#         - name: storegateway
+#           resources:
+#             limits:
+#               memory: "8Gi"
+#             requests:
+#               memory: "3Gi"
 
 patchesJson6902:
 
