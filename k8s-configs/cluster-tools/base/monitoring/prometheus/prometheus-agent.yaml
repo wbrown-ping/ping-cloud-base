@@ -27,10 +27,9 @@ spec:
   podMonitorSelector:
     matchLabels:
       prometheus: agent
-  remoteWrite:
-    - url: 'http://thanos-receive-headless:19291/api/v1/receive'
+  # remoteWrite:
+  #   - url: 'http://thanos-receive-headless:19291/api/v1/receive'
   enableFeatures:
-    - agent
     - expand-external-labels
   securityContext:
     fsGroup: 65534
@@ -46,3 +45,7 @@ spec:
     requests:
       cpu: 100m
       memory: 512Mi
+  thanos:
+    baseImage: thanosio/thanos:v0.32.2
+    image: thanosio/thanos:v0.32.2
+    version: v0.32.2
