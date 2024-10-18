@@ -45,6 +45,14 @@ spec:
     requests:
       cpu: 100m
       memory: 512Mi
+  
+  storage:
+    volumeClaimTemplate:
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi # Adjust size as necessary      
   thanos:
     baseImage: thanosio/thanos:v0.32.2
     image: thanosio/thanos:v0.32.2
