@@ -254,13 +254,13 @@ $patch: delete
 # $patch: delete
 ---
 # Source: thanos/templates/query-frontend/networkpolicy.yaml
-kind: NetworkPolicy
-apiVersion: networking.k8s.io/v1
-metadata:
-  name: thanos-query-frontend
-  namespace: "prometheus"
-$patch: delete
----
+# kind: NetworkPolicy
+# apiVersion: networking.k8s.io/v1
+# metadata:
+#   name: thanos-query-frontend
+#   namespace: "prometheus"
+# $patch: delete
+# ---
 # Source: thanos/templates/query/networkpolicy.yaml
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
@@ -302,13 +302,13 @@ $patch: delete
 # $patch: delete
 ---
 # Source: thanos/templates/query-frontend/serviceaccount.yaml
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: thanos-query-frontend
-  namespace: prometheus
-$patch: delete
----
+# apiVersion: v1
+# kind: ServiceAccount
+# metadata:
+#   name: thanos-query-frontend
+#   namespace: prometheus
+# $patch: delete
+# ---
 # Source: thanos/templates/query/serviceaccount.yaml
 apiVersion: v1
 kind: ServiceAccount
@@ -390,14 +390,14 @@ $patch: delete
 # $patch: delete
 ---
 # Source: thanos/templates/query-frontend/deployment.yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: thanos-query-frontend
-  namespace: prometheus
-$patch: delete
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: thanos-query-frontend
+#   namespace: prometheus
+# $patch: delete
 
----
+# ---
 # Source: thanos/templates/query/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment

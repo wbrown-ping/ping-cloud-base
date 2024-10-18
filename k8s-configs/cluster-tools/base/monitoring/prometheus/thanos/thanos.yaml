@@ -58,34 +58,34 @@ spec:
 #         - port: 9090
 ---
 # Source: thanos/templates/query-frontend/networkpolicy.yaml
-kind: NetworkPolicy
-apiVersion: networking.k8s.io/v1
-metadata:
-  name: thanos-query-frontend
-  namespace: "prometheus"
-  labels:
-    app.kubernetes.io/instance: thanos
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/name: thanos
-    app.kubernetes.io/version: 0.35.0
-    helm.sh/chart: thanos-15.5.0
-    app.kubernetes.io/component: query-frontend
-spec:
-  podSelector:
-    matchLabels:
-      app.kubernetes.io/instance: thanos
-      app.kubernetes.io/name: thanos
-      app.kubernetes.io/component: query-frontend
-  policyTypes:
-    - Ingress
-    - Egress
-  egress:
-    - {}
-  ingress:
-    - ports:
-        - port: 9090
-        - port: 9090
----
+# kind: NetworkPolicy
+# apiVersion: networking.k8s.io/v1
+# metadata:
+#   name: thanos-query-frontend
+#   namespace: "prometheus"
+#   labels:
+#     app.kubernetes.io/instance: thanos
+#     app.kubernetes.io/managed-by: Helm
+#     app.kubernetes.io/name: thanos
+#     app.kubernetes.io/version: 0.35.0
+#     helm.sh/chart: thanos-15.5.0
+#     app.kubernetes.io/component: query-frontend
+# spec:
+#   podSelector:
+#     matchLabels:
+#       app.kubernetes.io/instance: thanos
+#       app.kubernetes.io/name: thanos
+#       app.kubernetes.io/component: query-frontend
+#   policyTypes:
+#     - Ingress
+#     - Egress
+#   egress:
+#     - {}
+#   ingress:
+#     - ports:
+#         - port: 9090
+#         - port: 9090
+# ---
 # Source: thanos/templates/query/networkpolicy.yaml
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
@@ -249,20 +249,20 @@ spec:
 # automountServiceAccountToken: false
 ---
 # Source: thanos/templates/query-frontend/serviceaccount.yaml
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: thanos-query-frontend
-  namespace: prometheus
-  labels:
-    app.kubernetes.io/instance: thanos
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/name: thanos
-    app.kubernetes.io/version: 0.35.0
-    helm.sh/chart: thanos-15.5.0
-    app.kubernetes.io/component: query-frontend
-automountServiceAccountToken: false
----
+# apiVersion: v1
+# kind: ServiceAccount
+# metadata:
+#   name: thanos-query-frontend
+#   namespace: prometheus
+#   labels:
+#     app.kubernetes.io/instance: thanos
+#     app.kubernetes.io/managed-by: Helm
+#     app.kubernetes.io/name: thanos
+#     app.kubernetes.io/version: 0.35.0
+#     helm.sh/chart: thanos-15.5.0
+#     app.kubernetes.io/component: query-frontend
+# automountServiceAccountToken: false
+# ---
 # Source: thanos/templates/query/serviceaccount.yaml
 apiVersion: v1
 kind: ServiceAccount
@@ -361,33 +361,33 @@ automountServiceAccountToken: false
 #     app.kubernetes.io/component: compactor
 ---
 # Source: thanos/templates/query-frontend/service.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: thanos-query-frontend
-  namespace: prometheus
-  labels:
-    app.kubernetes.io/instance: thanos
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/name: thanos
-    app.kubernetes.io/version: 0.35.0
-    helm.sh/chart: thanos-15.5.0
-    app.kubernetes.io/component: query-frontend
-    prometheus-operator/monitor: 'true'
-spec:
-  type: ClusterIP
-  clusterIP: None
-  ports:
-    - port: 9090
-      targetPort: http
-      protocol: TCP
-      name: http
-      nodePort: null
-  selector:
-    app.kubernetes.io/instance: thanos
-    app.kubernetes.io/name: thanos
-    app.kubernetes.io/component: query-frontend
----
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: thanos-query-frontend
+#   namespace: prometheus
+#   labels:
+#     app.kubernetes.io/instance: thanos
+#     app.kubernetes.io/managed-by: Helm
+#     app.kubernetes.io/name: thanos
+#     app.kubernetes.io/version: 0.35.0
+#     helm.sh/chart: thanos-15.5.0
+#     app.kubernetes.io/component: query-frontend
+#     prometheus-operator/monitor: 'true'
+# spec:
+#   type: ClusterIP
+#   clusterIP: None
+#   ports:
+#     - port: 9090
+#       targetPort: http
+#       protocol: TCP
+#       name: http
+#       nodePort: null
+#   selector:
+#     app.kubernetes.io/instance: thanos
+#     app.kubernetes.io/name: thanos
+#     app.kubernetes.io/component: query-frontend
+# ---
 # Source: thanos/templates/query/service-grpc.yaml
 apiVersion: v1
 kind: Service
@@ -678,120 +678,120 @@ spec:
 #           emptyDir: {}
 # ---
 # Source: thanos/templates/query-frontend/deployment.yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: thanos-query-frontend
-  namespace: prometheus
-  labels:
-    app.kubernetes.io/instance: thanos
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/name: thanos
-    app.kubernetes.io/version: 0.35.0
-    helm.sh/chart: thanos-15.5.0
-    app.kubernetes.io/component: query-frontend
-spec:
-  replicas: 1
-  revisionHistoryLimit: 10
-  strategy:
-    type: RollingUpdate
-  selector:
-    matchLabels:
-      app.kubernetes.io/instance: thanos
-      app.kubernetes.io/name: thanos
-      app.kubernetes.io/component: query-frontend
-  template:
-    metadata:
-      labels:
-        app.kubernetes.io/instance: thanos
-        app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: thanos
-        app.kubernetes.io/version: 0.35.0
-        helm.sh/chart: thanos-15.5.0
-        app.kubernetes.io/component: query-frontend
-    spec:
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: thanos-query-frontend
+#   namespace: prometheus
+#   labels:
+#     app.kubernetes.io/instance: thanos
+#     app.kubernetes.io/managed-by: Helm
+#     app.kubernetes.io/name: thanos
+#     app.kubernetes.io/version: 0.35.0
+#     helm.sh/chart: thanos-15.5.0
+#     app.kubernetes.io/component: query-frontend
+# spec:
+#   replicas: 1
+#   revisionHistoryLimit: 10
+#   strategy:
+#     type: RollingUpdate
+#   selector:
+#     matchLabels:
+#       app.kubernetes.io/instance: thanos
+#       app.kubernetes.io/name: thanos
+#       app.kubernetes.io/component: query-frontend
+#   template:
+#     metadata:
+#       labels:
+#         app.kubernetes.io/instance: thanos
+#         app.kubernetes.io/managed-by: Helm
+#         app.kubernetes.io/name: thanos
+#         app.kubernetes.io/version: 0.35.0
+#         helm.sh/chart: thanos-15.5.0
+#         app.kubernetes.io/component: query-frontend
+#     spec:
       
-      serviceAccountName: thanos-query-frontend
-      automountServiceAccountToken: true
-      affinity:
-        podAffinity:
+#       serviceAccountName: thanos-query-frontend
+#       automountServiceAccountToken: true
+#       affinity:
+#         podAffinity:
           
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - podAffinityTerm:
-                labelSelector:
-                  matchLabels:
-                    app.kubernetes.io/instance: thanos
-                    app.kubernetes.io/name: thanos
-                    app.kubernetes.io/component: query-frontend
-                topologyKey: kubernetes.io/hostname
-              weight: 1
-        nodeAffinity:
+#         podAntiAffinity:
+#           preferredDuringSchedulingIgnoredDuringExecution:
+#             - podAffinityTerm:
+#                 labelSelector:
+#                   matchLabels:
+#                     app.kubernetes.io/instance: thanos
+#                     app.kubernetes.io/name: thanos
+#                     app.kubernetes.io/component: query-frontend
+#                 topologyKey: kubernetes.io/hostname
+#               weight: 1
+#         nodeAffinity:
           
-      securityContext:
-        fsGroup: 1001
-        fsGroupChangePolicy: Always
-        supplementalGroups: []
-        sysctls: []
-      containers:
-        - name: query-frontend
-          image: docker.io/bitnami/thanos:0.35.0-debian-12-r4
-          imagePullPolicy: "IfNotPresent"
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-              - ALL
-            privileged: false
-            readOnlyRootFilesystem: true
-            runAsGroup: 1001
-            runAsNonRoot: true
-            runAsUser: 1001
-            seLinuxOptions: {}
-            seccompProfile:
-              type: RuntimeDefault
-          args:
-            - query-frontend
-            - --log.level=info
-            - --log.format=logfmt
-            - --http-address=0.0.0.0:9090
-            - --query-frontend.downstream-url=http://thanos-query:9090
-          ports:
-            - name: http
-              containerPort: 9090
-              protocol: TCP
-          livenessProbe:
-            failureThreshold: 6
-            initialDelaySeconds: 30
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 30
-            httpGet:
-              path: /-/healthy
-              port: http
-              scheme: HTTP
-          readinessProbe:
-            failureThreshold: 6
-            initialDelaySeconds: 30
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 30
-            httpGet:
-              path: /-/ready
-              port: http
-              scheme: HTTP
-          resources:
-            limits:
-              cpu: "1.5"
-              ephemeral-storage: 1024Mi
-              memory: 3072Mi
-            requests:
-              cpu: "1.0"
-              ephemeral-storage: 50Mi
-              memory: 2048Mi
-          volumeMounts:
-      volumes:
----
+#       securityContext:
+#         fsGroup: 1001
+#         fsGroupChangePolicy: Always
+#         supplementalGroups: []
+#         sysctls: []
+#       containers:
+#         - name: query-frontend
+#           image: docker.io/bitnami/thanos:0.35.0-debian-12-r4
+#           imagePullPolicy: "IfNotPresent"
+#           securityContext:
+#             allowPrivilegeEscalation: false
+#             capabilities:
+#               drop:
+#               - ALL
+#             privileged: false
+#             readOnlyRootFilesystem: true
+#             runAsGroup: 1001
+#             runAsNonRoot: true
+#             runAsUser: 1001
+#             seLinuxOptions: {}
+#             seccompProfile:
+#               type: RuntimeDefault
+#           args:
+#             - query-frontend
+#             - --log.level=info
+#             - --log.format=logfmt
+#             - --http-address=0.0.0.0:9090
+#             - --query-frontend.downstream-url=http://thanos-query:9090
+#           ports:
+#             - name: http
+#               containerPort: 9090
+#               protocol: TCP
+#           livenessProbe:
+#             failureThreshold: 6
+#             initialDelaySeconds: 30
+#             periodSeconds: 10
+#             successThreshold: 1
+#             timeoutSeconds: 30
+#             httpGet:
+#               path: /-/healthy
+#               port: http
+#               scheme: HTTP
+#           readinessProbe:
+#             failureThreshold: 6
+#             initialDelaySeconds: 30
+#             periodSeconds: 10
+#             successThreshold: 1
+#             timeoutSeconds: 30
+#             httpGet:
+#               path: /-/ready
+#               port: http
+#               scheme: HTTP
+#           resources:
+#             limits:
+#               cpu: "1.5"
+#               ephemeral-storage: 1024Mi
+#               memory: 3072Mi
+#             requests:
+#               cpu: "1.0"
+#               ephemeral-storage: 50Mi
+#               memory: 2048Mi
+#           volumeMounts:
+#       volumes:
+# ---
 # Source: thanos/templates/query/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -1251,33 +1251,33 @@ spec:
       prometheus-operator/monitor: 'true'
 ---
 # Source: thanos/templates/query-frontend/servicemonitor.yaml
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: thanos-query-frontend
-  namespace: "prometheus"
-  labels:
-    app.kubernetes.io/instance: thanos
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/name: thanos
-    app.kubernetes.io/version: 0.35.0
-    helm.sh/chart: thanos-15.5.0
-    prometheus: agent
-    app.kubernetes.io/component: query-frontend
-spec:
-  jobLabel: thanos
-  endpoints:
-    - port: http
-  namespaceSelector:
-    matchNames:
-      - "prometheus"
-  selector:
-    matchLabels:
-      app.kubernetes.io/instance: thanos
-      app.kubernetes.io/name: thanos
-      app.kubernetes.io/component: query-frontend
-      prometheus-operator/monitor: 'true'
----
+# apiVersion: monitoring.coreos.com/v1
+# kind: ServiceMonitor
+# metadata:
+#   name: thanos-query-frontend
+#   namespace: "prometheus"
+#   labels:
+#     app.kubernetes.io/instance: thanos
+#     app.kubernetes.io/managed-by: Helm
+#     app.kubernetes.io/name: thanos
+#     app.kubernetes.io/version: 0.35.0
+#     helm.sh/chart: thanos-15.5.0
+#     prometheus: agent
+#     app.kubernetes.io/component: query-frontend
+# spec:
+#   jobLabel: thanos
+#   endpoints:
+#     - port: http
+#   namespaceSelector:
+#     matchNames:
+#       - "prometheus"
+#   selector:
+#     matchLabels:
+#       app.kubernetes.io/instance: thanos
+#       app.kubernetes.io/name: thanos
+#       app.kubernetes.io/component: query-frontend
+#       prometheus-operator/monitor: 'true'
+# ---
 # Source: thanos/templates/query/servicemonitor.yaml
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor

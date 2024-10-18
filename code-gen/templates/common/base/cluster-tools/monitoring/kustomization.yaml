@@ -295,14 +295,14 @@ patchesStrategicMerge:
 #     annotations:
 #       external-dns.alpha.kubernetes.io/hostname: thanos-central.${DNS_ZONE}
 
-- |-
-  apiVersion: v1
-  kind: Service
-  metadata:
-    namespace: prometheus
-    name: thanos-query-frontend
-    annotations:
-      external-dns.alpha.kubernetes.io/hostname: thanos-query-central.${DNS_ZONE}
+# - |-
+#   apiVersion: v1
+#   kind: Service
+#   metadata:
+#     namespace: prometheus
+#     name: thanos-query-frontend
+#     annotations:
+#       external-dns.alpha.kubernetes.io/hostname: thanos-query-central.${DNS_ZONE}
 
 - |-
   apiVersion: v1
