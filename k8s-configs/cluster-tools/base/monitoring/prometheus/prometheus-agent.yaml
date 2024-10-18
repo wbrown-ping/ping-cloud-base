@@ -1,5 +1,5 @@
 apiVersion: monitoring.coreos.com/v1alpha1
-kind: PrometheusAgent
+kind: Prometheus
 metadata:
   name: prometheus-agent
   namespace: prometheus
