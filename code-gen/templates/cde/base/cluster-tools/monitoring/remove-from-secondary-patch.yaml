@@ -1,14 +1,14 @@
-kind: Service
-apiVersion: v1
-metadata:
-  name: thanos-receive-headless
-  namespace: prometheus
-  annotations:
-    $patch: delete
-spec:
-  type: ExternalName
-  externalName: thanos-central.${PRIMARY_DNS_ZONE}
-  $patch: replace
+# kind: Service
+# apiVersion: v1
+# metadata:
+#   name: thanos-receive-headless
+#   namespace: prometheus
+#   annotations:
+#     $patch: delete
+# spec:
+#   type: ExternalName
+#   externalName: thanos-central.${PRIMARY_DNS_ZONE}
+#   $patch: replace
 ---
 kind: Service
 apiVersion: v1
@@ -270,12 +270,12 @@ metadata:
 $patch: delete
 ---
 # Source: thanos/templates/receive/networkpolicy.yaml
-kind: NetworkPolicy
-apiVersion: networking.k8s.io/v1
-metadata:
-  name: thanos-receive
-  namespace: "prometheus"
-$patch: delete
+# kind: NetworkPolicy
+# apiVersion: networking.k8s.io/v1
+# metadata:
+#   name: thanos-receive
+#   namespace: "prometheus"
+# $patch: delete
 ---
 # Source: thanos/templates/ruler/networkpolicy.yaml
 kind: NetworkPolicy
@@ -318,12 +318,12 @@ metadata:
 $patch: delete
 ---
 # Source: thanos/templates/receive/serviceaccount.yaml
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: thanos-receive
-  namespace: prometheus
-$patch: delete
+# apiVersion: v1
+# kind: ServiceAccount
+# metadata:
+#   name: thanos-receive
+#   namespace: prometheus
+# $patch: delete
 ---
 # Source: thanos/templates/storegateway/serviceaccount.yaml
 # apiVersion: v1
@@ -334,12 +334,12 @@ $patch: delete
 # $patch: delete
 ---
 # Source: thanos/templates/receive/configmap.yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: thanos-receive
-  namespace: prometheus
-$patch: delete
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: thanos-receive
+#   namespace: prometheus
+# $patch: delete
 ---
 # Source: thanos/templates/compactor/service.yaml
 # apiVersion: v1
@@ -407,12 +407,12 @@ metadata:
 $patch: delete
 ---
 # Source: thanos/templates/receive/statefulset.yaml
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: thanos-receive
-  namespace: prometheus
-$patch: delete
+# apiVersion: apps/v1
+# kind: StatefulSet
+# metadata:
+#   name: thanos-receive
+#   namespace: prometheus
+# $patch: delete
 ---
 # Source: thanos/templates/storegateway/statefulset.yaml
 # apiVersion: apps/v1

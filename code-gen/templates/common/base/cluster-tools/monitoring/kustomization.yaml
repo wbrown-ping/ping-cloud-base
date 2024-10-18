@@ -266,15 +266,15 @@ patchesStrategicMerge:
       purpose: thanos-compactor
       ${IRSA_THANOS_ANNOTATION_KEY_VALUE}
 
-- |-
-  apiVersion: v1
-  kind: ServiceAccount
-  metadata:
-    namespace: prometheus
-    name: thanos-receive
-    annotations:
-      purpose: thanos-receiver
-      ${IRSA_THANOS_ANNOTATION_KEY_VALUE}
+# - |-
+#   apiVersion: v1
+#   kind: ServiceAccount
+#   metadata:
+#     namespace: prometheus
+#     name: thanos-receive
+#     annotations:
+#       purpose: thanos-receiver
+#       ${IRSA_THANOS_ANNOTATION_KEY_VALUE}
 
 # - |-
 #   apiVersion: v1
@@ -286,14 +286,14 @@ patchesStrategicMerge:
 #       purpose: thanos-storegateway
 #       ${IRSA_THANOS_ANNOTATION_KEY_VALUE}
 
-- |-
-  apiVersion: v1
-  kind: Service
-  metadata:
-    namespace: prometheus
-    name: thanos-receive-headless
-    annotations:
-      external-dns.alpha.kubernetes.io/hostname: thanos-central.${DNS_ZONE}
+# - |-
+#   apiVersion: v1
+#   kind: Service
+#   metadata:
+#     namespace: prometheus
+#     name: thanos-receive-headless
+#     annotations:
+#       external-dns.alpha.kubernetes.io/hostname: thanos-central.${DNS_ZONE}
 
 - |-
   apiVersion: v1
