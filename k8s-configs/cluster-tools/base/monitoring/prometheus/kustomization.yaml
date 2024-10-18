@@ -6,7 +6,7 @@ resources:
   - apiservers-service-monitor.yaml
   - ksm-service-monitor.yaml
   - pgo-pod-monitor.yaml
-  - prometheus-agent.yaml
+  - prometheus.yaml
   - prometheus-scrape-config.yaml
   - prometheus-service.yaml
   - rbac.yaml

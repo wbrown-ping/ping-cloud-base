@@ -3,7 +3,7 @@ kind: ServiceMonitor
 metadata:
   name: kubernetes-apiservers
   labels:
-    prometheus: agent
+    prometheus: instance
 spec:
   jobLabel: kubernetes-apiservers
   namespaceSelector:

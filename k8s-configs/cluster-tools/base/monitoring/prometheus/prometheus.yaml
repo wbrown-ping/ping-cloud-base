@@ -4,7 +4,7 @@ metadata:
   name: instance
   namespace: prometheus
   labels:
-    app: prometheus-agent
+    app: prometheus-instance
 spec:
   replicas: 2
   containers:
@@ -23,10 +23,10 @@ spec:
   serviceMonitorNamespaceSelector: {}
   serviceMonitorSelector:
     matchLabels:
-      prometheus: agent
+      prometheus: instance
   podMonitorSelector:
     matchLabels:
-      prometheus: agent
+      prometheus: instance
   enableFeatures:
     - expand-external-labels
   securityContext:

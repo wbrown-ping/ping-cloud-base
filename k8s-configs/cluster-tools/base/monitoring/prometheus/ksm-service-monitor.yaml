@@ -3,7 +3,7 @@ kind: ServiceMonitor
 metadata:
   name: kube-state-metrics
   labels:
-    prometheus: agent
+    prometheus: instance
 spec:
   jobLabel: kube-state-metrics
   namespaceSelector:

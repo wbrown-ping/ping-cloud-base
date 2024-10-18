@@ -64,5 +64,5 @@ metrics:
     enabled: true
     namespace: prometheus
     labels:
-      prometheus: agent
+      prometheus: instance
     jobLabel: thanos

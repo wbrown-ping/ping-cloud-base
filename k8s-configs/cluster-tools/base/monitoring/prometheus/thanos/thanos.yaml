@@ -1234,7 +1234,7 @@ metadata:
     app.kubernetes.io/name: thanos
     app.kubernetes.io/version: 0.35.0
     helm.sh/chart: thanos-15.5.0
-    prometheus: agent
+    prometheus: instance
     app.kubernetes.io/component: compactor
 spec:
   jobLabel: thanos
@@ -1262,7 +1262,7 @@ spec:
 #     app.kubernetes.io/name: thanos
 #     app.kubernetes.io/version: 0.35.0
 #     helm.sh/chart: thanos-15.5.0
-#     prometheus: agent
+#     prometheus: instance
 #     app.kubernetes.io/component: query-frontend
 # spec:
 #   jobLabel: thanos
@@ -1290,7 +1290,7 @@ metadata:
     app.kubernetes.io/name: thanos
     app.kubernetes.io/version: 0.35.0
     helm.sh/chart: thanos-15.5.0
-    prometheus: agent
+    prometheus: instance
     app.kubernetes.io/component: query
 spec:
   jobLabel: thanos
@@ -1318,7 +1318,7 @@ spec:
 #     app.kubernetes.io/name: thanos
 #     app.kubernetes.io/version: 0.35.0
 #     helm.sh/chart: thanos-15.5.0
-#     prometheus: agent
+#     prometheus: instance
 #     app.kubernetes.io/component: receive
 # spec:
 #   jobLabel: thanos
@@ -1346,7 +1346,7 @@ spec:
 #     app.kubernetes.io/name: thanos
 #     app.kubernetes.io/version: 0.35.0
 #     helm.sh/chart: thanos-15.5.0
-#     prometheus: agent
+#     prometheus: instance
 #     app.kubernetes.io/component: storegateway
 # spec:
 #   jobLabel: thanos
