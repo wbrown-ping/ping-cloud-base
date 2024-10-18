@@ -876,7 +876,7 @@ spec:
             - --query.replica-label=replica
             # - --endpoint=dnssrv+_grpc._tcp.thanos-storegateway.prometheus.svc.cluster.local
             # - --endpoint=dnssrv+_grpc._tcp.thanos-receive-headless.prometheus.svc.cluster.local
-            - --endpoint=dnssrv+_grpc._tcp.prometheus-agent-operated.prometheus.svc.cluster.local
+            - --endpoint=dnssrv+_grpc._tcp.prometheus-operated.prometheus.svc.cluster.local:10901
             - --alert.query-url=http://thanos-query.prometheus.svc.cluster.local:9090
           ports:
             - name: http
