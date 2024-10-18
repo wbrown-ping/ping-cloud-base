@@ -1,10 +1,10 @@
 apiVersion: monitoring.coreos.com/v1
 kind: Prometheus
 metadata:
-  name: prometheus-agent
+  name: prometheus
   namespace: prometheus
-  labels:
-    app: prometheus-agent
+  # labels:
+  #   app: prometheus-agent
 spec:
   replicas: 2
   containers:
@@ -27,8 +27,6 @@ spec:
   podMonitorSelector:
     matchLabels:
       prometheus: agent
-  # remoteWrite:
-  #   - url: 'http://thanos-receive-headless:19291/api/v1/receive'
   enableFeatures:
     - expand-external-labels
   securityContext:
