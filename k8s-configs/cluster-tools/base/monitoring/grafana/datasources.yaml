@@ -2,13 +2,13 @@
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
 metadata:
-  name: thanos-query
+  name: prometheus
 spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
   datasource:
-    name: thanos-query
+    name: prometheus
     type: prometheus
     access: proxy
     url: http://thanos-query:9090
