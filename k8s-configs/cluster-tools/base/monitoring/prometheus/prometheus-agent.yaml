@@ -1,10 +1,10 @@
 apiVersion: monitoring.coreos.com/v1
 kind: Prometheus
 metadata:
-  name: prometheus
+  name: instance
   namespace: prometheus
-  # labels:
-  #   app: prometheus-agent
+  labels:
+    app: prometheus-agent
 spec:
   replicas: 2
   containers:
