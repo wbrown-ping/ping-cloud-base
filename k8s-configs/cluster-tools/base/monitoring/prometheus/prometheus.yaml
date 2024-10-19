@@ -46,6 +46,7 @@ spec:
   storage:
     volumeClaimTemplate:
       spec:
+        storageClassName: prometheus-gp3
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:
