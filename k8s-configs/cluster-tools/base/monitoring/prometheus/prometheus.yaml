@@ -12,8 +12,8 @@ spec:
       envFrom:
         - configMapRef:
             name: prometheus-environment-variables
-      args:
-        - --storage.tsdb.retention.time=15d            
+      # args:
+      #   - --storage.tsdb.retention.time=15d            
   scrapeInterval: 30s
   scrapeTimeout: 5s
   externalLabels:
