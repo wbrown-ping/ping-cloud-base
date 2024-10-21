@@ -256,15 +256,15 @@ patchesStrategicMerge:
               - name: "PROMETHEUS_LABEL_MATCH"
                 value: "k8s_cluster_name=\"${CLUSTER_NAME}-${TENANT_NAME}-${REGION_NICK_NAME}\""
 
-                  #- |-
-                  #  apiVersion: v1
-                  #  kind: ServiceAccount
-                  #  metadata:
-                  #    namespace: prometheus
-                  #    name: thanos-compactor
-                  #    annotations:
-                  #      purpose: thanos-compactor
-                  #      ${IRSA_THANOS_ANNOTATION_KEY_VALUE}
+# - |-
+#   apiVersion: v1
+#   kind: ServiceAccount
+#   metadata:
+#     namespace: prometheus
+#     name: thanos-compactor
+#     annotations:
+#       purpose: thanos-compactor
+#       ${IRSA_THANOS_ANNOTATION_KEY_VALUE}
 
 # - |-
 #   apiVersion: v1

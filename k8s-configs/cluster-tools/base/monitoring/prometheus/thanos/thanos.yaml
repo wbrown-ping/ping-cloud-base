@@ -1223,33 +1223,33 @@ spec:
 #           emptyDir: {}
 # ---
 # Source: thanos/templates/compactor/servicemonitor.yaml
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: thanos-compactor
-  namespace: "prometheus"
-  labels:
-    app.kubernetes.io/instance: thanos
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/name: thanos
-    app.kubernetes.io/version: 0.35.0
-    helm.sh/chart: thanos-15.5.0
-    prometheus: instance
-    app.kubernetes.io/component: compactor
-spec:
-  jobLabel: thanos
-  endpoints:
-    - port: http
-  namespaceSelector:
-    matchNames:
-      - "prometheus"
-  selector:
-    matchLabels:
-      app.kubernetes.io/instance: thanos
-      app.kubernetes.io/name: thanos
-      app.kubernetes.io/component: compactor
-      prometheus-operator/monitor: 'true'
----
+# apiVersion: monitoring.coreos.com/v1
+# kind: ServiceMonitor
+# metadata:
+#   name: thanos-compactor
+#   namespace: "prometheus"
+#   labels:
+#     app.kubernetes.io/instance: thanos
+#     app.kubernetes.io/managed-by: Helm
+#     app.kubernetes.io/name: thanos
+#     app.kubernetes.io/version: 0.35.0
+#     helm.sh/chart: thanos-15.5.0
+#     prometheus: instance
+#     app.kubernetes.io/component: compactor
+# spec:
+#   jobLabel: thanos
+#   endpoints:
+#     - port: http
+#   namespaceSelector:
+#     matchNames:
+#       - "prometheus"
+#   selector:
+#     matchLabels:
+#       app.kubernetes.io/instance: thanos
+#       app.kubernetes.io/name: thanos
+#       app.kubernetes.io/component: compactor
+#       prometheus-operator/monitor: 'true'
+# ---
 # Source: thanos/templates/query-frontend/servicemonitor.yaml
 # apiVersion: monitoring.coreos.com/v1
 # kind: ServiceMonitor
