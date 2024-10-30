@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: logstash-chub-config
+  name: logstash-pipeline-config
   namespace: elastic-stack-logging
 data:
   pipelines.yml: |
@@ -14,7 +14,6 @@ data:
     - pipeline.id: dlq
       path.config: "/usr/share/logstash/pipeline/dlq"
       pipeline.workers: 1
-
   02-input-filters.conf: |-
     filter {
       # Drop all events
@@ -52,13 +51,13 @@ spec:
       volumes:
       - name: logstash-pipelines
         configMap:
-          name: logstash-chub-config
+          name: logstash-pipeline-config
           items:
           - key: pipelines.yml
             path: pipelines.yml 
       - name: logstash-input-filters
         configMap:
-          name: logstash-chub-config
+          name: logstash-pipeline-config
           items:
           - key: 02-input-filters.conf
             path: 02-input-filters.conf

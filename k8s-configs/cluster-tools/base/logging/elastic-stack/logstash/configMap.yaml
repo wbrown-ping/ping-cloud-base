@@ -1,0 +1,11 @@
+# ConfigMap to overwrite the container image pipelines.yml 
+# config in order to disable the main(opensearch) pipeline.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: logstash-pipeline-config
+  namespace: elastic-stack-logging
+data:
+  pipelines.yml: |
+    placeholder for customer-hub or other patching.  This file should be empty.
+    Pipeline configs other than customer pipeline are defined in the Logstash image.
