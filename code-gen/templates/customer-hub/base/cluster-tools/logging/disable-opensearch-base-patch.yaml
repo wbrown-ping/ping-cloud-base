@@ -6,14 +6,14 @@ metadata:
   name: logstash-pipeline-config
   namespace: elastic-stack-logging
 data:
-  # pipelines.yml: |
-  #   - pipeline.id: customer
-  #     path.config: "/usr/share/logstash/pipeline/customer"
-  #   - pipeline.id: s3
-  #     path.config: "/usr/share/logstash/pipeline/s3"
-  #   - pipeline.id: dlq
-  #     path.config: "/usr/share/logstash/pipeline/dlq"
-  #     pipeline.workers: 1
+  pipelines.yml: |
+    - pipeline.id: customer
+      path.config: "/usr/share/logstash/pipeline/customer"
+    - pipeline.id: s3
+      path.config: "/usr/share/logstash/pipeline/s3"
+    - pipeline.id: dlq
+      path.config: "/usr/share/logstash/pipeline/dlq"
+      pipeline.workers: 1
   02-input-filters.conf: |-
     filter {
       # Drop all events
@@ -42,21 +42,21 @@ spec:
           httpGet:
             port: 8081
         volumeMounts:
-        # - name: logstash-pipelines
-        #   mountPath: /usr/share/logstash/config/pipelines.yml
-        #   subPath: pipelines.yml
+        - name: logstash-pipelines
+          mountPath: /usr/share/logstash/config/pipelines.yml
+          subPath: pipelines.yml
         - name: logstash-input-filters
           mountPath: /usr/share/logstash/pipeline/main/02-input-filters.conf
           subPath: 02-input-filters.conf
         - name: empty-file
           mountPath: /usr/share/logstash/pipeline/main/
       volumes:
-      # - name: logstash-pipelines
-      #   configMap:
-      #     name: logstash-pipeline-config
-      #     items:
-      #     - key: pipelines.yml
-      #       path: pipelines.yml 
+      - name: logstash-pipelines
+        configMap:
+          name: logstash-pipeline-config
+          items:
+          - key: pipelines.yml
+            path: pipelines.yml 
       - name: logstash-input-filters
         configMap:
           name: logstash-pipeline-config
