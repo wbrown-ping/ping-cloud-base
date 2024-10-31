@@ -48,6 +48,8 @@ spec:
         - name: logstash-input-filters
           mountPath: /usr/share/logstash/pipeline/main/02-input-filters.conf
           subPath: 02-input-filters.conf
+        - name: empty-file
+          mountPath: /usr/share/logstash/pipeline/main/
       volumes:
       - name: logstash-pipelines
         configMap:
@@ -61,3 +63,5 @@ spec:
           items:
           - key: 02-input-filters.conf
             path: 02-input-filters.conf
+      - name: empty-file
+        emptyDir: {}            
