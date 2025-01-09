@@ -105,7 +105,7 @@ spec:
           runAsNonRoot: true
           runAsUser: 9031
           allowPrivilegeEscalation: false
-        image: 705370621539.dkr.ecr.us-west-2.amazonaws.com/pingcloud-services/newrelic-tags-exporter:v2.1.0-pdo-8782
+        image: 705370621539.dkr.ecr.us-west-2.amazonaws.com/pingcloud-monitoring/newrelic-tags-exporter:v2.1.0-pdo-8782
         imagePullPolicy: Always
         envFrom:
         - configMapRef:
