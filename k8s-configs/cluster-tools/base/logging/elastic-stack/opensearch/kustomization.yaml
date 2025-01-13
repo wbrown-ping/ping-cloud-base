@@ -15,3 +15,13 @@ resources:
 
 openapi:
   path: opensearch-schema.json
+
+
+
+configMapGenerator:
+  - name: os-index-templates
+    files:
+      - kube-proxy.json
+  - name: os-alerts-kube-proxy
+    files:
+      - err_in_log.json      

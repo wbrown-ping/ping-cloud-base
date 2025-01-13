@@ -69,6 +69,8 @@ spec:
             mountPath: /usr/share/opensearch/data/dashboards/pa
           - name: os-dashboards-pa-was
             mountPath: /usr/share/opensearch/data/dashboards/pa-was
+          - name: os-alerts-kube-proxy
+            mountPath: /usr/share/opensearch/data/alerts/kube-proxy        
         resources:
           requests:
             memory: "256Mi"
@@ -96,3 +98,6 @@ spec:
         - name: os-dashboards-pa-was
           configMap:
             name: os-dashboards-pa-was
+        - name: os-alerts-kube-proxy
+          configMap:
+            name: os-alerts-kube-proxy
