@@ -14,4 +14,4 @@ resources:
 configMapGenerator:
 - name: logstash-pipeline-main
   files:
-    - 10-kube-proxy-filters.json
+    - 10-kube-proxy-filters.conf
