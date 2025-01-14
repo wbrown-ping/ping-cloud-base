@@ -218,7 +218,7 @@ spec:
               mountPath: /usr/share/logstash/data/queue
               readOnly: false
             - name: logstash-pipeline-main
-              mountPath: /usr/share/logstash/pipeline/main/10-kube-proxy-filters.json
+              mountPath: /usr/share/logstash/pipeline/main/10-kube-proxy-filters.conf
               subPath: 10-kube-proxy-filters.json
               readOnly: true              
         # Sidecar enrichment container which updates Logstash dictionaries
