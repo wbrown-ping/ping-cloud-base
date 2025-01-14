@@ -1,147 +1,28 @@
 {
     "index_patterns": [
-        "kube-proxy-*"
+      "kube-proxy-*"
     ],
-    "priority": 100,
     "template": {
-        "settings": {
-            "index": {
-                "routing": {
-                    "allocation": {
-                        "require": {
-                            "temp": "hot"
-                        }
-                    }
-                },
-                "refresh_interval": "30s",
-                "unassigned": {
-                    "node_left": {
-                        "delayed_timeout": "15m"
-                    }
-                },
-                "number_of_shards": "1",
-                "number_of_replicas": "1"
-            }
-        },
-        "mappings": {
-            "properties": {
-                "@timestamp": {
-                    "type": "date"
-                },
-                "event_time": {
-                    "type": "date_nanos"
-                },
-                "@version": {
-                    "type": "text",
-                    "fields": {
-                        "keyword": {
-                            "type": "keyword",
-                            "ignore_above": 256
-                        }
-                    }
-                },
-                "cluster_name": {
-                    "type": "text",
-                    "fields": {
-                        "keyword": {
-                            "type": "keyword",
-                            "ignore_above": 256
-                        }
-                    }
-                },
-                "host": {
-                    "type": "text",
-                    "fields": {
-                        "keyword": {
-                            "type": "keyword",
-                            "ignore_above": 256
-                        }
-                    }
-                },
-                "kubernetes": {
-                    "properties": {
-                        "container_name": {
-                            "type": "text",
-                            "fields": {
-                                "keyword": {
-                                    "type": "keyword",
-                                    "ignore_above": 256
-                                }
-                            }
-                        },
-                        "namespace_name": {
-                            "type": "text",
-                            "fields": {
-                                "keyword": {
-                                    "type": "keyword",
-                                    "ignore_above": 256
-                                }
-                            }
-                        },
-                        "pod_name": {
-                            "type": "text",
-                            "fields": {
-                                "keyword": {
-                                    "type": "keyword",
-                                    "ignore_above": 256
-                                }
-                            }
-                        },
-                        "labels": {
-                            "properties": {
-                                "app": {
-                                    "type": "text",
-                                    "fields": {
-                                        "keyword": {
-                                            "type": "keyword",
-                                            "ignore_above": 256
-                                        }
-                                    }
-                                },
-                                "role": {
-                                    "type": "text",
-                                    "fields": {
-                                        "keyword": {
-                                            "type": "keyword",
-                                            "ignore_above": 256
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "loglevel": {
-                    "type": "keyword"
-                },
-                "log_message": {
-                    "type": "text"
-                },
-                "elapsed_time": {
-                    "type": "float"
-                },
-                "syncing_iptables_rules": {
-                    "type": "boolean"
-                },
-                "num_services": {
-                    "type": "integer"
-                },
-                "num_endpoints": {
-                    "type": "integer"
-                },
-                "num_filter_chains": {
-                    "type": "integer"
-                },
-                "num_filter_rules": {
-                    "type": "integer"
-                },
-                "num_nat_chains": {
-                    "type": "integer"
-                },
-                "num_nat_rules": {
-                    "type": "integer"
-                }
-            }
+      "settings": {
+        "index.number_of_shards": "3",
+        "index.number_of_replicas": "1",
+        "index.refresh_interval": "30s"
+      },
+      "mappings": {
+        "properties": {
+          "log": {
+            "type": "text"
+          },
+          "fluentbit_ingest_timestamp": {
+            "type": "date"
+          }
         }
-    }
-}
+      }
+    },
+    "composed_of": [],
+    "priority": "100",
+    "_meta": {
+      "flow": "simple"
+    },
+    "name": "kube-proxy"
+  }
