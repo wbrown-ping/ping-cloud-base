@@ -22,7 +22,7 @@
                             "must": [
                                 {
                                     "match_phrase": {
-                                        "log_message": "err=<"
+                                        "log_message": "Syncing iptables rules"
                                     }
                                 }
                             ]
