@@ -16,7 +16,7 @@ helmCharts:
       - ../../values-files/base/values.yaml   # base values.yaml
       - ../../values-files/us-west-2/values.yaml   # regional values.yaml
       - values.yaml   # app specific values.yaml
-    version: v2.1-PDO-8168-spike-subchart-ns
+    version: v2.1-release-branch-PDO-8168-spike-subchart-ns
     valuesInline:
       ecrRegistryName: "705370621539.dkr.ecr.us-west-2.amazonaws.com/dev"
       profileBranch: PDO-8168-spike-subchart-ns
