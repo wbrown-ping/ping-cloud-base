@@ -9,6 +9,7 @@ commonLabels:
 resources:
   - ../base/custom-resources
   - custom-resources
+  - namespace.yaml
 
 helmCharts:
   - name: p1as-cloudwatch
