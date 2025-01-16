@@ -1450,10 +1450,10 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
   fi
 
   # Disable CW if non-GA
-  if test "${CI_SERVER}" != "yes" && test "${ACCOUNT_TYPE}" = "non-ga"; then
-    sed -i.bak 's/^[[:space:]]*#[[:space:]]*\(.*disable-cloudwatch.yaml\)$/  \1/g' "${PRIMARY_PING_KUST_FILE}"
-  fi
-  rm -f "${PRIMARY_PING_KUST_FILE}.bak"
+  # if test "${CI_SERVER}" != "yes" && test "${ACCOUNT_TYPE}" = "non-ga"; then
+  #   sed -i.bak 's/^[[:space:]]*#[[:space:]]*\(.*disable-cloudwatch.yaml\)$/  \1/g' "${PRIMARY_PING_KUST_FILE}"
+  # fi
+  # rm -f "${PRIMARY_PING_KUST_FILE}.bak"
 
   echo "Substituting env vars, this may take some time..."
   substitute_vars "${ENV_DIR}" "${REPO_VARS}" secrets.yaml env_vars
