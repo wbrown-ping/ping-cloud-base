@@ -1,0 +1,39 @@
+kind: Kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+
+namespace: ${PING_CLOUD_NAMESPACE}
+
+commonLabels:
+  app.kubernetes.io/name: cloudwatch
+
+resources:
+  - ../base/custom-resources
+  - custom-resources
+
+helmCharts:
+  - name: p1as-cloudwatch
+    additionalValuesFiles:
+      - ../../values-files/base/values.yaml   # base values.yaml
+      - ../../values-files/us-west-2/values.yaml   # regional values.yaml
+      - values.yaml   # app specific values.yaml
+    version: v2.1-PDO-8168-spike-subchart-ns
+    valuesInline:
+      ecrRegistryName: "705370621539.dkr.ecr.us-west-2.amazonaws.com/dev"
+      profileBranch: PDO-8168-spike-subchart-ns
+    repo: oci://705370621539.dkr.ecr.us-west-2.amazonaws.com/dev
+    namespace: amazon-cloudwatch
+
+### This field is used to trigger a resync of the p1as-cloudwatch helm chart ###
+configMapGenerator:
+  - name: cloudwatch-last-update-reason
+    literals:
+      - UPDATE_REASON=""
+  ### This is needed for the empty custom-patches.yaml file to work ###
+  - name: cloudwatch-custom-placeholder
+  ### This is needed for the empty custom-patches.yaml file to work in base folder ###
+  - name: cloudwatch-custom-placeholder-base      
+
+patchesStrategicMerge:
+  ### PS/GSO customizations to OOTB resources should only go into this file. Otherwise, CSR auto-updates will break. ###
+  - custom-patches.yaml
+  - ../base/custom-patches.yaml
