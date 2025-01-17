@@ -10,6 +10,9 @@ resources:
   - custom-resources
   - namespace.yaml
 
+helmGlobals:
+  configHome: /helm-working-dir
+
 helmCharts:
   - name: p1as-cloudwatch
     additionalValuesFiles:
@@ -26,20 +29,23 @@ helmCharts:
     namespace: newrelic-triage
     additionalValuesFiles:
       - ../../values-files/base/values.yaml   # base values.yaml
-      - ../../values-files/${REGION_NICK_NAME}/values.yaml   # regional values.yaml
+      - ../../values-files/us-west-2/values.yaml   # regional values.yaml
       - values.yaml   # app specific values.yaml
     version: v2.1-release-branch-latest
-    repo: oci://${ECR_REGISTRY_NAME}/dev    
+    repo: oci://public.ecr.aws/r2h3l6e4/dev    
 
 ### This field is used to trigger a resync of the p1as-cloudwatch helm chart ###
 configMapGenerator:
-  - name: cloudwatch-last-update-reason
+  - name: o11y-last-update-reason
+    namespace: default
     literals:
       - UPDATE_REASON=""
   ### This is needed for the empty custom-patches.yaml file to work ###
-  - name: cloudwatch-custom-placeholder
+  - name: o11y-custom-placeholder
+    namespace: default
   ### This is needed for the empty custom-patches.yaml file to work in base folder ###
-  - name: cloudwatch-custom-placeholder-base      
+  - name: o11y-custom-placeholder-base
+    namespace: default  
 
 patchesStrategicMerge:
   ### PS/GSO customizations to OOTB resources should only go into this file. Otherwise, CSR auto-updates will break. ###
