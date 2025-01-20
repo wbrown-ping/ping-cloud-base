@@ -1,6 +1,7 @@
+#Cloudwatch related values
 cloudwatch:
-  enabled: true
-# The IRSA role ARN to be used for the CWAgent serviceAccount, for the customer environment
+  enabled : "${CLOUDWATCH_ENABLED}"
+#The IRSA role ARN to be used for the CWAgent serviceAccount, for the customer environment
   irsaCwAgentAnnotationKeyValue: "${IRSA_CWAGENT_ANNOTATION_KEY_VALUE}"
   image:
     repository: public.ecr.aws/r2h3l6e4/pingcloud-clustertools/amazon/cloudwatch-agent

@@ -747,6 +747,8 @@ echo "Initial HEALTHCHECKS_ENABLED: ${HEALTHCHECKS_ENABLED}"
 
 echo "Initial CUSTOMER_PINGONE_ENABLED: ${CUSTOMER_PINGONE_ENABLED}"
 
+echo "Initial CLOUDWATCH_ENABLED: ${CLOUDWATCH_ENABLED}"
+
 echo "Initial ARGOCD_BOOTSTRAP_ENABLED: ${ARGOCD_BOOTSTRAP_ENABLED}"
 echo "Initial ARGOCD_CDE_ROLE_SSM_TEMPLATE: ${ARGOCD_CDE_ROLE_SSM_TEMPLATE}"
 echo "Initial ARGOCD_CDE_URL_SSM_TEMPLATE: ${ARGOCD_CDE_URL_SSM_TEMPLATE}"
@@ -915,6 +917,7 @@ export ARGOCD_BOOTSTRAP_ENABLED="${ARGOCD_BOOTSTRAP_ENABLED:-true}"
 export EXTERNAL_INGRESS_ENABLED="${EXTERNAL_INGRESS_ENABLED:-""}"
 export HEALTHCHECKS_ENABLED="${HEALTHCHECKS_ENABLED:-false}"
 export CUSTOMER_PINGONE_ENABLED="${CUSTOMER_PINGONE_ENABLED:-false}"
+export CLOUDWATCH_ENABLED="${CLOUDWATCH_ENABLED:-false}"
 
 ### Default environment variables ###
 export ECR_REGISTRY_NAME='public.ecr.aws/r2h3l6e4'
@@ -1069,6 +1072,7 @@ echo "Using ARGOCD_BOOTSTRAP_ENABLED: ${ARGOCD_BOOTSTRAP_ENABLED}"
 echo "Using EXTERNAL_INGRESS_ENABLED: ${EXTERNAL_INGRESS_ENABLED}"
 echo "Using HEALTHCHECKS_ENABLED: ${HEALTHCHECKS_ENABLED}"
 echo "Using CUSTOMER_PINGONE_ENABLED: ${CUSTOMER_PINGONE_ENABLED}"
+echo "Using CLOUDWATCH_ENABLED: ${CLOUDWATCH_ENABLED}"
 echo "Using TARGET_DIR: ${TARGET_DIR}"
 echo "Using IS_BELUGA_ENV: ${IS_BELUGA_ENV}"
 
@@ -1449,9 +1453,13 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
     printf "\n# %%%% END automatically appended secrets from generate-cluster-state.sh\n" >> "${K8S_CONFIGS_DIR}/base/secrets.yaml"
   fi
 
-  # Disable CW if non-GA
+  # Disable CW if non-GA and not in CI
   if test "${CI_SERVER}" != "yes" && test "${ACCOUNT_TYPE}" = "non-ga"; then
-    sed -i.bak 's/^[[:space:]]*#[[:space:]]*\(.*disable-cloudwatch.yaml\)$/  \1/g' "${PRIMARY_PING_KUST_FILE}"
+    echo "Cloudwatch is diabled"
+    export CLOUDWATCH_ENABLED="false"
+  else
+    echo "CloudWatch is enabled"
+    export CLOUDWATCH_ENABLED="true"
   fi
   rm -f "${PRIMARY_PING_KUST_FILE}.bak"
 
