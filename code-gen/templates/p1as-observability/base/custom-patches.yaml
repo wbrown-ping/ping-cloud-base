@@ -4,4 +4,4 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: o11y-custom-placeholder
+  name: observability-custom-placeholder-base
