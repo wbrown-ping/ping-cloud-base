@@ -1337,6 +1337,19 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
   echo "Using STAGE: ${STAGE}"
 
   ######################################################################################################################
+  # Disable Cloudwatch according to the account type
+  ######################################################################################################################
+
+  if test "${CI_SERVER}" != "yes" && test "${ACCOUNT_TYPE}" = "non-ga"; then
+    echo "Cloudwatch is disabled"
+    export CLOUDWATCH_ENABLED="false"
+  else
+    echo "CloudWatch is enabled"
+    export CLOUDWATCH_ENABLED="true"
+  fi
+  rm -f "${PRIMARY_PING_KUST_FILE}.bak"
+
+  ######################################################################################################################
   # Massage files into correct structure for push-cluster-state script
   ######################################################################################################################
 
@@ -1391,6 +1404,7 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
 
   # Massage files from new microservice architecture
   organize_code_for_csr
+  echo $CLOUDWATCH_ENABLED
 
   PRIMARY_PING_KUST_FILE="${K8S_CONFIGS_DIR}/${REGION_NICK_NAME}/kustomization.yaml"
 
@@ -1449,18 +1463,10 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
     printf "\n# %%%% END automatically appended secrets from generate-cluster-state.sh\n" >> "${K8S_CONFIGS_DIR}/base/secrets.yaml"
   fi
 
-  # Disable CW if non-GA and not in CI
-  if test "${CI_SERVER}" != "yes" && test "${ACCOUNT_TYPE}" = "non-ga"; then
-    echo "Cloudwatch is diabled"
-    export CLOUDWATCH_ENABLED="false"
-  else
-    echo "CloudWatch is enabled"
-    export CLOUDWATCH_ENABLED="true"
-  fi
-  rm -f "${PRIMARY_PING_KUST_FILE}.bak"
-
   echo "Substituting env vars, this may take some time..."
   substitute_vars "${ENV_DIR}" "${REPO_VARS}" secrets.yaml env_vars
+
+  echo $CLOUDWATCH_ENABLED
 
   # Regional enablement - add admins, backups, etc. to primary and adding pingaccess-was and pingcentral to primary.
   if test "${TENANT_DOMAIN}" = "${PRIMARY_TENANT_DOMAIN}"; then
