@@ -1348,7 +1348,6 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
     echo "CloudWatch is enabled"
     export CLOUDWATCH_ENABLED="true"
   fi
-  rm -f "${PRIMARY_PING_KUST_FILE}.bak"
 
   ######################################################################################################################
   # Massage files into correct structure for push-cluster-state script

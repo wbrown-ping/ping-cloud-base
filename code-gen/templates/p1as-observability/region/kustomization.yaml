@@ -4,7 +4,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 resources:
   - ../base/custom-resources
   - custom-resources
-  - namespace.yaml
+  - ../base/namespace.yaml
 
 helmCharts:
   - name: p1as-cloudwatch
@@ -14,20 +14,20 @@ helmCharts:
       - values.yaml   # app specific values.yaml
     version: v2.1-release-branch-latest
     repo: oci://${ECR_REGISTRY_NAME}/dev
-    namespace: ${PING_CLOUD_NAMESPACE}
+    namespace: amazon-cloudwatch
     
 ### This field is used to trigger a resync of the helm chart ###
 configMapGenerator:
   - name: o11y-last-update-reason
-    namespace: default
+    namespace: ${PING_CLOUD_NAMESPACE}
     literals:
       - UPDATE_REASON=""
   ### This is needed for the empty custom-patches.yaml file to work ###
   - name: observability-custom-placeholder
-    namespace: default
+    namespace: ${PING_CLOUD_NAMESPACE}
   ### This is needed for the empty custom-patches.yaml file to work in base folder ###
   - name: observability-custom-placeholder-base  
-    namespace: default
+    namespace: ${PING_CLOUD_NAMESPACE}
 
 patchesStrategicMerge:
   ### PS/GSO customizations to OOTB resources should only go into this file. Otherwise, CSR auto-updates will break. ###
