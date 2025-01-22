@@ -12,13 +12,16 @@ helmCharts:
       - ../../values-files/base/values.yaml   # base values.yaml
       - ../../values-files/${REGION_NICK_NAME}/values.yaml   # regional values.yaml
       - values.yaml   # app specific values.yaml
-    version: v2.1-release-branch-latest
-    repo: oci://${ECR_REGISTRY_NAME}/dev
+    version: PDO-5995-PDO-5995-CW
     namespace: amazon-cloudwatch
+    valuesInline:
+      ecrRegistryName: "705370621539.dkr.ecr.us-west-2.amazonaws.com/dev"
+      profileBranch: PDO-5995-PDO-5995-CW
+    repo: oci://705370621539.dkr.ecr.us-west-2.amazonaws.com/dev
     
 ### This field is used to trigger a resync of the helm chart ###
 configMapGenerator:
-  - name: o11y-last-update-reason
+  - name: observability-last-update-reason
     namespace: ${PING_CLOUD_NAMESPACE}
     literals:
       - UPDATE_REASON=""
