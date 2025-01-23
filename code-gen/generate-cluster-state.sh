@@ -1314,6 +1314,17 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
   export PGO_BACKUP_BUCKET_NAME=${PGO_BACKUP_BUCKET_NAME#s3://}
 
 
+  ######################################################################################################################
+  # Enable Cloudwatch according to the account type
+  ######################################################################################################################
+
+  if test "${CI_SERVER}" != "yes" && test "${ACCOUNT_TYPE}" = "non-ga"; then
+    echo "Cloudwatch is disabled"
+    export CLOUDWATCH_ENABLED="false"
+  else
+    echo "Cloudwatch is enabled"
+    export CLOUDWATCH_ENABLED="true"
+  fi
 
   ######################################################################################################################
   # Print out the final value being used for each environment specific variable.
@@ -1336,18 +1347,8 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
   echo "Using CLUSTER_ENDPOINT: ${CLUSTER_ENDPOINT}"
   echo "Using TELEPORT_RESOURCE_ID: ${TELEPORT_RESOURCE_ID}"
   echo "Using STAGE: ${STAGE}"
+  echo "Using CLOUDWATCH_ENABLED: ${CLOUDWATCH_ENABLED}"
 
-  ######################################################################################################################
-  # Enable Cloudwatch according to the account type
-  ######################################################################################################################
-
-  if test "${CI_SERVER}" != "yes" && test "${ACCOUNT_TYPE}" = "non-ga"; then
-    echo "Cloudwatch is disabled"
-    export CLOUDWATCH_ENABLED="false"
-  else
-    echo "CloudWatch is enabled"
-    export CLOUDWATCH_ENABLED="true"
-  fi
 
   ######################################################################################################################
   # Massage files into correct structure for push-cluster-state script
