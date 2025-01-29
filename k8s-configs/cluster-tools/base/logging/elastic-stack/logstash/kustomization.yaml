@@ -9,3 +9,9 @@ resources:
 - secret.yaml
 - pdb.yaml
 - customer_pipelines
+
+
+configMapGenerator:
+- name: logstash-pipeline-main
+  files:
+    - 10-self-service-filters.conf
