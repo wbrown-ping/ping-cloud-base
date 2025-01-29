@@ -1,108 +1,87 @@
 {
-    "name": "Kube Proxy Error in Logs",
-    "type": "monitor",
-    "monitor_type": "query_level_monitor",
-    "enabled": true,
-    "schedule": {
-       "period": {
-          "unit": "MINUTES",
-          "interval": 1
-       }
-    },
-    "inputs": [
-       {
-          "search": {
-             "indices": [
-                "kube-proxy-*"
-             ],
-             "query": {
-                "size": 0,
-                "aggregations": {},
-                "query": {
-                   "bool": {
-                      "filter": [
-                         {
-                            "range": {
-                               "@timestamp": {
-                                  "gte": "{{period_end}}||-1m",
-                                  "lte": "{{period_end}}",
-                                  "format": "epoch_millis"
-                               }
-                            }
-                         },
-                         {
-                            "query_string": {
-                               "query": "*\"Failed to execute iptables-restore\" err=<*",
-                               "default_field": "log"
-                            }
-                         }
-                      ]
-                   }
-                }
-             }
-          }
-       }
-    ],
-    "triggers": [
-       {
-          "query_level_trigger": {
-             "id": "E4y6ZpQB8zpj-IYAFR_r",
-             "name": "Error Found in log message",
-             "severity": "1",
-             "condition": {
-                "script": {
-                   "source": "ctx.results[0].hits.total.value > 0",
-                   "lang": "painless"
-                }
-             },
-             "actions": []
-          }
-       }
-    ],
-    "ui_metadata": {
-       "schedule": {
-          "timezone": null,
-          "frequency": "interval",
-          "period": {
-             "unit": "MINUTES",
-             "interval": 1
-          },
-          "daily": 0,
-          "weekly": {
-             "tue": false,
-             "wed": false,
-             "thur": false,
-             "sat": false,
-             "fri": false,
-             "mon": false,
-             "sun": false
-          },
-          "monthly": {
-             "type": "day",
-             "day": 1
-          },
-          "cronExpression": "0 */1 * * *"
-       },
-       "monitor_type": "query_level_monitor",
-       "search": {
-          "searchType": "graph",
-          "timeField": "@timestamp",
-          "aggregations": [],
-          "cleanedGroupBy": [],
-          "bucketValue": 1,
-          "bucketUnitOfTime": "m",
-          "filters": [
-             {
-                "fieldName": [
-                   {
-                      "label": "log",
-                      "type": "text"
-                   }
-                ],
-                "fieldValue": "\"Failed to execute iptables-restore\" err=<",
-                "operator": "contains"
-             }
-          ]
-       }
-    }
- }
+   "name": "Kube Proxy Error in Logs",
+   "type": "monitor",
+   "monitor_type": "doc_level_monitor",
+   "enabled": true,
+   "schedule": {
+      "period": {
+         "unit": "MINUTES",
+         "interval": 1
+      }
+   },
+   "inputs": [
+      {
+         "doc_level_input": {
+            "description": "",
+            "indices": [
+               "kube-proxy-*"
+            ],
+            "queries": [
+               {
+                  "id": "75c5283b-8bf5-44e2-9ec5-06a94179bee6",
+                  "name": "query-for-err-in-log",
+                  "query": "log:\"\"",
+                  "tags": []
+               }
+            ]
+         }
+      }
+   ],
+   "triggers": [
+      {
+         "document_level_trigger": {
+            "id": "af2yrpQBx_Z8mTzM0A0o",
+            "name": "Error Found in log message",
+            "severity": "1",
+            "condition": {
+               "script": {
+                  "source": "query[name=query-for-err-in-log]",
+                  "lang": "painless"
+               }
+            },
+            "actions": []
+         }
+      }
+   ],
+   "ui_metadata": {
+      "schedule": {
+         "timezone": null,
+         "frequency": "interval",
+         "period": {
+            "unit": "MINUTES",
+            "interval": 1
+         },
+         "daily": 0,
+         "weekly": {
+            "tue": false,
+            "wed": false,
+            "thur": false,
+            "sat": false,
+            "fri": false,
+            "mon": false,
+            "sun": false
+         },
+         "monthly": {
+            "type": "day",
+            "day": 1
+         },
+         "cronExpression": "0 */1 * * *"
+      },
+      "monitor_type": "doc_level_monitor",
+      "doc_level_input": {
+         "queries": [
+            {
+               "id": "75c5283b-8bf5-44e2-9ec5-06a94179bee6",
+               "queryName": "query-for-err-in-log",
+               "field": "log",
+               "operator": "is",
+               "query": "",
+               "tags": []
+            }
+         ]
+      },
+      "search": {
+         "searchType": "graph"
+      }
+   }
+}
