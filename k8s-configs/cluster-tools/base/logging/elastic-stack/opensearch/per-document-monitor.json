@@ -1,0 +1,60 @@
+{
+  "name": "Kube Proxy Error in Logs New Monitor",
+  "type": "monitor",
+  "monitor_type": "query_level_monitor",
+  "enabled": true,
+  "schedule": {
+    "period": {
+      "unit": "MINUTES",
+      "interval": 1
+    }
+  },
+  "inputs": [
+    {
+      "search": {
+        "indices": [
+          "kube-proxy-*"
+        ],
+        "query": {
+          "size": 0,
+          "query": {
+            "bool": {
+              "filter": [
+                {
+                  "range": {
+                    "@timestamp": {
+                      "gte": "{{period_end}}||-1m",
+                      "lte": "{{period_end}}",
+                      "format": "epoch_millis"
+                    }
+                  }
+                },
+                {
+                  "query_string": {
+                    "query": "\"Failed to execute iptables-restore\" err=<",
+                    "default_field": "log"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  ],
+  "triggers": [
+    {
+      "query_level_trigger": {
+        "name": "Kube Proxy Error Trigger",
+        "severity": "1",
+        "condition": {
+          "script": {
+            "source": "ctx.results[0].hits.total.value > 0",
+            "lang": "painless"
+          }
+        },
+        "actions": []
+      }
+    }
+  ]
+}
