@@ -69,6 +69,10 @@ spec:
             mountPath: /usr/share/opensearch/data/dashboards/pa
           - name: os-dashboards-pa-was
             mountPath: /usr/share/opensearch/data/dashboards/pa-was
+          - name: os-index-templates
+            mountPath: /usr/share/opensearch/data/index-templates/self-service.json
+            subPath: self-service.json
+            readOnly: true            
         resources:
           requests:
             memory: "256Mi"
@@ -96,3 +100,7 @@ spec:
         - name: os-dashboards-pa-was
           configMap:
             name: os-dashboards-pa-was
+        - name: os-index-templates
+          configMap:
+            name: os-index-templates
+
