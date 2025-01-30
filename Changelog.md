@@ -3,6 +3,7 @@
 ### 2.1.0
 
 - Update PingDirectory resource limits
+- Add p1as-observability to PCB New Relic
 - Use code sharing methods for Logger.lib.sh
 - Reconcile Grafana differences with p1as-observability
 - Kustomize: Fix kustomizations to not be completely empty in order to support v5.1+
@@ -19,6 +20,7 @@
 _Changes:_
 
 - [X] PDO-4881 Use code sharing methods for Logger.lib.sh
+- [X] PDO-5943 Add p1as-observability to PCB: New Relic
 - [X] PDO-5995 Add p1as-observability to PCB: Cloudwatch Agent
 - [X] PDO-6116 Kustomize: Fix kustomizations to not be completely empty in order to support v5.1+
 - [X] PDO-7396 Integrate init-container to use perpetual license
