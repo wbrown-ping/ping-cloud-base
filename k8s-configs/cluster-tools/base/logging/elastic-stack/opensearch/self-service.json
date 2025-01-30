@@ -23,6 +23,5 @@
     "priority": "100",
     "_meta": {
       "flow": "simple"
-    },
-    "name": "self-service"
-  }
+    }
+}
