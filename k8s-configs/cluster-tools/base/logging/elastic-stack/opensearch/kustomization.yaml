@@ -21,4 +21,6 @@ openapi:
 configMapGenerator:
   - name: os-index-templates
     files:
-      - self-service.json
+      - self-service-application.json
+      - self-service-audit.json
+      - self-service-access.json

@@ -1,0 +1,27 @@
+{
+    "index_patterns": [
+      "self-service-access-*"
+    ],
+    "template": {
+      "settings": {
+        "index.number_of_shards": "3",
+        "index.number_of_replicas": "1",
+        "index.refresh_interval": "30s"
+      },
+      "mappings": {
+        "properties": {
+          "log": {
+            "type": "text"
+          },
+          "fluentbit_ingest_timestamp": {
+            "type": "date"
+          }
+        }
+      }
+    },
+    "composed_of": [],
+    "priority": "100",
+    "_meta": {
+      "flow": "simple"
+    }
+}

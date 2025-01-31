@@ -1,6 +1,6 @@
 {
     "index_patterns": [
-      "self-service-*"
+      "self-service-audit-*"
     ],
     "template": {
       "settings": {
