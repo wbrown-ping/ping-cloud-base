@@ -1,27 +1,44 @@
 {
-    "index_patterns": [
-      "self-service-audit-*"
-    ],
-    "template": {
-      "settings": {
-        "index.number_of_shards": "3",
-        "index.number_of_replicas": "1",
-        "index.refresh_interval": "30s"
-      },
-      "mappings": {
-        "properties": {
-          "log": {
-            "type": "text"
-          },
-          "fluentbit_ingest_timestamp": {
-            "type": "date"
+  "index_patterns": [
+    "self-service-audit-*"
+  ],
+  "template": {
+    "settings": {
+      "index": {
+        "routing": {
+          "allocation": {
+            "require": {
+              "temp": "hot"
+            }
           }
-        }
+        },
+        "refresh_interval": "30s",
+        "unassigned": {
+          "node_left": {
+            "delayed_timeout": "15m"
+          }
+        },
+        "number_of_shards": "1",
+        "number_of_replicas": "1"
       }
     },
-    "composed_of": [],
-    "priority": "100",
-    "_meta": {
-      "flow": "simple"
+    "mappings": {
+      "properties": {
+        "@timestamp": {
+          "type": "date"
+        },
+        "app_timestamp": {
+          "type": "date_nanos"
+        },          
+        "fluentbit_ingest_timestamp": {
+          "type": "date"
+        }
+      }
     }
+  },
+  "composed_of": [],
+  "priority": "100",
+  "_meta": {
+    "flow": "simple"
+  }
 }
