@@ -31,7 +31,7 @@
           "type": "date_nanos"
         },          
         "fluentbit_ingest_timestamp": {
-          "type": "date"
+          "type": "date_nanos"
         }
       }
     }
