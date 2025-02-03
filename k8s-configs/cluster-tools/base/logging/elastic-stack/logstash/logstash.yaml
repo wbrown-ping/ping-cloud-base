@@ -217,10 +217,10 @@ spec:
             - name: logstash-gp3
               mountPath: /usr/share/logstash/data/queue
               readOnly: false
-            - name: logstash-pipeline-main
-              mountPath: /usr/share/logstash/pipeline/main/10-self-service-filters.conf
-              subPath: 10-self-service-filters.conf
-              readOnly: true    
+            # - name: logstash-pipeline-main
+            #   mountPath: /usr/share/logstash/pipeline/main/10-self-service-filters.conf
+            #   subPath: 10-self-service-filters.conf
+            #   readOnly: true    
         # Sidecar enrichment container which updates Logstash dictionaries
         - name: enrichment-sidecar
           securityContext:
@@ -266,9 +266,9 @@ spec:
             name: enrichment-cache
         - name: enrichment-cache-files
           emptyDir: {}
-        - name: logstash-pipeline-main
-          configMap:
-            name: logstash-pipeline-main   
+        # - name: logstash-pipeline-main
+        #   configMap:
+        #     name: logstash-pipeline-main   
   serviceName: logstash-elastic
   volumeClaimTemplates:
     - metadata:

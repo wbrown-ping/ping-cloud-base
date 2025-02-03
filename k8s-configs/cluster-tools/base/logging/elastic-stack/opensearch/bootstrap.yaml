@@ -69,17 +69,17 @@ spec:
             mountPath: /usr/share/opensearch/data/dashboards/pa
           - name: os-dashboards-pa-was
             mountPath: /usr/share/opensearch/data/dashboards/pa-was
-          - name: os-index-templates
-            mountPath: /usr/share/opensearch/data/index-templates/self-service-application.json
-            subPath: self-service-application.json
-            readOnly: true
-          - name: os-index-templates
-            mountPath: /usr/share/opensearch/data/index-templates/self-service-audit.json
-            subPath: self-service-audit.json
-            readOnly: true                  
-          - name: os-index-templates
-            mountPath: /usr/share/opensearch/data/index-templates/self-service-access.json
-            subPath: self-service-access.json
+          # - name: os-index-templates
+          #   mountPath: /usr/share/opensearch/data/index-templates/self-service-application.json
+          #   subPath: self-service-application.json
+          #   readOnly: true
+          # - name: os-index-templates
+          #   mountPath: /usr/share/opensearch/data/index-templates/self-service-audit.json
+          #   subPath: self-service-audit.json
+          #   readOnly: true                  
+          # - name: os-index-templates
+          #   mountPath: /usr/share/opensearch/data/index-templates/self-service-access.json
+          #   subPath: self-service-access.json
             readOnly: true                              
         resources:
           requests:
@@ -108,7 +108,7 @@ spec:
         - name: os-dashboards-pa-was
           configMap:
             name: os-dashboards-pa-was
-        - name: os-index-templates
-          configMap:
-            name: os-index-templates
+        # - name: os-index-templates
+        #   configMap:
+        #     name: os-index-templates
 
