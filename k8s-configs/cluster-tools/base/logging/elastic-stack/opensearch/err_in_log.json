@@ -20,7 +20,7 @@
                {
                   "id": "75c5283b-8bf5-44e2-9ec5-06a94179bee6",
                   "name": "query-for-err-in-log",
-                  "query": "log:\"\"",
+                  "query": "log:\"Failed to execute iptables-restore\"",
                   "tags": []
                }
             ]
@@ -75,7 +75,7 @@
                "queryName": "query-for-err-in-log",
                "field": "log",
                "operator": "is",
-               "query": "",
+               "query": "Failed to execute iptables-restore",
                "tags": []
             }
          ]
