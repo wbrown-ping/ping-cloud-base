@@ -68,7 +68,7 @@ spec:
           - name: os-dashboards-pa
             mountPath: /usr/share/opensearch/data/dashboards/pa
           - name: os-dashboards-pa-was
-            mountPath: /usr/share/opensearch/data/dashboards/pa-was     
+            mountPath: /usr/share/opensearch/data/dashboards/pa-was
         resources:
           requests:
             memory: "256Mi"
