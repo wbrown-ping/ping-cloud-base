@@ -217,10 +217,6 @@ spec:
             - name: logstash-gp3
               mountPath: /usr/share/logstash/data/queue
               readOnly: false
-            - name: logstash-pipeline-main
-              mountPath: /usr/share/logstash/pipeline/main/11-kube-proxy-filters.conf
-              subPath: 11-kube-proxy-filters.conf
-              readOnly: true              
         # Sidecar enrichment container which updates Logstash dictionaries
         - name: enrichment-sidecar
           securityContext:
@@ -265,10 +261,7 @@ spec:
           configMap:
             name: enrichment-cache
         - name: enrichment-cache-files
-          emptyDir: {}
-        - name: logstash-pipeline-main
-          configMap:
-            name: logstash-pipeline-main          
+          emptyDir: {}  
   serviceName: logstash-elastic
   volumeClaimTemplates:
     - metadata:
