@@ -9,9 +9,3 @@ resources:
 - secret.yaml
 - pdb.yaml
 - customer_pipelines
-
-
-configMapGenerator:
-- name: logstash-pipeline-main
-  files:
-    - 11-kube-proxy-filters.conf

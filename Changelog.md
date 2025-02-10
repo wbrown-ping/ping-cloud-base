@@ -17,6 +17,7 @@
 - Cost Savings: NGINX  (public and private): Reduce CPU and mem requests
 - Properly handle failures for cluster-state and profile-repo scripts
 - Add volume mounts for PA admin and engines for pingaccess-admin-p14c secret
+- Adding support for kube-proxy logs and alerting
 
 _Changes:_
 
@@ -33,6 +34,7 @@ _Changes:_
 - [X] PDO-8109 Reconcile Grafana differences with p1as-observability
 - [X] PDO-8205 Enable consolidation for default nodepool and add multiple instance type
 - [X] PDO-8372 Upgrade Kustomize to 5.5.0
+- [X] PDO-8727 Add a monitor and alert for kube-proxy or larger network issues within a cluster
 - [X] PDO-8782 Figure out different setup for newrelic-tags-exporter for microservices
 - [X] PDO-8958 Global DNS: Implement Changes in PCB
 - [X] PDO-8981 Add self-service URL to env_vars

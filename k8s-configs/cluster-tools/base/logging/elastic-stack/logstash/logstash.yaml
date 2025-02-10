@@ -261,7 +261,7 @@ spec:
           configMap:
             name: enrichment-cache
         - name: enrichment-cache-files
-          emptyDir: {}  
+          emptyDir: {}
   serviceName: logstash-elastic
   volumeClaimTemplates:
     - metadata:
