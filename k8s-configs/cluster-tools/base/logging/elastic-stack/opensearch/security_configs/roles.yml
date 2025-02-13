@@ -295,7 +295,7 @@ read_prometheus:
     - "cluster:monitor/prometheus/metrics" # allow access to the prometheus plugin (the prometheus metrics collector doesn't send authentication information)
     # allow the plugin to access the required metrics (the plugin also doesn't send authentication information)
     - "cluster:monitor/health"
-    # - "cluster:monitor/state"
+    - "cluster:monitor/state"
     - "cluster:monitor/nodes/info"
     - "cluster:monitor/nodes/stats"
   # index_permissions:
