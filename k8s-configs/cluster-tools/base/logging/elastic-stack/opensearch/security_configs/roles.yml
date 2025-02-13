@@ -15,13 +15,6 @@ logstash_write:
         - 'crud'
         - 'create_index'
 
-anonymous_users_role:
-  reserved: false
-  hidden: false
-  cluster_permissions:
-    - 'cluster:admin/opensearch/observability/get'
-    - 'cluster:admin/opensearch/ppl'
-
 # The security REST API access role is used to assign specific users access to change the security settings through the REST API.
 security_rest_api_access:
   reserved: true
@@ -298,11 +291,11 @@ read_prometheus:
     - "cluster:monitor/state"
     - "cluster:monitor/nodes/info"
     - "cluster:monitor/nodes/stats"
-  # index_permissions:
-  #   - index_patterns:
-  #     - "*"
-  #     allowed_actions:
-  #     - "indices:monitor/stats"
+  index_permissions:
+    - index_patterns:
+      - "*"
+      allowed_actions:
+      - "indices:monitor/stats"
 
 customer_role:
   reserved: false
