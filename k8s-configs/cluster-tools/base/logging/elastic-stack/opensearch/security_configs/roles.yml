@@ -19,12 +19,8 @@ anonymous_users_role:
   reserved: false
   hidden: false
   cluster_permissions:
-  - "OPENDISTRO_SECURITY_CLUSTER_COMPOSITE_OPS"
-  index_permissions:
-  - index_patterns:
-    - "*"
-    allowed_actions:
-    - "read"
+    - 'cluster:admin/opensearch/observability/get'
+    - 'cluster:admin/opensearch/ppl'
 
 # The security REST API access role is used to assign specific users access to change the security settings through the REST API.
 security_rest_api_access:
