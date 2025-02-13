@@ -94,6 +94,7 @@ spec:
       name: opensearch-dashboard-credentials
     replicas: 1
     image: public.ecr.aws/r2h3l6e4/pingcloud-clustertools/opensearchproject/opensearch-dashboards:2.11.1
+    imagePullPolicy: Always
     resources:
       requests:
          memory: "512Mi"
