@@ -24,7 +24,7 @@ spec:
     serviceName: opensearch
     serviceAccount: opensearch
     version: 2.11.1
-    image: public.ecr.aws/r2h3l6e4/pingcloud-monitoring/opensearch/dev:v1.19-release-branch-latest
+    image: public.ecr.aws/r2h3l6e4/pingcloud-monitoring/opensearch/dev:v2.1-release-branch-latest
     podSecurityContext:
       runAsNonRoot: true
       runAsUser: 1000
@@ -152,50 +152,3 @@ spec:
         - "ingest"
         - "remote_cluster_client"
         - "search"
-    - component: warm
-      labels:
-        app.kubernetes.io/name: opensearch
-        app.kubernetes.io/instance: opensearch-cluster-warm
-      replicas: 3
-      diskSize: "250Gi"
-      jvm: -Xmx3g -Xms3g
-      pdb:
-        enable: true
-        maxUnavailable: 1
-      additionalConfig:
-        node.attr.temp: "warm"
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 1
-              podAffinityTerm:
-                topologyKey: topology.kubernetes.io/zone
-                labelSelector:
-                  matchExpressions:
-                    - key: opster.io/opensearch-nodepool
-                      operator: In
-                      values:
-                        - warm
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchExpressions:
-                  - key: opster.io/opensearch-nodepool
-                    operator: In
-                    values:
-                      - warm
-              topologyKey: kubernetes.io/hostname
-      persistence:
-        pvc:
-          storageClass: opensearch-sc1
-          accessModes:
-            - "ReadWriteOnce"
-      resources:
-        requests:
-          cpu: "1"
-          memory: 4Gi
-        limits:
-          cpu: "2"
-          memory: 4Gi
-      roles:
-        - "remote_cluster_client"
-        - "data"
