@@ -102,8 +102,7 @@ notebooks_full_access:
 observability_read_access:
   reserved: true
   cluster_permissions:
-    - 'cluster:admin/opensearch/observability/get'
-    - 'cluster:admin/opensearch/ppl'
+  - "OPENDISTRO_SECURITY_CLUSTER_COMPOSITE_OPS"
 
 # Allows users to all Observability functionality
 observability_full_access:
