@@ -73,7 +73,7 @@ spec:
             key: client_secret
     additionalConfig:
       opensearch.ssl.verificationMode: "Full"
-      opensearch_security.auth.anonymous_auth_enabled: "false"
+      opensearch_security.auth.anonymous_auth_enabled: "true"
       opensearch_security.auth.type: |
         ["openid", "basicauth"]
       opensearch.requestHeadersAllowlist: |
