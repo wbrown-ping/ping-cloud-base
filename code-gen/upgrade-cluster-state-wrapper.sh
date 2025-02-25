@@ -26,7 +26,7 @@
 #         for the new version. This has the same effect as running the platform code build job.
 #     APPS_TO_UPGRADE -> An optional space-separated list of apps to upgrade. Defaults to everything, if unset
 #         If provided, it must match the app directories at the root of the cluster state repo, i.e. 'k8s-configs p1as-beluga-tools'
-#     VALUE_ENTRY_OVERWRITE -> An optional flag, which if set to true will instruct the upgrade script to overwrite the corresponding value(s) in the
+#     VALUE_ENTRY_OVERWRITE -> An optional list of strings, which if set to true will instruct the upgrade script to overwrite the corresponding value(s) in the
 #         cluster state repo with the new value(s) from the new version. This is useful when the new version introduces desired changes.
 #
 # The script is non-destructive by design and doesn't push any new state to the server. Instead, it will set up a
