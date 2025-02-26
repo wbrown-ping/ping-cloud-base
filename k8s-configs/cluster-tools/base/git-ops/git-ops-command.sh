@@ -228,11 +228,7 @@ set_kustomize_version() {
 # Set this as part of the global $HELM_FLAGS variable for use with Kustomize when using Helm
 ########################################################################################################################
 set_helm_flags() {
-  if [[ "${KUSTOMIZE_EXECUTABLE}" == "kustomize_5_0_3" ]]; then
     HELM_FLAGS="--enable-helm --helm-command helm-command.sh"
-  else
-    HELM_FLAGS="--enable-helm"
-  fi
 }
 
 ########################################################################################################################
