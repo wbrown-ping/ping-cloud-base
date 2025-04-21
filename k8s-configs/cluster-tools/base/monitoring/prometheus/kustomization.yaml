@@ -13,6 +13,7 @@ resources:
 - prometheus-agent.yaml
 - blackbox-exporter.yaml
 - blackbox-exporter-config.yaml
+- blackbox-exporter-svc.yaml
 
 configMapGenerator:
 - name: prometheus-environment-variables
