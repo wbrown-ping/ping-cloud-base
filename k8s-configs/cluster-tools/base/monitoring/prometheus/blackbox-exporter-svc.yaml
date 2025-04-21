@@ -5,7 +5,7 @@ metadata:
   namespace: prometheus
 spec:
   selector:
-    app: blackbox
+    app: blackbox-exporter
   ports:
   - port: 9115
     targetPort: 9115
