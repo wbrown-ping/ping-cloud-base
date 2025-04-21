@@ -41,10 +41,10 @@ data:
         - source_labels: [__param_target]
           target_label: instance
         - target_label: __address__
-          replacement: prometheus.blackbox-exporter.svc:9115  # The blackbox exporter's real hostname:port.
+          replacement: blackbox-exporter.prometheus.svc:9115  # The blackbox exporter's real hostname:port.
     - job_name: 'blackbox_exporter'  # collect blackbox exporter's operational metrics.
       static_configs:
-        - targets: ['prometheus.blackbox-exporter.svc:9115']
+        - targets: ['blackbox-exporter.prometheus.svc:9115']
     # Monitor prometheus itself
     - job_name: 'prometheus'
       scrape_interval: 10s
