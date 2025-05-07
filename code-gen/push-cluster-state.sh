@@ -179,14 +179,14 @@ if test "${CURRENT_BRANCH}" && test -n "$(git status -s)" && ! ${DISABLE_GIT}; t
   git reset --hard HEAD
   git clean -fd
 fi
-
+echo "Line 182"
 REMOTE_BRANCHES=""
 
 # Get a list of the remote branches from the server.
 if ! ${DISABLE_GIT}; then
   REMOTE_BRANCHES="$(git ls-remote --quiet --heads 2> /dev/null)"
   LS_REMOTE_EXIT_CODE=$?
-
+  echo "Line 189"
   if test ${LS_REMOTE_EXIT_CODE} -ne 0; then
     echo "WARN: Unable to retrieve remote branches from the server. Exit code: ${LS_REMOTE_EXIT_CODE}"
   fi
@@ -198,7 +198,7 @@ if ! ${DISABLE_GIT}; then
     git pull
   fi
 fi
-
+echo "Line 201"
 # The SUPPORTED_ENVIRONMENT_TYPES variable can either be the CDE names or CHUB name (e.g. dev, test, stage, prod or customer-hub) or
 # the branch names (e.g. v1.8.0-dev, v1.8.0-test, v1.8.0-stage, v1.8.0-master or v1.8.0-customer-hub). It will be the
 # CDE names or CHUB name on initial seeding of the cluster state repo. On upgrade of the cluster state repo it will be
