@@ -173,7 +173,7 @@ echo "INFO: Check if there are local uncommitted changes."
 pwd
 ls -la
 git status
-CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD 2> /dev/null)"
+CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD 2> /dev/null || true )"
 echo "CURRENT BRANCH RETURN CODE: $?"
 echo "Line 173"
 if test "${CURRENT_BRANCH}" && test -n "$(git status -s)" && ! ${DISABLE_GIT}; then
