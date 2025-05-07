@@ -166,10 +166,16 @@ PCB_COMMIT_SHA=$(cat "${GENERATED_CODE_DIR}"/pcb-commit-sha.txt)
 if ! ${DISABLE_GIT}; then
   git config pull.rebase false
 fi
+echo "Line 169"
 
 # This is a destructive script by design. Add a warning to the user if local changes are being destroyed though.
 echo "INFO: Check if there are local uncommitted changes."
+pwd
+ls -la
+git status
 CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD 2> /dev/null)"
+echo "CURRENT BRANCH RETURN CODE: $?"
+echo "Line 173"
 if test "${CURRENT_BRANCH}" && test -n "$(git status -s)" && ! ${DISABLE_GIT}; then
   echo "WARN: The following local changes in current branch '${CURRENT_BRANCH}' will be destroyed:"
   git status
