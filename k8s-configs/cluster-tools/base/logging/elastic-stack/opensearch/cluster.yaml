@@ -92,7 +92,7 @@ spec:
       opensearch_security.openid.scope: "openid profile name groups"
       opensearch_security.auth.multiple_auth_enabled: "true"
     opensearchCredentialsSecret:
-      name: opensearch-dashboard-credentials
+      name: os-db-creds
     replicas: 1
     image: public.ecr.aws/r2h3l6e4/pingcloud-clustertools/opensearchproject/opensearch-dashboards:2.11.1
     resources:
