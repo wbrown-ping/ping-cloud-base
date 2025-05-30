@@ -114,6 +114,9 @@ data:
       - role: endpoints
       tls_config:
         insecure_skip_verify: true
+      basic_auth:
+        username: administrator
+        password: secret 
       relabel_configs:
       - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scrape]
         action: keep
