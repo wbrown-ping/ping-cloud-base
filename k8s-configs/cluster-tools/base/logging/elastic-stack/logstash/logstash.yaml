@@ -35,7 +35,7 @@ spec:
                 topologyKey: "topology.kubernetes.io/zone"
       initContainers:
         - name: opensearch-bootstrap
-          image: public.ecr.aws/r2h3l6e4/pingcloud-monitoring/os-bootstrap/dev:v2.2-release-branch-latest
+          image: 705370621539.dkr.ecr.us-west-2.amazonaws.com/pingcloud-monitoring/os-bootstrap:pdo-9797-bulkhead-thread-logging
           imagePullPolicy: Always
           env:
           - name: OS_HOST
@@ -158,7 +158,7 @@ spec:
               cpu: "150m"
               memory: 100Mi
         - name: logstash
-          image: public.ecr.aws/r2h3l6e4/pingcloud-monitoring/logstash/dev:v2.2-release-branch-latest
+          image: 705370621539.dkr.ecr.us-west-2.amazonaws.com/pingcloud-monitoring/logstash:pdo-9797-bulkhead-thread-logging-arm64
           imagePullPolicy: Always
           command:
             - "/bin/sh"
