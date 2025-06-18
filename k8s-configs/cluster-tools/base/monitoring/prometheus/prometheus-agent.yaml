@@ -35,8 +35,7 @@ spec:
           - name: OPENSEARCH_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: opensearch-cluster-admin-password
-                namespace: elastic-stack-logging
+                name: opensearch-grafana-credentials
                 key: password
         volumeMounts:
           - name: prometheus-config-volume
