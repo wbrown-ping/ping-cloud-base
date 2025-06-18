@@ -35,7 +35,7 @@ spec:
           - name: OPENSEARCH_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: opensearch-grafana-credentials
+                name: os-passwords
                 key: password
         volumeMounts:
           - name: prometheus-config-volume
@@ -53,3 +53,6 @@ spec:
       - name: prometheus-config-volume
         configMap:
           name: prometheus-agent-config
+
+
+---
