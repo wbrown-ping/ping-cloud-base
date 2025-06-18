@@ -54,7 +54,7 @@ spec:
             runAsUser: 1000
             runAsGroup: 1000
             allowPrivilegeEscalation: false
-          image: 705370621539.dkr.ecr.us-west-2.amazonaws.com/pingcloud-monitoring/logstash:pdo-9797-bulkhead-thread-logging-amd64
+          image: 705370621539.dkr.ecr.us-west-2.amazonaws.com/pingcloud-monitoring/logstash:pdo-9797-bulkhead-thread-logging-arm64
           imagePullPolicy: Always
           args:
             - create_enrichment_cache_files
