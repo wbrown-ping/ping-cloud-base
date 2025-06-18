@@ -72,7 +72,7 @@ data:
       - role: pod
       basic_auth:
         username: admin
-        password: bhOuJ05hDcfudYCPIxZQxdcZrGiLjt6Sppyxot-VeNU       
+        password: $OPENSEARCH_PASSWORD
       relabel_configs:
       - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape_auth]
         action: keep
