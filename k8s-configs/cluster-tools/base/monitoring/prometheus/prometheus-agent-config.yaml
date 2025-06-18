@@ -67,30 +67,39 @@ data:
         target_label: __metrics_path__
         replacement: /api/v1/nodes/${1}/proxy/metrics
         
-    - job_name: 'opensearch-pods'
+    - job_name: 'opensearch-service'
       kubernetes_sd_configs:
-      - role: pod
+      - role: endpoints
       basic_auth:
         username: admin
         password: $OPENSEARCH_PASSWORD
+      tls_config:
+        insecure_skip_verify: true
       relabel_configs:
-      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape_auth]
+      - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scrape]
         action: keep
         regex: true
-      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+      - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scheme]
+        action: replace
+        target_label: __scheme__
+        regex: (https?)
+      - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_path]
         action: replace
         target_label: __metrics_path__
         regex: (.+)
-      - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+      - source_labels: [__address__, __meta_kubernetes_service_annotation_prometheus_io_port]
         action: replace
+        target_label: __address__
         regex: ([^:]+)(?::\d+)?;(\d+)
         replacement: $1:$2
-        target_label: __address__
       - action: labelmap
-        regex: __meta_kubernetes_pod_label_(.+)
+        regex: __meta_kubernetes_service_label_(.+)
       - source_labels: [__meta_kubernetes_namespace]
         action: replace
         target_label: kubernetes_namespace
+      - source_labels: [__meta_kubernetes_service_name]
+        action: replace
+        target_label: kubernetes_name
       - source_labels: [__meta_kubernetes_pod_name]
         action: replace
         target_label: instance
