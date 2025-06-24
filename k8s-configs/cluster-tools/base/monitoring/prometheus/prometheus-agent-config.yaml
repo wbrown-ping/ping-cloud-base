@@ -111,7 +111,7 @@ data:
         username: admin
         password: $OPENSEARCH_PASSWORD      
       relabel_configs:
-      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape_auth]
         action: keep
         regex: true
       - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
