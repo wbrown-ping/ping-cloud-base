@@ -71,7 +71,7 @@ data:
       kubernetes_sd_configs:
       - role: endpoints
       basic_auth:
-        username: grafana
+        username: $OPENSEARCH_USER
         password: $OPENSEARCH_PASSWORD
       tls_config:
         insecure_skip_verify: true
@@ -108,7 +108,7 @@ data:
       kubernetes_sd_configs:
       - role: pod
       basic_auth:
-        username: grafana
+        username: $OPENSEARCH_USER
         password: $OPENSEARCH_PASSWORD      
       relabel_configs:
       - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape_auth]
