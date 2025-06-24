@@ -71,8 +71,8 @@ data:
       kubernetes_sd_configs:
       - role: endpoints
       basic_auth:
-        username: $OPENSEARCH_USER
-        password: $OPENSEARCH_PASSWORD
+        username: ${OPENSEARCH_USER}
+        password: ${OPENSEARCH_PASSWORD}
       tls_config:
         insecure_skip_verify: true
       relabel_configs:
@@ -127,7 +127,7 @@ data:
         target_label: kubernetes_namespace
       - source_labels: [__meta_kubernetes_pod_name]
         action: replace
-        target_label: instance        
+        target_label: instance
     
     - job_name: 'kubernetes-cadvisor'
       scheme: https

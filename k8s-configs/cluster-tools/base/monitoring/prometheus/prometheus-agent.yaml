@@ -41,7 +41,7 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: opensearch-grafana-credentials
-                key: username                
+                key: username
         volumeMounts:
           - name: prometheus-config-volume
             mountPath: /etc/prometheus/
