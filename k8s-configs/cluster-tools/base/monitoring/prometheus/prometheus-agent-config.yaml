@@ -72,7 +72,7 @@ data:
       - role: endpoints
       scheme: https
       basic_auth:
-        username: grafana
+        username: prometheus
         password_file: /etc/secrets/os-password
       tls_config:
         insecure_skip_verify: true
