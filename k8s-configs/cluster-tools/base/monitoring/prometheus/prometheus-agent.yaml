@@ -63,7 +63,7 @@ spec:
           name: prometheus-agent-config
       - name: os-creds
         secret:
-          secretName: opensearch-grafana-credentials       
+          secretName: opensearch-prometheus-credentials       
           items:
             - key: password
               path: os-password      

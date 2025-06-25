@@ -285,7 +285,7 @@ bootstrap:
     allowed_actions:
     - "kibana_all_write"
 
-read_prometheus:
+read_prometheus: # TODO test this out
   reserved: true
   cluster_permissions:
     - "cluster:monitor/prometheus/metrics" # allow access to the prometheus plugin (the prometheus metrics collector doesn't send authentication information)
@@ -349,3 +349,16 @@ query_save_export:
         - "customer"
       allowed_actions:
         - "kibana_all_write"
+
+opensearch_metrics_reader:
+  cluster_permissions:
+    - "cluster:monitor/health"
+    - "cluster:monitor/stats"
+    - "cluster:monitor/nodes/info"
+    - "cluster:monitor/nodes/stats"
+    - "cluster:monitor/state"
+  index_permissions:
+    - index_patterns:
+        - "*" # Allows reading stats from all indices
+      allowed_actions:
+        - "indices:monitor/stats"
