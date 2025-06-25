@@ -73,7 +73,7 @@ data:
       scheme: https
       basic_auth:
         username: ${OPENSEARCH_USER}
-        password: ${OPENSEARCH_PASSWORD}
+        password_file: /etc/secrets/os-password
       tls_config:
         insecure_skip_verify: true
       relabel_configs:
