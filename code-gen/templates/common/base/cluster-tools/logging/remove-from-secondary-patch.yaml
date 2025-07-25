@@ -121,3 +121,18 @@ metadata:
   name: opensearch-bootstrap
   namespace: elastic-stack-logging
 $patch: delete
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-agent
+  namespace: prometheus
+spec:
+  template:
+    spec:
+      volumes:
+        - name: os-creds
+          $patch: delete
+      volumeMounts:
+        - name: os-creds
+          $patch: delete
