@@ -49,6 +49,8 @@ patchesStrategicMerge:
 ### Remove opensearch from chub
 - ../base/cluster-tools/logging/disable-opensearch-base-patch.yaml
 #- ../base/cluster-tools/logging/disable-opensearch-primary-region-patch.yaml
+### Remove OpenSearch credentials from prometheus-agent
+- ../base/cluster-tools/logging/remove-opensearch-auth-base-patch.yaml
 
 ### Regional enablement - remove admins, backups, etc. from secondary ###
 ### The removal of these patches is handled automatically via generate-cluster-state script, manual toggling is not needed ###
