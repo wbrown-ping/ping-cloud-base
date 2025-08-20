@@ -228,6 +228,9 @@ global:
 
   # Runbook: https://pingidentity.atlassian.net/wiki/spaces/PDA/pages/427688292/How+to+Enable+and+Disable+Healthchecks+-+1.19.0
   healthchecksEnabled: ${HEALTHCHECKS_ENABLED}
+  
+  # Feature flag to enable/disable JSON formatting in logs
+  JSON_LOGGING_ENABLED: ${JSON_LOGGING_ENABLED}
   #####################################################################################################################
 
   ########################################################
