@@ -29,10 +29,12 @@
 - Allow AWS R53 health checks to bypass IP allowlisting
 - Add backwards compatible JSON filters for customer pipelines (PF/PA)
 - Upgrade os-controller-manager(os-operator) to 2.7.0
+- Adding JSON parsing support for PingAccess and PingAccess-WAS logs
 
 _Changes:_
 
 - [X] PDO-7325 JSON Logging: Implement JSON logging for PF logs
+- [X] PDO-7360 JSON Logging: Implement JSON logging for PA/PA-WAS logs
 - [X] PDO-7817 Explicitly set Lets Encrypt configuration via cert-manager
 - [X] PDO-8754 OSD: Enable Save Query and CSV Export of Logs
 - [X] PDO-8834 Update bootstrap pods to use new bootstrap IRSA role
