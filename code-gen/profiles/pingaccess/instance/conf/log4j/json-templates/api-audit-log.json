@@ -1,4 +1,5 @@
 {
+  "log_name": "pingaccess_api_audit",
   "timestamp": {
     "$resolver": "timestamp",
     "pattern": {
