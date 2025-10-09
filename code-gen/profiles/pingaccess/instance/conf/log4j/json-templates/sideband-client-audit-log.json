@@ -64,5 +64,10 @@
     "$resolver": "mdc",
     "key": "AUDIT.sidebandName",
     "stringified": true
+  },
+  "sidebandDecision": {
+    "$resolver": "mdc",
+    "key": "AUDIT.sidebandDecision",
+    "stringified": true
   }
 }
