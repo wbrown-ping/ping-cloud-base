@@ -182,7 +182,7 @@
         <!-- ======================= -->
         <!-- Audit log configuration -->
         <!-- ======================= -->
-        <Logger name="apiaudit" level="${sys:pa.log.level.apiaudit:-INFO}" additivity="false">
+        <Logger name="apiaudit" level="INFO" additivity="false">
             <AppenderRef ref="CONSOLE-ApiAuditLog-JSON" />
             <!--<AppenderRef ref="ApiAuditLog-JSON" />-->
             <!--<AppenderRef ref="APIAuditLog-File"/>-->
@@ -194,7 +194,7 @@
             <!--<AppenderRef ref="ApiAuditLogToCEF-File"/>-->
             <!--<AppenderRef ref="ApiAuditLogToCEF-Syslog-Failover"/>-->
         </Logger>
-        <Logger name="engineaudit" level="${sys:pa.log.level.engineaudit:-INFO}" additivity="false">
+        <Logger name="engineaudit" level="INFO" additivity="false">
             <AppenderRef ref="CONSOLE-EngineAuditLog-JSON"/>
             <!--<AppenderRef ref="EngineAuditLog-JSON"/>-->
             <!--<AppenderRef ref="EngineAuditLog-File"/>-->
@@ -206,7 +206,7 @@
             <!--<AppenderRef ref="EngineAuditLogToCEF-File"/>-->
             <!--<AppenderRef ref="EngineAuditLogToCEF-Syslog-Failover"/>-->
         </Logger>
-        <Logger name="agentaudit" level="${sys:pa.log.level.agentaudit:-INFO}" additivity="false">
+        <Logger name="agentaudit" level="INFO" additivity="false">
             <AppenderRef ref="CONSOLE-AgentAuditLog-JSON"/>
             <!--<AppenderRef ref="AgentAuditLog-JSON"/>-->
             <!--<AppenderRef ref="AgentAuditLog-File"/>-->
@@ -218,7 +218,7 @@
             <!--<AppenderRef ref="AgentAuditLogToCEF-File"/>-->
             <!--<AppenderRef ref="AgentAuditLogToCEF-Syslog-Failover"/>-->
         </Logger>
-        <Logger name="sidebandclientaudit" level="${sys:pa.log.level.sidebandclientaudit:-INFO}" additivity="false">
+        <Logger name="sidebandclientaudit" level="INFO" additivity="false">
             <AppenderRef ref="CONSOLE-SidebandClientAuditLog-JSON"/>
             <!--<AppenderRef ref="SidebandClientAuditLog-JSON"/>-->
             <!--<AppenderRef ref="SidebandClientAuditLog-File"/>-->
@@ -230,7 +230,7 @@
             <!--<AppenderRef ref="SidebandClientAuditLogToCEF-File"/>-->
             <!--<AppenderRef ref="SidebandClientAuditLogToCEF-Syslog-Failover"/>-->
         </Logger>
-        <Logger name="sidebandaudit" level="${sys:pa.log.level.sidebandaudit:-INFO}" additivity="false">
+        <Logger name="sidebandaudit" level="INFO" additivity="false">
             <AppenderRef ref="CONSOLE-SidebandAuditLog-JSON"/>
             <!--<AppenderRef ref="SidebandAuditLog-JSON"/>-->
             <!--<AppenderRef ref="SidebandAuditLog-File"/>-->
