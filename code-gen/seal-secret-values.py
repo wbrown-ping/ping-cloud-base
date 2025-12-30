@@ -21,6 +21,7 @@ yaml.preserve_quotes = True
 GLOBAL_KEY = "global"
 SECRETS_KEY = "secrets"
 SEALED_SECRETS_VAR = "sealedSecrets"
+CUSTOM_SECRETS_KEY_PATH = "customValues"
 
 
 class SealSecrets:
@@ -56,7 +57,7 @@ class SealSecrets:
                 print("Unable to write new values file '%s'" % self.values_file)
                 print(e)
 
-    def seal_secrets(self):
+    def seal_secrets(self, parentKey: str = GLOBAL_KEY, childKey: str = SECRETS_KEY):
         """
         Seals all secrets in the values.yaml file's .Values.global.secrets object
         values.yaml format expected:
@@ -67,17 +68,17 @@ class SealSecrets:
         """
 
         # Check that secrets exist
-        if not self.values[GLOBAL_KEY][SECRETS_KEY]:
+        if not self.values[parentKey][childKey]:
             print("No secrets found to seal")
             exit(0)
 
         print("Using certificate file '%s' for encrypting secrets" % self.cert)
 
         # Loop through the secrets
-        for k8s_namespace in self.values[GLOBAL_KEY][SECRETS_KEY]:
-            for k8s_secret in self.values[GLOBAL_KEY][SECRETS_KEY][k8s_namespace]:
+        for k8s_namespace in self.values[parentKey][childKey]:
+            for k8s_secret in self.values[parentKey][childKey][k8s_namespace]:
                 # Get the value
-                value = self.values[GLOBAL_KEY][SECRETS_KEY][k8s_namespace][k8s_secret]
+                value = self.values[parentKey][childKey][k8s_namespace][k8s_secret]
                 if value is not None and value.strip() != "":
                     # Try to base64 decode the value
                     try:
@@ -107,13 +108,13 @@ class SealSecrets:
                     sealed_value = p1.stdout
 
                     # Update yaml with sealed value
-                    self.values[GLOBAL_KEY][SECRETS_KEY][k8s_namespace][k8s_secret] = sealed_value
+                    self.values[parentKey][childKey][k8s_namespace][k8s_secret] = sealed_value
 
                     # Update sealed secrets list with key
                     self.sealed_secrets.append("%s: %s" % (k8s_namespace, k8s_secret))
 
         # Update sealedSecrets variable to true
-        self.values[GLOBAL_KEY][SEALED_SECRETS_VAR] = True
+        self.values[parentKey][SEALED_SECRETS_VAR] = True
 
         # Write new values.yaml file
         self.write_new_values()
@@ -126,11 +127,17 @@ if __name__ == "__main__":
     if len(sys.argv) == 2:
         cert_file = sys.argv[1]
         seal = SealSecrets(cert_file)
+        # Seal standard secrets
         seal.seal_secrets()
+        # Seal custom secret values
+        seal.seal_secrets("customValues", "secrets")
     elif len(sys.argv) == 3:
         cert_file = sys.argv[1]
         values_file = sys.argv[2]
         seal = SealSecrets(cert_file, values_file)
+        # Seal standard secrets
         seal.seal_secrets()
+        # Seal custom secret values
+        seal.seal_secrets("customValues", "secrets")
     else:
         raise Exception("Error in usage. No cert file passed in.\nUsage: python3 seal-secret-values.py [CERT_FILE] [VALUES_FILE]")
