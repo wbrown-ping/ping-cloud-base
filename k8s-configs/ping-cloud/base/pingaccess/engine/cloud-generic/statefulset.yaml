@@ -110,6 +110,9 @@ spec:
         envFrom:
         - configMapRef:
             name: pingaccess-environment-variables
+        - secretRef:
+            name: newrelic-license-key
+            optional: false
         env:
         - name: NEW_RELIC_APP_NAME
           value: "pingaccess"
@@ -260,9 +263,6 @@ spec:
         envFrom:
         - configMapRef:
             name: pingaccess-environment-variables
-        - secretRef:
-            name: newrelic-license-key
-            optional: false
 
       - name: pingaccess-heartbeat-exporter
         securityContext:

@@ -106,6 +106,9 @@ spec:
         envFrom:
         - configMapRef:
             name: pingaccess-was-environment-variables
+        - secretRef:
+            name: newrelic-license-key
+            optional: false
         env:
         - name: NEW_RELIC_APP_NAME
           value: "pingaccess-was"
@@ -227,9 +230,6 @@ spec:
         envFrom:
         - configMapRef:
             name: pingaccess-was-environment-variables
-        - secretRef:
-            name: newrelic-license-key
-            optional: true
       securityContext:
         fsGroup: 9999
       volumes:

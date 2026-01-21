@@ -114,6 +114,9 @@ spec:
         envFrom:
         - configMapRef:
             name: pingaccess-was-admin-environment-variables
+        - secretRef:
+            name: newrelic-license-key
+            optional: false
         env:
         - name: NEW_RELIC_APP_NAME
           value: "pingaccess-was-admin"
@@ -237,9 +240,6 @@ spec:
         envFrom:
         - configMapRef:
             name: pingaccess-was-admin-environment-variables
-        - secretRef:
-            name: newrelic-license-key
-            optional: false
       containers:
       - name: pingaccess-was-admin
         image: 705370621539.dkr.ecr.us-west-2.amazonaws.com/pingcloud-apps/pingaccess:PDO-10285-nr-apm-logic
@@ -329,9 +329,6 @@ spec:
         envFrom:
         - configMapRef:
             name: pingaccess-was-admin-environment-variables
-        - secretRef:
-            name: newrelic-license-key
-            optional: false
         - secretRef:
             name: pingaccess-was-admin-p14c
             optional: false
