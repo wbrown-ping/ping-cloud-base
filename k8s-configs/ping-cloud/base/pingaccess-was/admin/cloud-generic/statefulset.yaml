@@ -114,9 +114,6 @@ spec:
         envFrom:
         - configMapRef:
             name: pingaccess-was-admin-environment-variables
-        - secretRef:
-            name: newrelic-license-key
-            optional: false
         env:
         - name: NEW_RELIC_APP_NAME
           value: "pingaccess-was-admin"
