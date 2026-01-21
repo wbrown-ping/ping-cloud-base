@@ -151,7 +151,7 @@ spec:
           mountPath: /opt/license
       containers:
       - name: pingaccess-was
-        image: public.ecr.aws/r2h3l6e4/pingcloud-apps/pingaccess-was/dev:v2.3-release-branch-latest
+        image: 705370621539.dkr.ecr.us-west-2.amazonaws.com/pingcloud-apps/pingaccess:PDO-10285-nr-apm-logic
         securityContext:
           runAsGroup: 9999
           runAsNonRoot: true
