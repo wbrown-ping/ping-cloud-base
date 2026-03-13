@@ -6,6 +6,7 @@ resources:
   - custom-resources
   - ../base/namespace.yaml
   - ../base/crds-annotations
+  - ../base/dashboards
 
 helmCharts:
   - name: p1as-cloudwatch
