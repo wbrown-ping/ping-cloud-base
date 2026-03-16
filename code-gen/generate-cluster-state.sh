@@ -988,6 +988,9 @@ export SERVER_PROFILE_URL="${SERVER_PROFILE_URL:-${SERVER_PROFILE_URL_DERIVED}}"
 export K8S_GIT_URL="${K8S_GIT_URL:-https://github.com/pingidentity/ping-cloud-base.git}"
 export K8S_GIT_BRANCH="${K8S_GIT_BRANCH:-${CURRENT_GIT_BRANCH}}"
 
+export DASH_REPO_URL="${DASH_REPO_URL:-https://github.com/pingidentity/ping-cloud-dashboards}"
+export DASH_REPO_BRANCH="${DASH_REPO_BRANCH:-v2.3-dev-branch}"
+
 export MICROSERVICE_APP_REPO_URL="${MICROSERVICE_APP_REPO_URL:-git@gitlab.corp.pingidentity.com:ping-cloud-private-tenant}"
 
 export SSH_ID_PUB_FILE="${SSH_ID_PUB_FILE}"
