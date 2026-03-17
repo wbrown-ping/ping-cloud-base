@@ -28,6 +28,7 @@
 - Upgrade kube-state-metrics to version 2.18.0
 - Implement KMS changes for EBS
 - Add p1as-observability prometheus Helm chart to PCB
+- Refactor ping-cloud-dashboards ref for Grafana dashboards
 
 _Changes:_
 
@@ -58,6 +59,7 @@ _Changes:_
 - [X] PDO-11071 OpenSearch: Implement Logstash → Write Alias + ISM Rollover (40GB or Daily), Read-Only + Delete
 - [X] PDO-11091 Logstash: Implement  (Fluent Bit → 2x Logstash StatefulSets)
 - [X] PDO-11092 Grafana: Update Dashboards for (Fluent Bit → 2x Logstash)
+- [X] PDO-11310 Investigate ways to reference ping-cloud-dashboards from microservice app
 
 ### 2.2.1
 - remove modsecurity from ingress-nginx-public and pa-was ingress
