@@ -235,8 +235,8 @@ SELF_SERVICE_TEMPLATES_ENABLED=${SELF_SERVICE_TEMPLATES_ENABLED}
 SLACK_CHANNEL=${SLACK_CHANNEL}
 
 # Dashboards repo variables
-DASH_REPO_URL=https://github.com/pingidentity/ping-cloud-dashboards
-DASH_REPO_BRANCH=v2.3-dev-branch
+DASH_REPO_URL=${DASH_REPO_URL}
+DASH_REPO_BRANCH=${DASH_REPO_BRANCH}
 
 # Set to true to enable the "Impossible Login" OpenSearch dashboard (default: false)
 ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD=false
