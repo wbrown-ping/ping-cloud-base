@@ -1,5 +1,5 @@
 # Patch to delete the logstash-elastic StatefulSet (customer pipeline) from customer-hub.
-# Conditionally toggled by git-ops-command.sh based on the DISABLE_LOGSTASH_CUSTOMER_PIPELINE flag.
+# Conditionally toggled by git-ops-command.sh based on DISABLE_LOGSTASH_CUSTOMER_PIPELINE flag.
 # When DISABLE_LOGSTASH_CUSTOMER_PIPELINE=true (default): this patch is active → STS is deleted.
 # When DISABLE_LOGSTASH_CUSTOMER_PIPELINE=false: this patch is commented out → STS is deployed.
 ---
