@@ -32,6 +32,7 @@
 - Update seal-secret-values.py to handle customSecrets entries for Helm charts
 - p1as-karpenter GA vs non-ga settings
 - Remove metrics-server and kube-state-metrics from PCB
+- Add LOGSTASH_CUSTOMER_PIPELINE_ENABLED feature flag to conditionally deploy logstash-elastic STS in customer-hub accounts
 
 _Changes:_
 
@@ -66,6 +67,7 @@ _Changes:_
 - [X] PDO-11307 Prometheus: Migrate job-exporter and json-exporter to ping-cloud-common repo
 - [X] PDO-11356 P14C_INTEGRATION_IMAGE_TAG not applied to pingaccess-p1as-sso image
 - [X] PDO-11376 Remove metrics-server and kube-state-metrics from PCB
+- [X] PDO-11365 Logstash: Update to make logstash sts (customer pipeline) optional in customer-hub
 
 ### 2.2.1
 
