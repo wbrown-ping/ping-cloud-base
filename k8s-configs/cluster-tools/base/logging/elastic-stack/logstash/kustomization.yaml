@@ -15,8 +15,7 @@ patchesStrategicMerge:
 # This patch is conditionally enabled by git-ops-command.sh
 # based on the ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD flag (true/false).
 #- patch-opensearch-bootstrap-pf-impossible-login.yaml
-# Below two patches are conditionally toggled by git-ops-command.sh
+# Below patch is conditionally toggled by git-ops-command.sh
 # based on the DISABLE_LOGSTASH_CUSTOMER_PIPELINE flag (default: true = disabled).
-# Only applicable to customer-hub environment. For other environments, these patches are irrelevant.
+# Only applicable to customer-hub environment. For other environments, this patch are irrelevant.
 #- disable-logstash-sts-patch.yaml
-#- disable-logstash-fluentbit-output-patch.yaml

@@ -4,3 +4,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 resources:
 - elastic-stack
 - fluentbit
+
+patchesStrategicMerge:
+  # Below patch is conditionally toggled by git-ops-command.sh
+  # based on the DISABLE_LOGSTASH_CUSTOMER_PIPELINE flag (default: true = disabled).
+  # Only applicable to customer-hub environment. For other environments, this patch is irrelevant.
+  #- disable-logstash-fluentbit-output-patch.yaml
