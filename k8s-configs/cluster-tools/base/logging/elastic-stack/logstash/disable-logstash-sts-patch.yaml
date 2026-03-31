@@ -7,4 +7,5 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: logstash-elastic
+  namespace: elastic-stack-logging
 $patch: delete
