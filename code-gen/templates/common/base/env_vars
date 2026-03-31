@@ -245,7 +245,7 @@ ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD=false
 # In other CDEs  the default is FALSE → flag is a no-op and logstash-elastic STS runs normally.
 # Set to false in a customer-hub CSR to ENABLE the customer pipeline (logstash-elastic STS will be deployed). By default it will set to TRUE
 # NOTE: logstash-elastic-s3 is unaffected and always runs regardless of this flag.
-LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}
+LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=true
 
 # Healthcheck variables
 CLUSTER_HEALTHCHECK_SCHEDULE="* * * * *"
