@@ -9,7 +9,3 @@ resources:
 patchesStrategicMerge:
 - elastic-stack/logstash/logstash-limits.yaml
 - elastic-stack/logstash/hpa-limits.yaml
-# Below patch is conditionally toggled by git-ops-command.sh
-# based on the DISABLE_LOGSTASH_CUSTOMER_PIPELINE flag (default: true = disabled).
-# Only applicable to customer-hub environment. For other environments, this patch is irrelevant.
-#- elastic-stack/logstash/disable-logstash-sts-patch.yaml
