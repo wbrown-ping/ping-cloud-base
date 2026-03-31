@@ -1052,12 +1052,6 @@ export EXTERNAL_INGRESS_ENABLED="${EXTERNAL_INGRESS_ENABLED:-""}"
 export HEALTHCHECKS_ENABLED="${HEALTHCHECKS_ENABLED:-false}"
 export CUSTOMER_PINGONE_ENABLED="${CUSTOMER_PINGONE_ENABLED:-false}"
 export ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD="${ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD:-false}"
-# LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED default is environment-dependent — do NOT set a default here.
-# If unset, add_derived_variables() will apply the correct per-environment default:
-#   customer-hub → true  (logstash-elastic STS deleted, FluentBit port 8084 output removed)
-#   CDEs         → false (logstash-elastic STS runs normally; flag is a no-op outside customer-hub)
-# Operators explicitly setting this value before running generate-cluster-state.sh will have their
-# value respected — it will NOT be overridden by the per-environment logic below.
 export LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED="${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}"
 
 # For SELF_SERVICE_TEMPLATES_ENABLED, we want to default it to true for new clusters but false for upgrades,
