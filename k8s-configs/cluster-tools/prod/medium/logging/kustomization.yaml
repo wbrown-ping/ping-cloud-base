@@ -14,4 +14,4 @@ patchesStrategicMerge:
 # based on the LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED flag.
 # true (chub default): uncommented → logstash-elastic STS deleted.
 # false: commented → logstash-elastic STS deployed (customer pipeline enabled).
-#- disable-logstash-sts-patch.yaml
+- disable-logstash-sts-patch.yaml
