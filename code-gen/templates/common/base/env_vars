@@ -234,9 +234,11 @@ SELF_SERVICE_TEMPLATES_ENABLED=${SELF_SERVICE_TEMPLATES_ENABLED}
 ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD=${ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD}
 
 # Logstash customer pipeline (logstash-elastic STS) - for customer-hub accounts only.
-# Set to true to ENABLE the logstash-elastic STS so customers can use the customer pipeline.
-# Set to false (default) to keep it disabled, reducing resource overhead in customer-hub.
-# NOTE: logstash-elastic-s3 (S3 archiving) is unaffected and always runs.
+# In customer-hub the default is TRUE  → logstash-elastic STS is deleted (customer pipeline disabled by default).
+# In other CDEs  the default is FALSE → flag is a no-op; logstash-elastic STS runs normally.
+# Set to false in a customer-hub CSR to ENABLE the customer pipeline (logstash-elastic STS will be deployed).
+# Set to true  in a customer-hub CSR to DISABLE the customer pipeline (logstash-elastic STS will be deleted).
+# NOTE: logstash-elastic-s3 (S3 archiving) is unaffected and always runs regardless of this flag.
 LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}
 ########################################################################################################################
 

@@ -548,6 +548,19 @@ add_derived_variables() {
 
   export PRIMARY_TENANT_DOMAIN_DERIVED="\${PRIMARY_TENANT_DOMAIN}"
 
+  # Set per-environment default for LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED.
+  # Only applies when the operator has NOT explicitly set this variable (i.e. it is unset/empty).
+  # customer-hub: default true  → logstash-elastic STS deleted, FluentBit port 8084 output removed.
+  # non-chub CDE: default false → logstash-elastic STS runs normally (flag is a no-op outside customer-hub).
+  # Operators who need to explicitly enable the customer pipeline in customer-hub set this to false.
+  if test -z "${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}"; then
+    if test "${ENV}" = "${CUSTOMER_HUB}"; then
+      export LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED="true"
+    else
+      export LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED="false"
+    fi
+  fi
+
   # This variable's value will make it onto the branding for all admin consoles and
   # will include the name of the environment and the region where it's deployed.
   export ADMIN_CONSOLE_BRANDING="\${ENV}-\${REGION}"
@@ -1039,7 +1052,13 @@ export EXTERNAL_INGRESS_ENABLED="${EXTERNAL_INGRESS_ENABLED:-""}"
 export HEALTHCHECKS_ENABLED="${HEALTHCHECKS_ENABLED:-false}"
 export CUSTOMER_PINGONE_ENABLED="${CUSTOMER_PINGONE_ENABLED:-false}"
 export ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD="${ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD:-false}"
-export LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED="${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED:-false}"
+# LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED default is environment-dependent — do NOT set a default here.
+# If unset, add_derived_variables() will apply the correct per-environment default:
+#   customer-hub → true  (logstash-elastic STS deleted, FluentBit port 8084 output removed)
+#   CDEs         → false (logstash-elastic STS runs normally; flag is a no-op outside customer-hub)
+# Operators explicitly setting this value before running generate-cluster-state.sh will have their
+# value respected — it will NOT be overridden by the per-environment logic below.
+export LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED="${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}"
 
 # For SELF_SERVICE_TEMPLATES_ENABLED, we want to default it to true for new clusters but false for upgrades,
 # since we don't want to introduce new functionality via an upgrade without explicit opt-in.
