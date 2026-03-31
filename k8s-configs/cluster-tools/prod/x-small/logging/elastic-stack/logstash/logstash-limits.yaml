@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: logstash-elastic
+  namespace: elastic-stack-logging
 spec:
   template:
     spec:
@@ -26,6 +27,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: logstash-elastic-s3
+  namespace: elastic-stack-logging
 spec:
   template:
     spec:
