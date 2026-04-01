@@ -241,9 +241,9 @@ DASH_REPO_BRANCH=v2.3-dev-branch
 # Set to true to enable the "Impossible Login" OpenSearch dashboard (default: false)
 ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD=false
 
-# Logstash customer pipeline (logstash-elastic STS) - for customer-hub accounts only. In customer-hub the default is TRUE  → logstash-elastic STS is deleted (customer pipeline disabled by default).
-# In other CDEs  the default is FALSE → flag is a no-op and logstash-elastic STS runs normally.
-# Set to false in a customer-hub CSR to ENABLE the customer pipeline (logstash-elastic STS will be deployed). By default it will set to TRUE
+# Logstash customer pipeline (logstash-elastic STS) - for customer-hub accounts only. In customer-hub the default is FALSE → logstash-elastic STS does NOT exist (customer pipeline disabled by default).
+# In other CDEs  the default is TRUE  → flag is a no-op and logstash-elastic STS runs normally via other means.
+# Set to true in a customer-hub CSR to ENABLE the customer pipeline (logstash-elastic STS will be deployed). By default it will set to FALSE
 # NOTE: logstash-elastic-s3 is unaffected and always runs regardless of this flag.
 LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=false
 

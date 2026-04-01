@@ -550,8 +550,8 @@ add_derived_variables() {
 
   # Set per-environment default for LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED.
   # Only applies when the operator has NOT explicitly set this variable (i.e. it is unset/empty).
-  # customer-hub: default true  → logstash-elastic STS deleted, FluentBit port 8084 output removed.
-  # non-chub CDE: default false → logstash-elastic STS runs normally (flag is a no-op outside customer-hub).
+  # customer-hub: default false  → logstash-elastic STS deleted, FluentBit port 8084 output removed.
+  # non-chub CDE: default true → logstash-elastic STS runs normally (flag is a no-op outside customer-hub).
   # Operators who need to explicitly enable the customer pipeline in customer-hub set this to false.
   if test -z "${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}"; then
     if test "${ENV}" = "${CUSTOMER_HUB}"; then

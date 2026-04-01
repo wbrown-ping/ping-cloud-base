@@ -1,7 +1,7 @@
 # Patch to remove the customer pipeline (port 8084) output from FluentBit in customer-hub.
-# Applied together with disable-logstash-sts-patch.yaml when LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=false.
+# Applied together with disable-logstash-sts-patch.yaml when LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=false (default).
 # Retains only the s3_app_out output (raw S3 archiving) since logstash-elastic-s3 always runs.
-# Note: logstash_elk_out (port 8080, main pipeline) is already removed by disable-opensearch-base-patch.yaml.
+# Note: logstash_elk_out (port 8080, main pipeline) is removed by disable-opensearch-base-patch.yaml.
 apiVersion: v1
 kind: ConfigMap
 metadata:

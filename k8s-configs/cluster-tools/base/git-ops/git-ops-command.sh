@@ -130,9 +130,7 @@ feature_flags() {
   # Map with the feature flag environment variable & the term to search to find the kustomization files
   flag_map="${RADIUS_PROXY_ENABLED}:ff-radius-proxy
             ${CUSTOMER_PINGONE_ENABLED}:customer-p1-connection.yaml
-            ${ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD}:patch-opensearch-bootstrap-pf-impossible-login.yaml
-            ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}:disable-logstash-sts-patch.yaml
-            ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}:disable-logstash-fluentbit-output-patch.yaml"
+            ${ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD}:patch-opensearch-bootstrap-pf-impossible-login.yaml"
 
   for flag in $flag_map; do
     enabled="${flag%%:*}"
@@ -146,6 +144,27 @@ feature_flags() {
         uncomment_lines_in_file "${kust_file}" "${search_term}"
       else
         comment_lines_in_file "${kust_file}" "${search_term}"
+      fi
+    done
+  done
+
+  # Handle logstash customer pipeline patches with INVERTED logic
+  # These are DELETE patches, so the logic is reversed:
+  # When LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=false (default): patches are uncommented → STS is deleted (pipeline disabled)
+  # When LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=true: patches are commented → STS exists (pipeline enabled)
+  logstash_patches="disable-logstash-sts-patch.yaml
+                    disable-logstash-fluentbit-output-patch.yaml"
+
+  for patch in $logstash_patches; do
+    log "${patch} is set to ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED} (inverted logic: true=keep STS, false=delete STS)"
+
+    for kust_file in $(git grep -l "${patch}" | grep "kustomization.yaml"); do
+      if [[ $(lowercase "${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}") == "true" ]]; then
+        # When pipeline is enabled, comment the delete patches so STS stays
+        comment_lines_in_file "${kust_file}" "${patch}"
+      else
+        # When pipeline is disabled (default), uncomment the delete patches so STS is removed
+        uncomment_lines_in_file "${kust_file}" "${patch}"
       fi
     done
   done
@@ -414,3 +433,4 @@ if [[ $(lowercase "${DEBUG}") != "true" ]]; then
 fi
 
 main "$@"
+
