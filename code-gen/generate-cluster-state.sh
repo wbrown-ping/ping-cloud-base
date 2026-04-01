@@ -555,9 +555,9 @@ add_derived_variables() {
   # Operators who need to explicitly enable the customer pipeline in customer-hub set this to false.
   if test -z "${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}"; then
     if test "${ENV}" = "${CUSTOMER_HUB}"; then
-      export LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED="true"
-    else
       export LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED="false"
+    else
+      export LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED="true"
     fi
   fi
 
@@ -1052,7 +1052,7 @@ export EXTERNAL_INGRESS_ENABLED="${EXTERNAL_INGRESS_ENABLED:-""}"
 export HEALTHCHECKS_ENABLED="${HEALTHCHECKS_ENABLED:-false}"
 export CUSTOMER_PINGONE_ENABLED="${CUSTOMER_PINGONE_ENABLED:-false}"
 export ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD="${ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD:-false}"
-export LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED="${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED:-true}"
+export LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED="${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED:-false}"
 
 # For SELF_SERVICE_TEMPLATES_ENABLED, we want to default it to true for new clusters but false for upgrades,
 # since we don't want to introduce new functionality via an upgrade without explicit opt-in.
