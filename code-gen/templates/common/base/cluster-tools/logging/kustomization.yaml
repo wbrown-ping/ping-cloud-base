@@ -113,13 +113,6 @@ patchesStrategicMerge:
 # Uncomment the KMS-related resources/patches when EBS_KMS_KEY_ARN is set.
 #- kms-patch.yaml
 
-### Logstash customer pipeline patches for customer-hub only
-### Conditionally toggled by git-ops-command.sh based on LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED flag
-### When LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=true (default for chub): patches are active → STS is deleted
-### When LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=false: patches are commented out → STS is deployed
-#- ../base/cluster-tools/logging/disable-logstash-sts-patch.yaml
-#- ../base/cluster-tools/logging/disable-logstash-fluentbit-output-patch.yaml
-
 patchesJson6902:
 - target:
     kind: Service
