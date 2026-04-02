@@ -548,19 +548,6 @@ add_derived_variables() {
 
   export PRIMARY_TENANT_DOMAIN_DERIVED="\${PRIMARY_TENANT_DOMAIN}"
 
-  # Set per-environment default for LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED.
-  # Only applies when the operator has NOT explicitly set this variable (i.e. it is unset/empty).
-  # customer-hub: default true → logstash-elastic STS deleted, FluentBit port 8084 output removed.
-  # non-chub CDE: default false → logstash-elastic STS runs normally (customer pipeline enabled).
-  # Operators who need to explicitly enable the customer pipeline in customer-hub set this to false.
-  if test -z "${LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED}"; then
-    if test "${ENV}" = "${CUSTOMER_HUB}"; then
-      export LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED="true"
-    else
-      export LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED="false"
-    fi
-  fi
-
   # This variable's value will make it onto the branding for all admin consoles and
   # will include the name of the environment and the region where it's deployed.
   export ADMIN_CONSOLE_BRANDING="\${ENV}-\${REGION}"
