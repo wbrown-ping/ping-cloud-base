@@ -548,16 +548,16 @@ add_derived_variables() {
 
   export PRIMARY_TENANT_DOMAIN_DERIVED="\${PRIMARY_TENANT_DOMAIN}"
 
-  # Set per-environment default for LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED.
+  # Set per-environment default for LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED.
   # Only applies when the operator has NOT explicitly set this variable (i.e. it is unset/empty).
-  # customer-hub: default false  → logstash-elastic STS deleted, FluentBit port 8084 output removed.
-  # non-chub CDE: default true → logstash-elastic STS runs normally (flag is a no-op outside customer-hub).
+  # customer-hub: default true → logstash-elastic STS deleted, FluentBit port 8084 output removed.
+  # non-chub CDE: default false → logstash-elastic STS runs normally (customer pipeline enabled).
   # Operators who need to explicitly enable the customer pipeline in customer-hub set this to false.
-  if test -z "${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}"; then
+  if test -z "${LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED}"; then
     if test "${ENV}" = "${CUSTOMER_HUB}"; then
-      export LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED="false"
+      export LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED="true"
     else
-      export LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED="true"
+      export LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED="false"
     fi
   fi
 
@@ -883,7 +883,7 @@ echo "Initial SELF_SERVICE_TEMPLATES_ENABLED: ${SELF_SERVICE_TEMPLATES_ENABLED}"
 
 echo "Initial ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD: ${ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD}"
 
-echo "Initial LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED: ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}"
+echo "Initial LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED: ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED}"
 
 echo "Initial ARGOCD_BOOTSTRAP_ENABLED: ${ARGOCD_BOOTSTRAP_ENABLED}"
 echo "Initial ARGOCD_CDE_ROLE_SSM_TEMPLATE: ${ARGOCD_CDE_ROLE_SSM_TEMPLATE}"
@@ -1235,7 +1235,7 @@ echo "Using HEALTHCHECKS_ENABLED: ${HEALTHCHECKS_ENABLED}"
 echo "Using CUSTOMER_PINGONE_ENABLED: ${CUSTOMER_PINGONE_ENABLED}"
 echo "Using SELF_SERVICE_TEMPLATES_ENABLED: ${SELF_SERVICE_TEMPLATES_ENABLED}"
 echo "Using ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD: ${ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD}"
-echo "Using LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED: ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}"
+echo "Using LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED: ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED}"
 echo "Using TARGET_DIR: ${TARGET_DIR}"
 echo "Using IS_BELUGA_ENV: ${IS_BELUGA_ENV}"
 echo "Using IS_GA: ${IS_GA}"

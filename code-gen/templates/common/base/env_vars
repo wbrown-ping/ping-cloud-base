@@ -232,9 +232,10 @@ SELF_SERVICE_TEMPLATES_ENABLED=${SELF_SERVICE_TEMPLATES_ENABLED}
 
 # Feature flag to enable/disable logstash customer pipeline in customer-hub environment
 # When true: Logstash-elastic STS deploys with port 8084 for customer pipeline, FluentBit outputs to port 8084
-# When false (default for customer-hub): Logstash STS not deployed, no customer pipeline output configured
-# Per-environment defaults: customer-hub=false, all other CDEs=true (flag is no-op outside customer-hub)
-LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}
+# When true (default for customer-hub): Logstash-elastic STS is deleted, only S3 output in FluentBit
+# When false (other CDEs): Logstash-elastic STS deployed normally, customer pipeline output configured
+# Per-environment defaults: customer-hub=true, all other CDEs=false
+LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED=${LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED}
 ########################################################################################################################
 
 # For ArgoCD-status slack notifications (notifications.argoproj.io/subscribe.on-sync-failed.slack)
@@ -247,11 +248,11 @@ DASH_REPO_BRANCH=v2.3-dev-branch
 # Set to true to enable the "Impossible Login" OpenSearch dashboard (default: false)
 ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD=false
 
-# Logstash customer pipeline (logstash-elastic STS) - for customer-hub accounts only. In customer-hub the default is FALSE → logstash-elastic STS does NOT exist (customer pipeline disabled by default).
-# In other CDEs  the default is TRUE  → flag is a no-op and logstash-elastic STS runs normally via other means.
-# Set to true in a customer-hub CSR to ENABLE the customer pipeline (logstash-elastic STS will be deployed). By default it will set to FALSE
+# Logstash customer pipeline (logstash-elastic STS) - for customer-hub accounts only. In customer-hub the default is TRUE → logstash-elastic STS is DELETED (customer pipeline disabled by default).
+# In other CDEs the default is FALSE → logstash-elastic STS runs normally with customer pipeline enabled.
+# Set to false in a customer-hub CSR to ENABLE the customer pipeline (logstash-elastic STS will be deployed). By default it will be TRUE.
 # NOTE: logstash-elastic-s3 is unaffected and always runs regardless of this flag.
-LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=false
+LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED=false
 
 # Healthcheck variables
 CLUSTER_HEALTHCHECK_SCHEDULE="* * * * *"
