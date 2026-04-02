@@ -1,0 +1,23 @@
+# Strategic merge patch to disable customer pipeline output in FluentBit.
+# Applied when LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED=true (default for customer-hub).
+# This patch removes the customer pipeline output section, keeping only S3 output.
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluent-bit-pipeline-outputs
+  namespace: elastic-stack-logging
+data:
+  pipeline-outputs.conf: |
+    [OUTPUT]
+        Name                http
+        Alias               s3_app_out
+        Match               *
+        Host                logstash-elastic-s3.elastic-stack-logging
+        Port                8081
+        Format              json
+        Retry_Limit         False
+        compress            gzip
+        net.keepalive_idle_timeout  10
+        net.keepalive_max_recycle   100
+        storage.total_limit_size  3000M

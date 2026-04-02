@@ -1,0 +1,10 @@
+# Strategic merge patch to disable logstash-elastic StatefulSet for customer-hub.
+# Applied when LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED=true (default for customer-hub).
+# This patch deletes the logstash-elastic StatefulSet entirely.
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: logstash-elastic
+  namespace: elastic-stack-logging
+$patch: delete
