@@ -1041,7 +1041,7 @@ export CUSTOMER_PINGONE_ENABLED="${CUSTOMER_PINGONE_ENABLED:-false}"
 
 # LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED: when true, customer pipeline port 8084 is disabled (default for customer-hub)
 # when false, customer pipeline port 8084 is enabled (default for other CDEs)
-if [[ "${ENVIRONMENT_TYPE}" == "customer-hub" ]]; then
+if [[ "${ENV}" == "customer-hub" ]]; then
   export LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED="${LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED:-true}"
 else
   export LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED="${LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED:-false}"
