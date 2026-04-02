@@ -229,6 +229,12 @@ HEALTHCHECKS_ENABLED=${HEALTHCHECKS_ENABLED}
 CUSTOMER_PINGONE_ENABLED=${CUSTOMER_PINGONE_ENABLED}
 
 SELF_SERVICE_TEMPLATES_ENABLED=${SELF_SERVICE_TEMPLATES_ENABLED}
+
+# Feature flag to enable/disable logstash customer pipeline in customer-hub environment
+# When true: Logstash-elastic STS deploys with port 8084 for customer pipeline, FluentBit outputs to port 8084
+# When false (default for customer-hub): Logstash STS not deployed, no customer pipeline output configured
+# Per-environment defaults: customer-hub=false, all other CDEs=true (flag is no-op outside customer-hub)
+LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}
 ########################################################################################################################
 
 # For ArgoCD-status slack notifications (notifications.argoproj.io/subscribe.on-sync-failed.slack)
