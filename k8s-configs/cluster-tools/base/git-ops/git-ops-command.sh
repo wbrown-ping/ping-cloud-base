@@ -131,7 +131,8 @@ feature_flags() {
   flag_map="${RADIUS_PROXY_ENABLED}:ff-radius-proxy
             ${CUSTOMER_PINGONE_ENABLED}:customer-p1-connection.yaml
             ${ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD}:patch-opensearch-bootstrap-pf-impossible-login.yaml
-            ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED}:disable-logstash-chub-sts-patch.yaml
+            ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}:logstash.yaml
+            ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}:customer_pipelines
             ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED}:disable-logstash-chub-fluentbit-output-patch.yaml"
 
   for flag in $flag_map; do

@@ -230,11 +230,11 @@ CUSTOMER_PINGONE_ENABLED=${CUSTOMER_PINGONE_ENABLED}
 
 SELF_SERVICE_TEMPLATES_ENABLED=${SELF_SERVICE_TEMPLATES_ENABLED}
 
-# Feature flag to enable/disable logstash customer pipeline in customer-hub environment
-# When true (default for customer-hub): Logstash-elastic STS is deleted, only S3 output in FluentBit
-# When false (default for other CDEs): Logstash-elastic STS deployed normally, customer pipeline output configured
-# Per-environment defaults: customer-hub=true, all other CDEs=false
-LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED=${LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED}
+# Feature flag to enable the logstash customer pipeline in customer-hub environment.
+# When true: logstash-elastic STS deployed, FluentBit outputs to both S3 and customer pipeline.
+# When false (default for customer-hub): logstash-elastic STS not deployed, FluentBit outputs only to S3.
+# Per-environment defaults: customer-hub=false, all other CDEs=true.
+LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}
 ########################################################################################################################
 
 # For ArgoCD-status slack notifications (notifications.argoproj.io/subscribe.on-sync-failed.slack)
