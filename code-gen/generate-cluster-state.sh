@@ -1063,7 +1063,6 @@ else
 fi
 
 export ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD="${ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD:-false}"
-export LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED="${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED:-false}"
 
 # For SELF_SERVICE_TEMPLATES_ENABLED, we want to default it to true for new clusters but false for upgrades,
 # since we don't want to introduce new functionality via an upgrade without explicit opt-in.

@@ -6,3 +6,10 @@ namespace: elastic-stack-logging
 resources:
 - fluentbit.yaml
 - configs
+
+patchesStrategicMerge:
+  # This patch is conditionally enabled by git-ops-command.sh
+  # based on the LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED flag.
+  # When true: line is uncommented → FluentBit sends logs to port 8084 (customer pipeline).
+  # When false (default for customer-hub): line is commented → only standard outputs are used.
+  #- enable-logstash-chub-fluentbit-output-patch.yaml
