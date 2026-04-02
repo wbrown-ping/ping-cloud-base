@@ -548,6 +548,17 @@ add_derived_variables() {
 
   export PRIMARY_TENANT_DOMAIN_DERIVED="\${PRIMARY_TENANT_DOMAIN}"
 
+  # Set per-environment default for LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED.
+  # customer-hub: default true → disable customer pipeline (logstash-elastic STS deleted, FluentBit S3 only)
+  # non-chub CDE: default false → enable customer pipeline (logstash-elastic STS runs normally)
+  if test -z "${LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED}"; then
+    if test "${ENV}" = "${CUSTOMER_HUB}"; then
+      export LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED="true"
+    else
+      export LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED="false"
+    fi
+  fi
+
   # This variable's value will make it onto the branding for all admin consoles and
   # will include the name of the environment and the region where it's deployed.
   export ADMIN_CONSOLE_BRANDING="\${ENV}-\${REGION}"
@@ -1038,14 +1049,6 @@ export ARGOCD_BOOTSTRAP_ENABLED="${ARGOCD_BOOTSTRAP_ENABLED:-true}"
 export EXTERNAL_INGRESS_ENABLED="${EXTERNAL_INGRESS_ENABLED:-""}"
 export HEALTHCHECKS_ENABLED="${HEALTHCHECKS_ENABLED:-false}"
 export CUSTOMER_PINGONE_ENABLED="${CUSTOMER_PINGONE_ENABLED:-false}"
-
-# LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED: when true, customer pipeline port 8084 is disabled (default for customer-hub)
-# when false, customer pipeline port 8084 is enabled (default for other CDEs)
-if [[ "${ENV}" == "customer-hub" ]]; then
-  export LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED="${LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED:-true}"
-else
-  export LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED="${LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED:-false}"
-fi
 
 export ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD="${ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD:-false}"
 
