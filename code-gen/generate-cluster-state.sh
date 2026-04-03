@@ -1689,6 +1689,14 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
     # Retain only the pingcentral & pingaccess profiles
     find "${ENV_PROFILES_DIR}" -type d -mindepth 1 -maxdepth 1 -not -name "${PING_CENTRAL}" -not -name "${PING_ACCESS}" -exec rm -rf {} +
 
+    # Uncomment the FluentBit S3-only output patch by default (customer hub doesn't deploy logstash-elastic STS)
+    echo "Customer-hub deploy, enabling FluentBit S3-only output patch."
+    FLUENTBIT_KUST_FILE="${TARGET_DIR}/${ENV}/${CLUSTER_NAME}/${REGION}/cluster-tools/base/logging/fluentbit/kustomization.yaml"
+    if test -f "${FLUENTBIT_KUST_FILE}"; then
+      sed -i.bak '/disable-logstash-chub-fluentbit-output-patch.yaml/s/#//' "${FLUENTBIT_KUST_FILE}"
+      rm -f "${FLUENTBIT_KUST_FILE}.bak"
+    fi
+
     if test "${TENANT_DOMAIN}" = "${PRIMARY_TENANT_DOMAIN}"; then
       echo "Primary CHUB identified, disabling opensearch cluster."
       sed -i.bak '/disable-opensearch-primary-region-patch.yaml/s/#//' "${PRIMARY_PING_KUST_FILE}"
