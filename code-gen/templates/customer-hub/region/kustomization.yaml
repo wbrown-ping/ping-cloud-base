@@ -50,7 +50,7 @@ patchesStrategicMerge:
 #- ../base/cluster-tools/logging/disable-opensearch-primary-region-patch.yaml
 # Conditionally enabled by git-ops-command.sh when LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=true.
 #- ../base/cluster-tools/logging/logstash-elastic-disable-opensearch-patch.yaml # logstash.yaml
-# Uncommented by generate-cluster-state.sh for primary CHUB only (alongside disable-opensearch-primary-region-patch.yaml).
+# Uncommented by generate-cluster-state.sh for primary CHUB only (same as the opensearch disable patch above).
 #- ../base/cluster-tools/logging/logstash-elastic-remove-os-init-patch.yaml
 
 ### Remove main pipeline from chub
