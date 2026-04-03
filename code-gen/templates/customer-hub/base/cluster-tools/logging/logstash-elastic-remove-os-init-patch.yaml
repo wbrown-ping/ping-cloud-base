@@ -1,0 +1,16 @@
+# Removes opensearch init containers from logstash-elastic StatefulSet on primary customer-hub region.
+# This patch is uncommented by generate-cluster-state.sh for primary CHUB regions only (alongside disable-opensearch-primary-region-patch.yaml).
+# Only applies when LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=true (logstash-elastic STS is deployed).
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: logstash-elastic
+  namespace: elastic-stack-logging
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: opensearch-bootstrap
+        $patch: delete
+      - name: wait-for-os-health
+        $patch: delete

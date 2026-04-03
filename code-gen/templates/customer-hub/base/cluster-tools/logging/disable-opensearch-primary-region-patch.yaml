@@ -15,19 +15,3 @@ metadata:
   name: os-controller-manager
   namespace: elastic-stack-logging
 $patch: delete
-
----
-
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: logstash-elastic
-  namespace: elastic-stack-logging
-spec:
-  template:
-    spec:
-      initContainers:
-      - name: opensearch-bootstrap
-        $patch: delete
-      - name: wait-for-os-health
-        $patch: delete

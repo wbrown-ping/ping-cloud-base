@@ -1,0 +1,12 @@
+# Add IRSA role annotation to logstash-elastic service account.
+# This patch is conditionally enabled by git-ops-command.sh based on LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED (same as logstash.yaml).
+# When true: logstash-elastic ServiceAccount exists → patch is applied.
+# When false (customer-hub default): logstash-elastic ServiceAccount not deployed → patch must be absent.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: logstash-elastic
+  namespace: elastic-stack-logging
+  annotations:
+    purpose: service-account-for-logstash-elastic
+    ${IRSA_LOGSTASH_ANNOTATION_KEY_VALUE}
