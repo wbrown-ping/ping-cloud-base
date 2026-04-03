@@ -1693,9 +1693,11 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
       echo "Primary CHUB identified, disabling opensearch cluster."
       sed -i.bak '/disable-opensearch-primary-region-patch.yaml/s/#//' "${PRIMARY_PING_KUST_FILE}"
       rm -f "${PRIMARY_PING_KUST_FILE}.bak"
-      # Also uncomment the logstash-elastic init container removal patch (only meaningful when logstash-elastic STS is deployed).
-      sed -i.bak '/logstash-elastic-remove-os-init-patch.yaml/s/#//' "${PRIMARY_PING_KUST_FILE}"
-      rm -f "${PRIMARY_PING_KUST_FILE}.bak"
+      # Uncomment the logstash-elastic init container removal patch only when logstash-elastic STS is deployed.
+      if test "${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}" = "true"; then
+        sed -i.bak '/logstash-elastic-remove-os-init-patch.yaml/s/#//' "${PRIMARY_PING_KUST_FILE}"
+        rm -f "${PRIMARY_PING_KUST_FILE}.bak"
+      fi
     fi
 
   elif test "${ENV}" = "dev" && "${IS_BELUGA_ENV}" &&  test "${CI_SERVER}" = "yes"; then
