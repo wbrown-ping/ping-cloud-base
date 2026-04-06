@@ -122,7 +122,9 @@ relative_path() {
 # Comments out feature flagged resources from k8s-configs kustomization.yaml files.
 #
 # Arguments
-#   $1 -> The directory containing k8s-configs.
+#   $1 -> The directory containing k8s-configs (ping-cloud-base local clone).
+#   $2 -> Optional additional directory to search for kustomization files (e.g. CSR tmp dir).
+#         Unlike $1 which uses git grep, this directory is searched with find+grep.
 ########################################################################################################################
 feature_flags() {
   cd "${1}/k8s-configs"
@@ -142,6 +144,8 @@ feature_flags() {
 
     # When feature flag is enabled, uncomment the search term to include the resources in the kustomization files
     # When feature flag is disabled, comment the search term to exclude the resources in the kustomization files
+
+    # Search ping-cloud-base clone (via git grep)
     for kust_file in $(git grep -l "${search_term}" | grep "kustomization.yaml"); do
       if [[ $(lowercase "${enabled}") == "true" ]]; then
         uncomment_lines_in_file "${kust_file}" "${search_term}"
@@ -149,6 +153,17 @@ feature_flags() {
         comment_lines_in_file "${kust_file}" "${search_term}"
       fi
     done
+
+    # Also search the CSR tmp directory if provided (via find+grep, since it's not a git repo)
+    if [[ -n "${2}" ]]; then
+      for kust_file in $(find "${2}" -name "kustomization.yaml" -not -path "*/${K8S_GIT_BRANCH}/*" | xargs grep -l "${search_term}" 2>/dev/null); do
+        if [[ $(lowercase "${enabled}") == "true" ]]; then
+          uncomment_lines_in_file "${kust_file}" "${search_term}"
+        else
+          comment_lines_in_file "${kust_file}" "${search_term}"
+        fi
+      done
+    fi
   done
 }
 
@@ -339,7 +354,7 @@ monorepo_main() {
         rm -f "${kust_file}".bak
       done
 
-      feature_flags "${TMP_DIR}/${K8S_GIT_BRANCH}"
+      feature_flags "${TMP_DIR}/${K8S_GIT_BRANCH}" "${TMP_DIR}"
       enable_external_ingress
     )
     test $? -ne 0 && exit 1
