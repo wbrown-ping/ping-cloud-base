@@ -1,5 +1,5 @@
-# Strategic merge patch to disable customer pipeline output in FluentBit.
-# Applied when LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED=true (default for customer-hub).
+# Strategic merge patch to disable customer pipeline output in FluentBit for customer-hub.
+# Uncommented by generate-cluster-state.sh for customer-hub environments (LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=false default).
 # This patch removes the customer pipeline output section, keeping only S3 output.
 ---
 apiVersion: v1

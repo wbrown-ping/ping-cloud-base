@@ -3,11 +3,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 
 resources:
 - storage.yaml
-# These resources are conditionally toggled by git-ops-command.sh based on LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED flag.
-# When true (other CDEs default): line is uncommented → logstash-elastic STS deployed with customer pipeline.
-# When false (customer-hub default): line is commented → logstash-elastic STS not deployed.
-#- logstash.yaml # logstash.yaml
-#- customer_pipelines # logstash.yaml
+- logstash.yaml
+- customer_pipelines
 - logstash-s3.yaml
 - hpa.yaml
 - unused-pv-cleanup.yaml

@@ -9,7 +9,6 @@ resources:
 patchesStrategicMerge:
 - elastic-stack/logstash/logstash-limits.yaml
 - elastic-stack/logstash/hpa-limits.yaml
-# Conditionally enabled by git-ops-command.sh when LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=true.
-#- elastic-stack/logstash/logstash-elastic-limits.yaml # logstash.yaml
-#- elastic-stack/logstash/logstash-elastic-hpa-limits.yaml # logstash.yaml
+- elastic-stack/logstash/logstash-elastic-limits.yaml
+- elastic-stack/logstash/logstash-elastic-hpa-limits.yaml
 - elastic-stack/opensearch/os-limits.yaml

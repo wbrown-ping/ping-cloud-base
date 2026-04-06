@@ -130,10 +130,7 @@ feature_flags() {
   # Map with the feature flag environment variable & the term to search to find the kustomization files
   flag_map="${RADIUS_PROXY_ENABLED}:ff-radius-proxy
             ${CUSTOMER_PINGONE_ENABLED}:customer-p1-connection.yaml
-            ${ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD}:patch-opensearch-bootstrap-pf-impossible-login.yaml
-            ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}:logstash.yaml
-            ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}:customer_pipelines
-            ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED}:disable-logstash-chub-fluentbit-output-patch.yaml"
+            ${ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD}:patch-opensearch-bootstrap-pf-impossible-login.yaml"
 
   for flag in $flag_map; do
     enabled="${flag%%:*}"

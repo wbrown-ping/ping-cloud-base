@@ -1,7 +1,7 @@
-# Patches logstash-elastic StatefulSet to disable opensearch pipeline outputs for customer-hub.
-# This patch is conditionally enabled by git-ops-command.sh based on LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED (same as logstash.yaml).
+# Patches logstash-elastic StatefulSet to redirect probes and mount the customer pipelines config.
+# Uncommented by generate-cluster-state.sh when LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=true for customer-hub.
 # When true: logstash-elastic STS is deployed → patch applied to redirect probes and mount pipelines config.
-# When false (customer-hub default): logstash-elastic STS not deployed → patch must be absent.
+# When false (customer-hub default): remains commented → logstash-elastic STS is not deployed.
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:

@@ -65,20 +65,16 @@ patchesStrategicMerge:
       purpose: service-account-for-ping-cloud-stack
       ${IRSA_BOOTSTRAP_ANNOTATION_KEY_VALUE}
 
-# Conditionally enabled by git-ops-command.sh when LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=true.
-# When true: ServiceAccount/logstash-elastic exists → IRSA annotation patch applied.
-# When false (customer-hub default): ServiceAccount not deployed → patch must be absent.
-#- logstash-elastic-irsa-patch.yaml # logstash.yaml
-
 - |-
-  # Add IRSA role annotation to logstash-elastic-s3 service account
+  # Add IRSA role annotation to logstash-elastic service account.
+  # Applied to all envs; silently no-ops when logstash-elastic SA is absent (customer-hub default).
   apiVersion: v1
   kind: ServiceAccount
   metadata:
-    name: logstash-elastic-s3
+    name: logstash-elastic
     namespace: elastic-stack-logging
     annotations:
-      purpose: service-account-for-logstash-elastic-s3
+      purpose: service-account-for-logstash-elastic
       ${IRSA_LOGSTASH_ANNOTATION_KEY_VALUE}
 
 - |-
