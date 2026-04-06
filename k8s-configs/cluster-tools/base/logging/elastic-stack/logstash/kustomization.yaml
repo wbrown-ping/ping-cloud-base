@@ -3,14 +3,17 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 
 resources:
 - storage.yaml
-- logstash.yaml
-- customer_pipelines
+# These resources are conditionally toggled by git-ops-command.sh based on LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED flag.
+# When true (other CDEs default): line is uncommented → logstash-elastic STS deployed with customer pipeline.
+# When false (customer-hub default): line is commented → logstash-elastic STS not deployed.
+#- logstash.yaml
+#- customer_pipelines
 - logstash-s3.yaml
 - hpa.yaml
 - unused-pv-cleanup.yaml
 - secret.yaml
 - pdb.yaml
 
-patchesStrategicMerge:
+patchesStrategicMerge: []
 # This patch is conditionally enabled by git-ops-command.sh based on ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD flag (true/false).
 #- patch-opensearch-bootstrap-pf-impossible-login.yaml
