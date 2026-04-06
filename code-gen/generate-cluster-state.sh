@@ -1702,6 +1702,15 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
     # These patches are in the customer-hub region kustomization template
     CHUB_REGION_KUST_FILE="${K8S_CONFIGS_DIR}/${REGION_NICK_NAME}/kustomization.yaml"
 
+    # Control FluentBit output patch at generation time for customer-hub.
+    # When ENABLED=false (default): uncomment the disable patch → FluentBit outputs only to S3.
+    # When ENABLED=true: leave it commented → FluentBit outputs to both S3 and customer pipeline.
+    if test "${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}" = "false"; then
+      echo "LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=false: enabling FluentBit S3-only output for customer-hub."
+      sed -i.bak '/disable-logstash-chub-fluentbit-output-patch\.yaml/s/#//' "${CHUB_REGION_KUST_FILE}"
+      rm -f "${CHUB_REGION_KUST_FILE}.bak"
+    fi
+
     if test "${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}" = "true"; then
       # Customer pipeline enabled: uncomment chub-specific patches.
       echo "LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=true: enabling logstash-elastic deployment for customer-hub."

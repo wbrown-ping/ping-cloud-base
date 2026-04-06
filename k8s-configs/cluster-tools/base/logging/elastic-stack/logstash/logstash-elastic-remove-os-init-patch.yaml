@@ -1,0 +1,17 @@
+# Removes opensearch init containers from logstash-elastic StatefulSet for customer-hub.
+# Conditionally enabled by git-ops-command.sh when LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=true.
+# Customer-hub has no opensearch deployment, so init containers that reference os-bootstrap-creds
+# (which only exists in CDEs with opensearch deployed) must be removed to avoid Init:CreateContainerConfigError.
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: logstash-elastic
+  namespace: elastic-stack-logging
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: opensearch-bootstrap
+        $patch: delete
+      - name: wait-for-os-health
+        $patch: delete

@@ -17,3 +17,7 @@ resources:
 patchesStrategicMerge:
 # This patch is conditionally enabled by git-ops-command.sh based on ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD flag (true/false).
 #- patch-opensearch-bootstrap-pf-impossible-login.yaml
+# Conditionally enabled by git-ops-command.sh when LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=true.
+# Removes opensearch init containers (opensearch-bootstrap, wait-for-os-health) which reference os-bootstrap-creds
+# secret that does not exist in customer-hub (opensearch is disabled there).
+#- logstash-elastic-remove-os-init-patch.yaml # logstash.yaml

@@ -156,7 +156,10 @@ feature_flags() {
 
     # Also search the CSR tmp directory if provided (via find+grep, since it's not a git repo)
     if [[ -n "${2}" ]]; then
-      for kust_file in $(find "${2}" -name "kustomization.yaml" -not -path "*/${K8S_GIT_BRANCH}/*" | xargs grep -l "${search_term}" 2>/dev/null); do
+      log "Also searching CSR tmp directory ${2} for ${search_term}"
+      csr_kust_files=$(find "${2}" -name "kustomization.yaml" -not -path "*/${K8S_GIT_BRANCH}/*" -exec grep -l "${search_term}" {} \; 2>/dev/null)
+      log "CSR kustomization files found for ${search_term}: ${csr_kust_files}"
+      for kust_file in ${csr_kust_files}; do
         if [[ $(lowercase "${enabled}") == "true" ]]; then
           uncomment_lines_in_file "${kust_file}" "${search_term}"
         else
