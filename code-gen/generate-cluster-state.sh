@@ -475,6 +475,7 @@ ${HEALTHCHECKS_ENABLED}
 ${CUSTOMER_PINGONE_ENABLED}
 ${ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD}
 ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}
+${LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED}
 ${ARGOCD_BOOTSTRAP_ENABLED}
 ${SELF_SERVICE_TEMPLATES_ENABLED}
 ${CLOUDWATCH_ENABLED}
@@ -557,6 +558,13 @@ add_derived_variables() {
     else
       export LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED="true"
     fi
+  fi
+
+  # Derive DISABLED from ENABLED (inverted). DISABLED controls the FluentBit S3-only output patch.
+  if test "${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}" = "true"; then
+    export LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED="false"
+  else
+    export LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED="true"
   fi
 
   # This variable's value will make it onto the branding for all admin consoles and
@@ -1489,6 +1497,7 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
   echo "Using DNS_ZONE: ${DNS_ZONE}"
   echo "Using PRIMARY_DNS_ZONE: ${PRIMARY_DNS_ZONE}"
   echo "Using LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED: ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}"
+  echo "Using LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED: ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED}"
   echo "Using IRSA_PING_ANNOTATION_KEY_VALUE: ${IRSA_PING_ANNOTATION_KEY_VALUE}"
   echo "Using IRSA_BOOTSTRAP_ANNOTATION_KEY_VALUE: ${IRSA_BOOTSTRAP_ANNOTATION_KEY_VALUE}"
   echo "Using KARPENTER_ROLE_ANNOTATION_KEY_VALUE: ${KARPENTER_ROLE_ANNOTATION_KEY_VALUE}"
@@ -1675,6 +1684,16 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
     fi
   done
 
+  # Uncomment logstash-elastic IRSA patch when customer pipeline is enabled.
+  # For CDEs: ENABLED defaults to true → always uncommented.
+  # For customer-hub: ENABLED defaults to false → stays commented unless explicitly enabled.
+  LOGGING_KUST_FILE="${K8S_CONFIGS_DIR}/base/cluster-tools/logging/kustomization.yaml"
+  if test "${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}" = "true"; then
+    echo "LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=true: enabling logstash-elastic IRSA patch."
+    sed -i.bak '/logstash-elastic-irsa-patch\.yaml/s/#//' "${LOGGING_KUST_FILE}"
+    rm -f "${LOGGING_KUST_FILE}.bak"
+  fi
+
   if test "${ENV}" = "${CUSTOMER_HUB}"; then
     echo "CHUB deploy identified, retaining only PingCentral and PingAccess profiles"
     # Retain only the pingcentral & pingaccess profiles
@@ -1682,13 +1701,6 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
 
     # These patches are in the customer-hub region kustomization template
     CHUB_REGION_KUST_FILE="${K8S_CONFIGS_DIR}/${REGION_NICK_NAME}/kustomization.yaml"
-
-    # Always: enable FluentBit S3-only output patch for customer-hub (no logstash-elastic customer pipeline output)
-    echo "Customer-hub: enabling FluentBit S3-only output patch."
-    if test -f "${CHUB_REGION_KUST_FILE}"; then
-      sed -i.bak '/disable-logstash-chub-fluentbit-output-patch\.yaml/s/#//' "${CHUB_REGION_KUST_FILE}"
-      rm -f "${CHUB_REGION_KUST_FILE}.bak"
-    fi
 
     if test "${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}" = "true"; then
       # Customer pipeline enabled: uncomment chub-specific patches.

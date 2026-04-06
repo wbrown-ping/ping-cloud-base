@@ -1,7 +1,7 @@
 # Add IRSA role annotation to logstash-elastic service account.
-# Always active for non-chub CDEs (logstash-elastic SA always exists).
-# For customer-hub: commented out by generate-cluster-state.sh when LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=false (default),
-# uncommented when LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=true.
+# This patch is conditionally enabled by git-ops-command.sh based on LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED (same as logstash.yaml).
+# When true: logstash-elastic ServiceAccount exists → patch is applied.
+# When false (customer-hub default): logstash-elastic ServiceAccount not deployed → patch must be absent.
 apiVersion: v1
 kind: ServiceAccount
 metadata:
