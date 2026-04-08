@@ -1,0 +1,31 @@
+# Patches logstash-elastic StatefulSet to redirect probes to customer pipeline port and mount pipelines config.
+# Conditionally enabled by git-ops-command.sh when LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=true.
+# Base logstash-elastic uses port 8080 (opensearch main pipeline). In customer-hub, opensearch is disabled so
+# the probe must target the customer pipeline port (8084) instead.
+# Safe for non-customer-hub CDEs: port 8084 (customer pipeline) is always active there too.
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: logstash-elastic
+spec:
+  template:
+    spec:
+      containers:
+      - name: logstash
+        readinessProbe:
+          httpGet:
+            port: 8084
+        startupProbe:
+          httpGet:
+            port: 8084
+        volumeMounts:
+        - name: logstash-pipelines
+          mountPath: /usr/share/logstash/config/pipelines.yml
+          subPath: pipelines.yml
+      volumes:
+      - name: logstash-pipelines
+        configMap:
+          name: logstash-pipelines
+          items:
+          - key: pipelines.yml
+            path: pipelines.yml

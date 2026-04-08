@@ -889,8 +889,6 @@ echo "Initial SELF_SERVICE_TEMPLATES_ENABLED: ${SELF_SERVICE_TEMPLATES_ENABLED}"
 
 echo "Initial ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD: ${ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD}"
 
-echo "Initial LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED: ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}"
-
 echo "Initial ARGOCD_BOOTSTRAP_ENABLED: ${ARGOCD_BOOTSTRAP_ENABLED}"
 echo "Initial ARGOCD_CDE_ROLE_SSM_TEMPLATE: ${ARGOCD_CDE_ROLE_SSM_TEMPLATE}"
 echo "Initial ARGOCD_CDE_URL_SSM_TEMPLATE: ${ARGOCD_CDE_URL_SSM_TEMPLATE}"
@@ -1233,7 +1231,6 @@ echo "Using HEALTHCHECKS_ENABLED: ${HEALTHCHECKS_ENABLED}"
 echo "Using CUSTOMER_PINGONE_ENABLED: ${CUSTOMER_PINGONE_ENABLED}"
 echo "Using SELF_SERVICE_TEMPLATES_ENABLED: ${SELF_SERVICE_TEMPLATES_ENABLED}"
 echo "Using ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD: ${ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD}"
-echo "Using LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED: ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}"
 echo "Using TARGET_DIR: ${TARGET_DIR}"
 echo "Using IS_BELUGA_ENV: ${IS_BELUGA_ENV}"
 echo "Using IS_GA: ${IS_GA}"
@@ -1496,8 +1493,6 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
   echo "Using CLUSTER_NAME: ${CLUSTER_NAME}"
   echo "Using DNS_ZONE: ${DNS_ZONE}"
   echo "Using PRIMARY_DNS_ZONE: ${PRIMARY_DNS_ZONE}"
-  echo "Using LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED: ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}"
-  echo "Using LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED: ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED}"
   echo "Using IRSA_PING_ANNOTATION_KEY_VALUE: ${IRSA_PING_ANNOTATION_KEY_VALUE}"
   echo "Using IRSA_BOOTSTRAP_ANNOTATION_KEY_VALUE: ${IRSA_BOOTSTRAP_ANNOTATION_KEY_VALUE}"
   echo "Using KARPENTER_ROLE_ANNOTATION_KEY_VALUE: ${KARPENTER_ROLE_ANNOTATION_KEY_VALUE}"
@@ -1702,19 +1697,9 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
     # These patches are in the customer-hub region kustomization template
     CHUB_REGION_KUST_FILE="${K8S_CONFIGS_DIR}/${REGION_NICK_NAME}/kustomization.yaml"
 
-    # Control FluentBit output patch at generation time for customer-hub.
-    # When ENABLED=false (default): uncomment the disable patch → FluentBit outputs only to S3.
-    # When ENABLED=true: leave it commented → FluentBit outputs to both S3 and customer pipeline.
-    if test "${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}" = "false"; then
-      echo "LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=false: enabling FluentBit S3-only output for customer-hub."
-      sed -i.bak '/disable-logstash-chub-fluentbit-output-patch\.yaml/s/#//' "${CHUB_REGION_KUST_FILE}"
-      rm -f "${CHUB_REGION_KUST_FILE}.bak"
-    fi
-
     if test "${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}" = "true"; then
       # Customer pipeline enabled: uncomment chub-specific patches.
       echo "LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=true: enabling logstash-elastic deployment for customer-hub."
-      
       sed -i.bak -e '/logstash-elastic-disable-opensearch-patch\.yaml/s/#//' \
                  -e '/pipelines-config\.yaml/s/#//' "${CHUB_REGION_KUST_FILE}"
       rm -f "${CHUB_REGION_KUST_FILE}.bak"
