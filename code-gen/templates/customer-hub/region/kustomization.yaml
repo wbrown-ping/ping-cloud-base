@@ -47,6 +47,9 @@ patchesStrategicMerge:
 
 ### Remove opensearch from chub
 - ../base/cluster-tools/logging/disable-opensearch-base-patch.yaml
+# Uncommented by git-ops-command.sh when LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED=true (default for customer-hub).
+# Must come AFTER disable-opensearch-base-patch.yaml to override its [customer+S3] content with [S3 only].
+#- ../base/cluster-tools/logging/disable-logstash-chub-fluentbit-output-patch.yaml
 #- ../base/cluster-tools/logging/disable-opensearch-primary-region-patch.yaml
 # Uncommented by generate-cluster-state.sh when LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=true.
 #- ../base/cluster-tools/logging/logstash-elastic-disable-opensearch-patch.yaml

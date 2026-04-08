@@ -127,13 +127,13 @@ relative_path() {
 feature_flags() {
   cd "${1}/k8s-configs"
 
-  # Map with the feature flag environment variable & the term to search to find the kustomization files
+  # Map with the feature flag environment variable & the term to search to find the kustomization files.
+  # These flags are toggled in the ping-cloud-base clone via git grep.
   flag_map="${RADIUS_PROXY_ENABLED}:ff-radius-proxy
             ${CUSTOMER_PINGONE_ENABLED}:customer-p1-connection.yaml
             ${ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD}:patch-opensearch-bootstrap-pf-impossible-login.yaml
             ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}:logstash.yaml
-            ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}:customer_pipelines
-            ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED}:disable-logstash-chub-fluentbit-output-patch.yaml"
+            ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}:customer_pipelines"
 
   for flag in $flag_map; do
     enabled="${flag%%:*}"
@@ -143,6 +143,25 @@ feature_flags() {
     # When feature flag is enabled, uncomment the search term to include the resources in the kustomization files
     # When feature flag is disabled, comment the search term to exclude the resources in the kustomization files
     for kust_file in $(git grep -l "${search_term}" | grep "kustomization.yaml"); do
+      if [[ $(lowercase "${enabled}") == "true" ]]; then
+        uncomment_lines_in_file "${kust_file}" "${search_term}"
+      else
+        comment_lines_in_file "${kust_file}" "${search_term}"
+      fi
+    done
+  done
+
+  # CSR-level flags: these must be toggled in the CSR temp copy (not PCB) because CSR region patches
+  # run AFTER PCB patches in kustomize layering, meaning PCB-level patches cannot override CSR patches.
+  # Uses grep on TMP_DIR excluding the PCB clone dir (K8S_GIT_BRANCH) to find only CSR kust files.
+  csr_flag_map="${LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED}:disable-logstash-chub-fluentbit-output-patch.yaml"
+
+  for flag in $csr_flag_map; do
+    enabled="${flag%%:*}"
+    search_term="${flag##*:}"
+    log "${search_term} (CSR-level) is set to ${enabled}"
+
+    for kust_file in $(grep --exclude-dir=.git --exclude-dir="${K8S_GIT_BRANCH}" -rwl "${search_term}" "${TMP_DIR}" | grep "kustomization.yaml"); do
       if [[ $(lowercase "${enabled}") == "true" ]]; then
         uncomment_lines_in_file "${kust_file}" "${search_term}"
       else

@@ -7,8 +7,3 @@ resources:
 - fluentbit.yaml
 - configs
 
-patchesStrategicMerge:
-# This patch is conditionally enabled by git-ops-command.sh based on LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED.
-# When true (default for customer-hub): line is uncommented → FluentBit outputs only to S3.
-# When false (other CDEs): line is commented → FluentBit outputs to both S3 and customer pipeline.
-#- disable-logstash-chub-fluentbit-output-patch.yaml
