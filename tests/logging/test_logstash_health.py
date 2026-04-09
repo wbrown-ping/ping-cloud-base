@@ -295,7 +295,4 @@ class TestLogstash(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-<<<<<<< HEAD
-=======
-
->>>>>>> 1a177f7f6 (update changes)
+    
