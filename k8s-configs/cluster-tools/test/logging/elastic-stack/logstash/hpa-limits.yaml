@@ -1,11 +1,5 @@
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
-metadata:
-  name: logstash-elastic
-spec:
-  minReplicas: 1
-  maxReplicas: 4
----
+# HPA (Horizontal Pod Autoscaler) limits for logstash-elastic-s3 (S3 archiving component).
+# Always applied; defines min/max replicas for auto-scaling the S3 pipeline STS.
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:

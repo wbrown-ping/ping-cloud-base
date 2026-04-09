@@ -14,14 +14,8 @@ resources:
 - secret.yaml
 - pdb.yaml
 
-patchesStrategicMerge:
-# This patch is conditionally enabled by git-ops-command.sh based on ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD flag (true/false).
-#- patch-opensearch-bootstrap-pf-impossible-login.yaml
-# Conditionally enabled by git-ops-command.sh when LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=true.
-# Redirects probes from port 8080 (opensearch main pipeline) to 8084 (customer pipeline).
-# Required in customer-hub where opensearch is disabled; safe for other CDEs (port 8084 always active there too).
-#- logstash-elastic-disable-opensearch-patch.yaml # logstash.yaml
-# Conditionally enabled by git-ops-command.sh when LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=true.
-# Removes opensearch-bootstrap init container which references os-bootstrap-creds secret
-# that does not exist in customer-hub (opensearch is disabled there).
-#- logstash-elastic-remove-os-init-patch.yaml # logstash.yaml
+patchesStrategicMerge: []
+# NOTE: The following patches are ONLY in CSR code-gen templates (not in PCB):
+# - logstash-elastic-disable-opensearch-patch: Probe redirection from 8080→8084
+# - logstash-elastic-remove-os-init-patch: Remove opensearch-bootstrap init container
+# These patches are generated at CSR deployment time based on LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED.
