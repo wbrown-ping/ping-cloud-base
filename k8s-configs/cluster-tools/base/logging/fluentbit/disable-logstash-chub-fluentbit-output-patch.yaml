@@ -1,7 +1,7 @@
-# Strategic merge patch to disable customer pipeline output in FluentBit for customer-hub.
-# Conditionally enabled by git-ops-command.sh based on LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED flag.
-# When DISABLED=true (customer-hub default): line is uncommented → FluentBit outputs only to S3.
-# When DISABLED=false (other CDEs): line is commented → FluentBit outputs to both S3 and customer pipeline.
+# Overwrites fluent-bit-pipeline-outputs ConfigMap to keep only S3 output, removing the customer pipeline output (port 8084).
+# The deployed copy of this patch lives in the generated CSR (code-gen/templates/customer-hub/base/cluster-tools/logging/).
+# That CSR copy is toggled by git-ops-command.sh via csr_flag_map when LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED=true.
+# Must be applied AFTER disable-opensearch-base-patch.yaml, which always produces [customer+S3] outputs.
 ---
 apiVersion: v1
 kind: ConfigMap

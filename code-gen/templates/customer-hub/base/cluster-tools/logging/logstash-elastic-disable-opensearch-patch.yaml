@@ -1,7 +1,6 @@
-# Patches logstash-elastic StatefulSet to redirect probes and mount the customer pipelines config.
+# Patches logstash-elastic StatefulSet to redirect probes from port 8080 (opensearch main pipeline) to port 8084 (customer pipeline).
 # Uncommented by generate-cluster-state.sh when LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=true for customer-hub.
-# When true: logstash-elastic STS is deployed → patch applied to redirect probes and mount pipelines config.
-# When false (customer-hub default): remains commented → logstash-elastic STS is not deployed.
+# Required because opensearch is disabled in customer-hub; probes targeting port 8080 would fail.
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:

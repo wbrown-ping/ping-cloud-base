@@ -12,5 +12,3 @@ spec:
       initContainers:
       - name: opensearch-bootstrap
         $patch: delete
-      - name: wait-for-os-health
-        $patch: delete

@@ -1,3 +1,5 @@
+# Resource limits for logstash-elastic-s3 (S3 archiving component).
+# Always applied; defines memory and CPU guarantees for the S3 pipeline STS.
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
