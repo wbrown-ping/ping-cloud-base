@@ -148,16 +148,13 @@ feature_flags() {
     done
   done
 
-  # CSR-level flags: bidirectional toggle for logstash-elastic customer pipeline.
-  # These operate on CSR kustomization files (not PCB) since CSR patches run after PCB in kustomize layering.
-  # Commented lines must use '#' at column 0 (e.g. '#  - path') for comment/uncomment helpers to work.
-  #   csr_flag_map:          same direction as flag_map (uncomment when true, comment when false)
-  #   csr_flag_map_inverted: reversed direction (comment when true, uncomment when false)
+  # Toggles LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED for day-2 changes in the CSR (editing k8s-configs/base/env_vars).
+  # Unlike flag_map which uses 'git grep' on the cloned PCB, these patches live only in the CSR so 'grep' on TMP_DIR is used.
+  # generate-cluster-state.sh sets the correct initial state at CSR creation; this block keeps it in sync at runtime.
   if [[ -d "${TMP_DIR}" && -n "${K8S_GIT_BRANCH}" ]]; then
     csr_flag_map="${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}:logstash-elastic-disable-opensearch-patch.yaml
-                  ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}:logstash-elastic-remove-os-init-patch.yaml
-                  ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}:pipelines-config.yaml
-                  ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}:logstash-elastic-irsa-patch.yaml"
+                  ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}:logstash-elastic-irsa-patch.yaml
+                  ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}:pipelines-config.yaml"
 
     csr_flag_map_inverted="${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}:disable-logstash-elastic-patch.yaml
                            ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}:disable-logstash-chub-fluentbit-output-patch.yaml"
@@ -187,6 +184,19 @@ feature_flags() {
         fi
       done
     done
+
+    # logstash-elastic-remove-os-init-patch.yaml cannot go in csr_flag_map: it must only apply to the primary CHUB region
+    # where opensearch is disabled and os-bootstrap-creds does not exist. Secondary CHUB has opensearch running and must keep the init container.
+    if [[ "${TENANT_DOMAIN}" == "${PRIMARY_TENANT_DOMAIN}" ]]; then
+      search_term="logstash-elastic-remove-os-init-patch.yaml"
+      for kust_file in $(grep --exclude-dir=.git --exclude-dir="${K8S_GIT_BRANCH}" -rwl "${search_term}" "${TMP_DIR}" 2>/dev/null | grep "kustomization.yaml"); do
+        if [[ $(lowercase "${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}") == "true" ]]; then
+          uncomment_lines_in_file "${kust_file}" "${search_term}"
+        else
+          comment_lines_in_file "${kust_file}" "${search_term}"
+        fi
+      done
+    fi
   fi
 }
 
