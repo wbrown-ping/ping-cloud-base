@@ -475,7 +475,6 @@ ${HEALTHCHECKS_ENABLED}
 ${CUSTOMER_PINGONE_ENABLED}
 ${ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD}
 ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}
-${LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED}
 ${ARGOCD_BOOTSTRAP_ENABLED}
 ${SELF_SERVICE_TEMPLATES_ENABLED}
 ${CLOUDWATCH_ENABLED}
@@ -558,13 +557,6 @@ add_derived_variables() {
     else
       export LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED="true"
     fi
-  fi
-
-  # Derive DISABLED from ENABLED (inverted). DISABLED controls the FluentBit S3-only output patch.
-  if test "${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}" = "true"; then
-    export LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED="false"
-  else
-    export LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED="true"
   fi
 
   # This variable's value will make it onto the branding for all admin consoles and
@@ -1694,21 +1686,21 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
     # Retain only the pingcentral & pingaccess profiles
     find "${ENV_PROFILES_DIR}" -type d -mindepth 1 -maxdepth 1 -not -name "${PING_CENTRAL}" -not -name "${PING_ACCESS}" -exec rm -rf {} +
 
-    # These patches are in the customer-hub region kustomization template
+    # These patches are in the customer-hub region kustomization template.
+    # Template default reflects ENABLED=false: disable-logstash-elastic-patch and
+    # disable-logstash-chub-fluentbit-output-patch are uncommented (logstash-elastic removed, FluentBit S3-only).
     CHUB_REGION_KUST_FILE="${K8S_CONFIGS_DIR}/${REGION_NICK_NAME}/kustomization.yaml"
 
     if test "${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}" = "true"; then
-      # Customer pipeline enabled: uncomment chub-specific patches; also re-comment the FluentBit S3-only patch.
+      # Customer pipeline enabled: comment out delete patch + FluentBit S3-only, uncomment opensearch-disable + pipelines patches.
       echo "LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=true: enabling logstash-elastic deployment for customer-hub."
-      sed -i.bak -e '/logstash-elastic-disable-opensearch-patch\.yaml/s/#//' \
-                 -e '/pipelines-config\.yaml/s/#//' \
-                 -e '/disable-logstash-chub-fluentbit-output-patch\.yaml/s/^[[:space:]]*-\(.*\)/#-\1/' "${CHUB_REGION_KUST_FILE}"
+      sed -i.bak -e '/disable-logstash-elastic-patch\.yaml/s/^[[:space:]]*-\(.*\)/#-\1/' \
+                 -e '/disable-logstash-chub-fluentbit-output-patch\.yaml/s/^[[:space:]]*-\(.*\)/#-\1/' \
+                 -e '/logstash-elastic-disable-opensearch-patch\.yaml/s/#//' \
+                 -e '/pipelines-config\.yaml/s/#//' "${CHUB_REGION_KUST_FILE}"
       rm -f "${CHUB_REGION_KUST_FILE}.bak"
     else
-      # Customer pipeline disabled (default for customer-hub): ensure FluentBit customer output is removed.
-      echo "LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED=true: ensuring FluentBit outputs only to S3."
-      sed -i.bak '/disable-logstash-chub-fluentbit-output-patch\.yaml/s/#//' "${CHUB_REGION_KUST_FILE}"
-      rm -f "${CHUB_REGION_KUST_FILE}.bak"
+      echo "LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=false: logstash-elastic removed, FluentBit S3-only."
     fi
 
     if test "${TENANT_DOMAIN}" = "${PRIMARY_TENANT_DOMAIN}"; then

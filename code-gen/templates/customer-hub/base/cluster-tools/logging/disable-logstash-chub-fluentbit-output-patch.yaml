@@ -1,6 +1,6 @@
 # Overwrite the fluent-bit-pipeline-outputs ConfigMap to remove the customer pipeline output.
 # Applied at the CSR region kust level (AFTER disable-opensearch-base-patch.yaml) when
-# LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED=true (default for customer-hub).
+# LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=false (default for customer-hub).
 # This ensures only S3 output is active when the customer pipeline is disabled.
 apiVersion: v1
 kind: ConfigMap

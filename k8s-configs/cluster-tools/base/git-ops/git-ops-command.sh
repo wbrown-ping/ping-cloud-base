@@ -127,12 +127,10 @@ relative_path() {
 feature_flags() {
   cd "${1}/k8s-configs"
 
-  # PCB-level flags: toggled via git grep on the ping-cloud-base clone
+  # Map with the feature flag environment variable & the term to search to find the kustomization files
   flag_map="${RADIUS_PROXY_ENABLED}:ff-radius-proxy
             ${CUSTOMER_PINGONE_ENABLED}:customer-p1-connection.yaml
-            ${ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD}:patch-opensearch-bootstrap-pf-impossible-login.yaml
-            ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}:logstash.yaml
-            ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}:customer_pipelines"
+            ${ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD}:patch-opensearch-bootstrap-pf-impossible-login.yaml"
 
   for flag in $flag_map; do
     enabled="${flag%%:*}"
@@ -150,22 +148,42 @@ feature_flags() {
     done
   done
 
-  # CSR-level flags: these must be toggled in the CSR temp copy (not PCB) because CSR region patches
-  # run AFTER PCB patches in kustomize layering, meaning PCB-level patches cannot override CSR patches.
-  # Uses grep on TMP_DIR excluding the PCB clone dir (K8S_GIT_BRANCH) to find only CSR kust files.
+  # CSR-level flags: bidirectional toggle for logstash-elastic customer pipeline.
+  # These operate on CSR kustomization files (not PCB) since CSR patches run after PCB in kustomize layering.
+  # Commented lines must use '#' at column 0 (e.g. '#  - path') for comment/uncomment helpers to work.
+  #   csr_flag_map:          same direction as flag_map (uncomment when true, comment when false)
+  #   csr_flag_map_inverted: reversed direction (comment when true, uncomment when false)
   if [[ -d "${TMP_DIR}" && -n "${K8S_GIT_BRANCH}" ]]; then
-    csr_flag_map="${LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED}:disable-logstash-chub-fluentbit-output-patch.yaml"
+    csr_flag_map="${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}:logstash-elastic-disable-opensearch-patch.yaml
+                  ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}:logstash-elastic-remove-os-init-patch.yaml
+                  ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}:pipelines-config.yaml
+                  ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}:logstash-elastic-irsa-patch.yaml"
+
+    csr_flag_map_inverted="${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}:disable-logstash-elastic-patch.yaml
+                           ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}:disable-logstash-chub-fluentbit-output-patch.yaml"
 
     for flag in $csr_flag_map; do
       enabled="${flag%%:*}"
       search_term="${flag##*:}"
-      log "${search_term} (CSR-level) is set to ${enabled}"
-
+      log "${search_term} (CSR) is set to ${enabled}"
       for kust_file in $(grep --exclude-dir=.git --exclude-dir="${K8S_GIT_BRANCH}" -rwl "${search_term}" "${TMP_DIR}" 2>/dev/null | grep "kustomization.yaml"); do
         if [[ $(lowercase "${enabled}") == "true" ]]; then
           uncomment_lines_in_file "${kust_file}" "${search_term}"
         else
           comment_lines_in_file "${kust_file}" "${search_term}"
+        fi
+      done
+    done
+
+    for flag in $csr_flag_map_inverted; do
+      enabled="${flag%%:*}"
+      search_term="${flag##*:}"
+      log "${search_term} (CSR inverted) is set to ${enabled}"
+      for kust_file in $(grep --exclude-dir=.git --exclude-dir="${K8S_GIT_BRANCH}" -rwl "${search_term}" "${TMP_DIR}" 2>/dev/null | grep "kustomization.yaml"); do
+        if [[ $(lowercase "${enabled}") == "true" ]]; then
+          comment_lines_in_file "${kust_file}" "${search_term}"
+        else
+          uncomment_lines_in_file "${kust_file}" "${search_term}"
         fi
       done
     done
@@ -435,4 +453,3 @@ if [[ $(lowercase "${DEBUG}") != "true" ]]; then
 fi
 
 main "$@"
-

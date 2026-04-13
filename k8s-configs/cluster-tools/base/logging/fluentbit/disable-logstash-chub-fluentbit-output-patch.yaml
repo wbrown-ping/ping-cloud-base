@@ -1,6 +1,6 @@
 # Overwrites fluent-bit-pipeline-outputs ConfigMap to keep only S3 output, removing the customer pipeline output (port 8084).
 # The deployed copy of this patch lives in the generated CSR (code-gen/templates/customer-hub/base/cluster-tools/logging/).
-# That CSR copy is toggled by git-ops-command.sh via csr_flag_map when LOGSTASH_CHUB_CUSTOMER_PIPELINE_DISABLED=true.
+# That CSR copy is toggled by generate-cluster-state.sh when LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=false.
 # Must be applied AFTER disable-opensearch-base-patch.yaml, which always produces [customer+S3] outputs.
 ---
 apiVersion: v1

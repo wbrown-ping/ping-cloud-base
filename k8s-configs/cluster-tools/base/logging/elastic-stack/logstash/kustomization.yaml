@@ -3,25 +3,15 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 
 resources:
 - storage.yaml
-# These resources are conditionally toggled by git-ops-command.sh based on LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED flag.
-# When true (other CDEs default): line is uncommented → logstash-elastic STS deployed with customer pipeline.
-# When false (customer-hub default): line is commented → logstash-elastic STS not deployed.
-#- logstash.yaml
-#- customer_pipelines
+- logstash.yaml
 - logstash-s3.yaml
 - hpa.yaml
 - unused-pv-cleanup.yaml
 - secret.yaml
 - pdb.yaml
+- customer_pipelines
 
 patchesStrategicMerge:
-# This patch is conditionally enabled by git-ops-command.sh based on ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD flag (true/false).
+# This patch is conditionally enabled by git-ops-command.sh
+# based on the ENABLE_IMPOSSIBLE_LOGIN_DASHBOARD flag (true/false).
 #- patch-opensearch-bootstrap-pf-impossible-login.yaml
-# Conditionally enabled by git-ops-command.sh when LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=true.
-# Redirects probes from port 8080 (opensearch main pipeline) to 8084 (customer pipeline).
-# Required in customer-hub where opensearch is disabled; safe for other CDEs (port 8084 is always active there too).
-#- logstash-elastic-disable-opensearch-patch.yaml # logstash.yaml
-# Conditionally enabled by git-ops-command.sh when LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=true.
-# Removes opensearch-bootstrap init container which references os-bootstrap-creds secret
-# that does not exist in customer-hub (opensearch is disabled there).
-#- logstash-elastic-remove-os-init-patch.yaml # logstash.yaml
