@@ -148,8 +148,8 @@ feature_flags() {
     done
   done
 
-  # Toggles LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED for day-2 changes in the CSR (editing k8s-configs/base/env_vars).
-  # Unlike flag_map which uses 'git grep' on the cloned PCB, these patches live only in the CSR so 'grep' on TMP_DIR is used.
+  # Toggles LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED for changes at CSR level.
+  # Unlike flag_map which uses 'git grep' on the cloned PCB, these patches live only in the code-gen directory so 'grep' on TMP_DIR is used.
   # generate-cluster-state.sh sets the correct initial state at CSR creation; this block keeps it in sync at runtime.
   if [[ -d "${TMP_DIR}" && -n "${K8S_GIT_BRANCH}" ]]; then
     csr_flag_map="${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}:logstash-elastic-disable-opensearch-patch.yaml
@@ -191,9 +191,17 @@ feature_flags() {
       search_term="logstash-elastic-remove-os-init-patch.yaml"
       for kust_file in $(grep --exclude-dir=.git --exclude-dir="${K8S_GIT_BRANCH}" -rwl "${search_term}" "${TMP_DIR}" 2>/dev/null | grep "kustomization.yaml"); do
         if [[ $(lowercase "${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}") == "true" ]]; then
-          uncomment_lines_in_file "${kust_file}" "${search_term}"
+          log "Uncommenting ${search_term} in ${kust_file} (primary CHUB)"
+          sed -i.bak \
+            -e "/${search_term}/ s|^\([[:space:]]*\)#-|\1-|g" \
+            "${kust_file}"
+          rm -f "${kust_file}".bak
         else
-          comment_lines_in_file "${kust_file}" "${search_term}"
+          log "Commenting ${search_term} in ${kust_file}"
+          sed -i.bak \
+            -e "/${search_term}/ s|^\([[:space:]]*\)-|\1#-|g" \
+            "${kust_file}"
+          rm -f "${kust_file}".bak
         fi
       done
     fi
