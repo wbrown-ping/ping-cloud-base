@@ -165,7 +165,13 @@ feature_flags() {
       log "${search_term} (CSR) is set to ${enabled}"
       for kust_file in $(grep --exclude-dir=.git --exclude-dir="${K8S_GIT_BRANCH}" -rwl "${search_term}" "${TMP_DIR}" 2>/dev/null | grep "kustomization.yaml"); do
         if [[ $(lowercase "${enabled}") == "true" ]]; then
-          uncomment_lines_in_file "${kust_file}" "${search_term}"
+          # Use inline sed to handle YAML indentation (lines are "  #- path", not "#- path").
+          # uncomment_lines_in_file uses ^#* which does not match past leading spaces.
+          log "Uncommenting ${search_term} in ${kust_file}"
+          sed -i.bak \
+            -e "/${search_term}/ s|^\([[:space:]]*\)#-|\1-|g" \
+            "${kust_file}"
+          rm -f "${kust_file}".bak
         else
           comment_lines_in_file "${kust_file}" "${search_term}"
         fi
