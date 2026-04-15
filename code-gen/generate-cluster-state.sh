@@ -1671,12 +1671,11 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
     fi
   done
 
-  # Uncomment logstash-elastic IRSA patch when customer pipeline is enabled.
-  # For CDEs: ENABLED defaults to true → always uncommented.
-  # For customer-hub: ENABLED defaults to false → stays commented unless explicitly enabled.
+  # Uncomment logstash-elastic IRSA patch for non-customer-hub CDEs.
+  # For customer-hub: IRSA annotation is included inline in logstash-chub-true-patch.yaml.
   LOGGING_KUST_FILE="${K8S_CONFIGS_DIR}/base/cluster-tools/logging/kustomization.yaml"
-  if test "${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}" = "true"; then
-    echo "LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=true: enabling logstash-elastic IRSA patch."
+  if test "${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}" = "true" && test "${ENV}" != "${CUSTOMER_HUB}"; then
+    echo "Non-CHUB + LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=true: enabling logstash-elastic IRSA patch."
     sed -i.bak '/logstash-elastic-irsa-patch\.yaml/s/#//' "${LOGGING_KUST_FILE}"
     rm -f "${LOGGING_KUST_FILE}.bak"
   fi
@@ -1686,35 +1685,14 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
     # Retain only the pingcentral & pingaccess profiles
     find "${ENV_PROFILES_DIR}" -type d -mindepth 1 -maxdepth 1 -not -name "${PING_CENTRAL}" -not -name "${PING_ACCESS}" -exec rm -rf {} +
 
-    # These patches are in the customer-hub region kustomization template.
-    # Template default reflects ENABLED=false: disable-logstash-elastic-patch and
-    # disable-logstash-chub-fluentbit-output-patch are uncommented (logstash-elastic removed, FluentBit S3-only).
+    # The customer pipeline toggle is handled via ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED} in the region
+    # kustomization.yaml filename at ArgoCD sync time (envsubst by git-ops-command.sh). No sed needed here.
     CHUB_REGION_KUST_FILE="${K8S_CONFIGS_DIR}/${REGION_NICK_NAME}/kustomization.yaml"
-
-    if test "${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}" = "true"; then
-      # Customer pipeline enabled: comment out delete patch + FluentBit S3-only, uncomment opensearch-disable + pipelines patches.
-      echo "LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=true: enabling logstash-elastic deployment for customer-hub."
-      sed -i.bak -e '/disable-logstash-elastic-patch\.yaml/s/^[[:space:]]*-\(.*\)/#-\1/' \
-                 -e '/disable-logstash-chub-fluentbit-output-patch\.yaml/s/^[[:space:]]*-\(.*\)/#-\1/' \
-                 -e '/logstash-elastic-disable-opensearch-patch\.yaml/s/#//' \
-                 -e '/pipelines-config\.yaml/s/#//' "${CHUB_REGION_KUST_FILE}"
-      rm -f "${CHUB_REGION_KUST_FILE}.bak"
-    else
-      echo "LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=false: logstash-elastic removed, FluentBit S3-only."
-    fi
 
     if test "${TENANT_DOMAIN}" = "${PRIMARY_TENANT_DOMAIN}"; then
       echo "Primary CHUB identified, disabling opensearch cluster."
       sed -i.bak '/disable-opensearch-primary-region-patch\.yaml/s/#//' "${CHUB_REGION_KUST_FILE}"
       rm -f "${CHUB_REGION_KUST_FILE}.bak"
-
-      if test "${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}" = "true"; then
-        # Primary region + customer pipeline enabled: also remove opensearch init containers from logstash-elastic.
-        # These init containers reference opensearch resources that don't exist in primary customer-hub regions.
-        echo "Primary CHUB + LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=true: removing opensearch init containers from logstash-elastic."
-        sed -i.bak '/logstash-elastic-remove-os-init-patch\.yaml/s/#//' "${CHUB_REGION_KUST_FILE}"
-        rm -f "${CHUB_REGION_KUST_FILE}.bak"
-      fi
     fi
 
   elif test "${ENV}" = "dev" && "${IS_BELUGA_ENV}" &&  test "${CI_SERVER}" = "yes"; then
