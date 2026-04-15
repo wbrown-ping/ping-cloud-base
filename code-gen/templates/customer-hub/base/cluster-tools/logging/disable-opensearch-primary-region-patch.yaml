@@ -18,3 +18,19 @@ metadata:
   name: os-controller-manager
   namespace: elastic-stack-logging
 $patch: delete
+
+---
+
+# Removes init containers from logstash-elastic that reference os-bootstrap-creds,
+# which only exists in regions where opensearch is deployed (primary customer-hub has no opensearch).
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: logstash-elastic
+  namespace: elastic-stack-logging
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: opensearch-bootstrap
+        $patch: delete
