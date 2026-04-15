@@ -32,6 +32,24 @@ patchesStrategicMerge:
 #- ../base/cluster-tools/health/chub-healthchecks-primary-region-patch.yaml
 #- ../base/cluster-tools/health/chub-healthchecks-child-region-patch.yaml
 
+## Logstash-elastic customer pipeline
+# Managed by generate-cluster-state.sh at CSR creation/upgrade time via LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED.
+# To disable customer pipeline (default for customer-hub):
+#   - uncomment disable-logstash-elastic-patch.yaml and disable-logstash-chub-fluentbit-output-patch.yaml
+#   - comment logstash-elastic-disable-opensearch-patch.yaml, logstash-elastic-remove-os-init-patch.yaml, pipelines-config.yaml
+#   - set LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=false in base/env_vars
+# To enable customer pipeline:
+#   - comment disable-logstash-elastic-patch.yaml and disable-logstash-chub-fluentbit-output-patch.yaml
+#   - uncomment logstash-elastic-disable-opensearch-patch.yaml and pipelines-config.yaml
+#   - uncomment logstash-elastic-remove-os-init-patch.yaml ONLY in the primary region (opensearch absent there)
+#   - set LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=true in base/env_vars
+
+- ../base/cluster-tools/logging/disable-logstash-elastic-patch.yaml
+- ../base/cluster-tools/logging/disable-logstash-chub-fluentbit-output-patch.yaml
+#- ../base/cluster-tools/logging/logstash-elastic-disable-opensearch-patch.yaml
+#- ../base/cluster-tools/logging/logstash-elastic-remove-os-init-patch.yaml
+#- ../base/cluster-tools/logging/pipelines-config.yaml
+
 
 ### MANUAL UPDATES SECTION - END
 
@@ -48,15 +66,6 @@ patchesStrategicMerge:
 ### Remove opensearch from chub
 - ../base/cluster-tools/logging/disable-opensearch-base-patch.yaml
 #- ../base/cluster-tools/logging/disable-opensearch-primary-region-patch.yaml
-
-### Logstash-elastic customer pipeline toggle (managed by generate-cluster-state.sh)
-### LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=false (default): logstash-elastic removed, FluentBit S3-only
-### LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=true: logstash-elastic deployed, FluentBit outputs to both
-- ../base/cluster-tools/logging/disable-logstash-elastic-patch.yaml
-- ../base/cluster-tools/logging/disable-logstash-chub-fluentbit-output-patch.yaml
-#- ../base/cluster-tools/logging/logstash-elastic-disable-opensearch-patch.yaml
-#- ../base/cluster-tools/logging/logstash-elastic-remove-os-init-patch.yaml
-#- ../base/cluster-tools/logging/pipelines-config.yaml
 
 ### Regional enablement - remove admins, backups, etc. from secondary ###
 ### The removal of these patches is handled automatically via generate-cluster-state script, manual toggling is not needed ###
