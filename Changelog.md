@@ -32,7 +32,7 @@
 - Update seal-secret-values.py to handle customSecrets entries for Helm charts
 - p1as-karpenter GA vs non-ga settings
 - Remove metrics-server and kube-state-metrics from PCB
-- Add LOGSTASH_CUSTOMER_PIPELINE_ENABLED feature flag to conditionally deploy logstash-elastic STS in customer-hub accounts
+- Add LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED feature flag to conditionally deploy logstash-elastic STS (customer pipeline) in customer-hub accounts
 
 _Changes:_
 
