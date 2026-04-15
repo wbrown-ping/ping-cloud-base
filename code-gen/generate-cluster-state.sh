@@ -548,17 +548,6 @@ add_derived_variables() {
 
   export PRIMARY_TENANT_DOMAIN_DERIVED="\${PRIMARY_TENANT_DOMAIN}"
 
-  # Set per-environment default for LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED.
-  # customer-hub: default false → customer pipeline not deployed, FluentBit outputs only to S3
-  # non-chub CDE: default true → customer pipeline deployed, FluentBit outputs to both S3 and customer pipeline
-  if test -z "${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}"; then
-    if test "${ENV}" = "${CUSTOMER_HUB}"; then
-      export LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED="false"
-    else
-      export LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED="true"
-    fi
-  fi
-
   # This variable's value will make it onto the branding for all admin consoles and
   # will include the name of the environment and the region where it's deployed.
   export ADMIN_CONSOLE_BRANDING="\${ENV}-\${REGION}"
@@ -1352,6 +1341,17 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
 
   echo "-----> Starting to create environment '${ENV}'"
 
+  # Set per-environment default for LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED.
+  # customer-hub: default false → customer pipeline not deployed, FluentBit outputs only to S3
+  # non-chub CDE: default true → customer pipeline deployed, FluentBit outputs to both S3 and customer pipeline
+  if test -z "${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}"; then
+    if test "${ENV}" = "${CUSTOMER_HUB}"; then
+      export LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED="false"
+    else
+      export LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED="true"
+    fi
+  fi
+
   # The base URL for kustomization files and environment will be different for each CDE.
   # On migrated customers, we must preserve the size of the customers.
   case "${ENV}" in
@@ -1630,6 +1630,25 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
     fi
   fi
 
+  # Uncomment logstash-elastic IRSA patch for non-customer-hub CDEs.
+  # For customer-hub: IRSA annotation is included inline in logstash-chub-true-patch.yaml.
+  LOGGING_KUST_FILE="${K8S_CONFIGS_DIR}/base/cluster-tools/logging/kustomization.yaml"
+  if test "${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}" = "true" && test "${ENV}" != "${CUSTOMER_HUB}"; then
+    echo "Non-CHUB + LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=true: enabling logstash-elastic IRSA patch."
+    sed -i.bak '/logstash-elastic-irsa-patch\.yaml/s/#//' "${LOGGING_KUST_FILE}"
+    rm -f "${LOGGING_KUST_FILE}.bak"
+  fi
+
+  # For primary CHUB: uncomment disable-opensearch-primary-region-patch.yaml.
+  # This patch deletes OpenSearchCluster, os-controller-manager, and opensearch-bootstrap init container
+  # (os-bootstrap-creds secret does not exist in primary customer-hub).
+  if test "${ENV}" = "${CUSTOMER_HUB}" && test "${TENANT_DOMAIN}" = "${PRIMARY_TENANT_DOMAIN}"; then
+    echo "Primary CHUB identified, disabling opensearch cluster."
+    CHUB_REGION_KUST_FILE="${K8S_CONFIGS_DIR}/${REGION_NICK_NAME}/kustomization.yaml"
+    sed -i.bak '/disable-opensearch-primary-region-patch\.yaml/s/#//' "${CHUB_REGION_KUST_FILE}"
+    rm -f "${CHUB_REGION_KUST_FILE}.bak"
+  fi
+
   ########################################################################################################################
   # Begin profile repo cloning and processing
   ########################################################################################################################
@@ -1671,29 +1690,10 @@ for ENV_OR_BRANCH in ${SUPPORTED_ENVIRONMENT_TYPES}; do
     fi
   done
 
-  # Uncomment logstash-elastic IRSA patch for non-customer-hub CDEs.
-  # For customer-hub: IRSA annotation is included inline in logstash-chub-true-patch.yaml.
-  LOGGING_KUST_FILE="${K8S_CONFIGS_DIR}/base/cluster-tools/logging/kustomization.yaml"
-  if test "${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}" = "true" && test "${ENV}" != "${CUSTOMER_HUB}"; then
-    echo "Non-CHUB + LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=true: enabling logstash-elastic IRSA patch."
-    sed -i.bak '/logstash-elastic-irsa-patch\.yaml/s/#//' "${LOGGING_KUST_FILE}"
-    rm -f "${LOGGING_KUST_FILE}.bak"
-  fi
-
   if test "${ENV}" = "${CUSTOMER_HUB}"; then
     echo "CHUB deploy identified, retaining only PingCentral and PingAccess profiles"
     # Retain only the pingcentral & pingaccess profiles
     find "${ENV_PROFILES_DIR}" -type d -mindepth 1 -maxdepth 1 -not -name "${PING_CENTRAL}" -not -name "${PING_ACCESS}" -exec rm -rf {} +
-
-    # The customer pipeline toggle is handled via ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED} in the region
-    # kustomization.yaml filename at ArgoCD sync time (envsubst by git-ops-command.sh). No sed needed here.
-    CHUB_REGION_KUST_FILE="${K8S_CONFIGS_DIR}/${REGION_NICK_NAME}/kustomization.yaml"
-
-    if test "${TENANT_DOMAIN}" = "${PRIMARY_TENANT_DOMAIN}"; then
-      echo "Primary CHUB identified, disabling opensearch cluster."
-      sed -i.bak '/disable-opensearch-primary-region-patch\.yaml/s/#//' "${CHUB_REGION_KUST_FILE}"
-      rm -f "${CHUB_REGION_KUST_FILE}.bak"
-    fi
 
   elif test "${ENV}" = "dev" && "${IS_BELUGA_ENV}" &&  test "${CI_SERVER}" = "yes"; then
     echo "Running a dev cluster in CI/CD pipeline, not removing PingCentral profiles"
