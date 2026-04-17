@@ -1,9 +1,8 @@
-# Disables OpenSearch and reconfigures logstash-elastic for customer-hub.
-# Always applied in customer-hub (opensearch is not deployed in any customer-hub region).
-# - Deletes OpenSearchCluster and os-controller-manager
-# - Removes opensearch-bootstrap init container (os-bootstrap-creds secret does not exist in customer-hub)
-# - Redirects logstash-elastic probes from port 8080 (opensearch pipeline) to 8084 (customer pipeline)
-# - Overwrites FluentBit outputs to [logstash_customer_out + s3_app_out] (removing opensearch output)
+# Disables OpenSearch stack and reconfigures logstash-elastic for customer-hub.
+# Always applied in customer-hub (as opensearch is not deployed in any customer-hub region).
+# Deletes: OpenSearchCluster, os-controller-manager Deployment, opensearch-bootstrap init container.
+# Patches: logstash-elastic readiness/startup probes to port 8084 (customer pipeline).
+# Overwrites: FluentBit pipeline outputs to logstash_customer_out (8084) + s3_app_out (8081).
 ---
 
 apiVersion: opensearch.opster.io/v1
