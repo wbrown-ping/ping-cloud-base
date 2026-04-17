@@ -1,6 +1,51 @@
-# Overwrites fluent-bit-pipeline-outputs ConfigMap to remove the opensearch (elk) pipeline output (port 8080).
-# Always applied in customer-hub. Produces two outputs: logstash_customer_out (port 8084) and s3_app_out.
-# disable-logstash-chub-fluentbit-output-patch.yaml (applied after this) further reduces to S3-only when customer pipeline is disabled.
+# Disables OpenSearch and reconfigures logstash-elastic for customer-hub.
+# Always applied in customer-hub (opensearch is not deployed in any customer-hub region).
+# - Deletes OpenSearchCluster and os-controller-manager
+# - Removes opensearch-bootstrap init container (os-bootstrap-creds secret does not exist in customer-hub)
+# - Redirects logstash-elastic probes from port 8080 (opensearch pipeline) to 8084 (customer pipeline)
+# - Overwrites FluentBit outputs to [logstash_customer_out + s3_app_out] (removing opensearch output)
+---
+
+apiVersion: opensearch.opster.io/v1
+kind: OpenSearchCluster
+metadata:
+  name: opensearch-cluster
+  namespace: elastic-stack-logging
+$patch: delete
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: os-controller-manager
+  namespace: elastic-stack-logging
+$patch: delete
+
+---
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: logstash-elastic
+  namespace: elastic-stack-logging
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: opensearch-bootstrap
+        $patch: delete
+      containers:
+      - name: logstash
+        readinessProbe:
+          httpGet:
+            port: 8084
+        startupProbe:
+          httpGet:
+            port: 8084
+
+---
+
 apiVersion: v1
 kind: ConfigMap
 metadata:

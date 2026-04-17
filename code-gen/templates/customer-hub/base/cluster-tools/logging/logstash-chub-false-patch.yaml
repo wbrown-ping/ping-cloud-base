@@ -1,8 +1,6 @@
 # Applied when LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED=false (default for customer-hub).
-# Removes logstash-elastic from the cluster and reduces FluentBit to S3-only output.
-# Substituted into region/kustomization.yaml at ArgoCD sync time via ${LOGSTASH_CHUB_CUSTOMER_PIPELINE_ENABLED}.
+# Removes logstash-elastic and its associated resources, and reduces FluentBit to S3-only output.
 ---
-# Removes all logstash-elastic resources that are always included in PCB base.
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -57,9 +55,7 @@ metadata:
   namespace: elastic-stack-logging
 $patch: delete
 ---
-# Overwrites fluent-bit-pipeline-outputs ConfigMap to S3-only output.
-# disable-opensearch-base-patch.yaml (always active) produces [logstash_customer_out + s3_app_out] outputs.
-# This patch further reduces to S3-only when the customer pipeline is disabled.
+# Overwrites FluentBit outputs to S3-only (removes logstash_customer_out set by disable-opensearch-base-patch.yaml).
 apiVersion: v1
 kind: ConfigMap
 metadata:
