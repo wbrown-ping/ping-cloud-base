@@ -71,7 +71,7 @@ spec:
           - configMapRef:
               name: pingdelegator-environment-variables
       - name: seed-workspaces
-        image: public.ecr.aws/r2h3l6e4/pingcloud-apps/pingdelegator/dev:v2.4-release-branch-latest
+        image: 705370621539.dkr.ecr.us-west-2.amazonaws.com/pingcloud-apps/pingdelegator:pdo-7316-pdg-json-logs
         imagePullPolicy: Always
         securityContext:
           runAsGroup: 9999
@@ -95,7 +95,7 @@ spec:
           allowPrivilegeEscalation: false
           privileged: false
           readOnlyRootFilesystem: true
-        image: public.ecr.aws/r2h3l6e4/pingcloud-apps/pingdelegator/dev:v2.4-release-branch-latest
+        image: 705370621539.dkr.ecr.us-west-2.amazonaws.com/pingcloud-apps/pingdelegator:pdo-7316-pdg-json-logs
         imagePullPolicy: Always
         resources:
           requests:
